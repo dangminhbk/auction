@@ -26,6 +26,67 @@ namespace WebShop.EntityFrameworkCore.Seed.Tenants
         public void Create()
         {
             CreateRolesAndUsers();
+            AddPermissionToBuyer();
+            AddPermissionToSeller();
+        }
+
+        private Role GetStaticRole(string roleName)
+        {
+            var role = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == _tenantId && r.Name == roleName);
+            if (role == null)
+            {
+                role = _context.Roles.Add(new Role(_tenantId, roleName, roleName) { IsStatic = true, IsDefault = true }).Entity;
+                _context.SaveChanges();
+            }
+
+            return role;
+        }
+        private void AddPermissionToBuyer()
+        {
+            var buyerRole = GetStaticRole(StaticRoleNames.Host.Buyer);
+            var grantedPermissions = _context.Permissions.IgnoreQueryFilters()
+                .OfType<RolePermissionSetting>()
+                .Where(p => p.TenantId == _tenantId && p.RoleId == buyerRole.Id)
+                .Select(p => p.Name)
+                .ToList();
+
+            if (!grantedPermissions.Contains(PermissionNames.Buyers))
+            {
+                _context.Permissions.Add(
+                    new RolePermissionSetting
+                    {
+                        TenantId = _tenantId,
+                        Name = PermissionNames.Buyers,
+                        IsGranted = true,
+                        RoleId = buyerRole.Id
+                    });
+            }
+
+            _context.SaveChangesAsync();
+        }
+
+        private void AddPermissionToSeller()
+        {
+            var BuyerRole = GetStaticRole(StaticRoleNames.Host.Seller);
+            var grantedPermissions = _context.Permissions.IgnoreQueryFilters()
+                .OfType<RolePermissionSetting>()
+                .Where(p => p.TenantId == _tenantId && p.RoleId == BuyerRole.Id)
+                .Select(p => p.Name)
+                .ToList();
+
+            if (!grantedPermissions.Contains(PermissionNames.Sellers))
+            {
+                _context.Permissions.Add(
+                    new RolePermissionSetting
+                    {
+                        TenantId = _tenantId,
+                        Name = PermissionNames.Sellers,
+                        IsGranted = true,
+                        RoleId = BuyerRole.Id
+                    });
+            }
+
+            _context.SaveChangesAsync();
         }
 
         private void CreateRolesAndUsers()

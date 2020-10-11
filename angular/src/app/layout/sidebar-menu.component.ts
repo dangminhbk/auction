@@ -9,6 +9,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MenuItem } from '@shared/layout/menu-item';
+import { PermissionNames } from '@shared/const/PermissionNames';
 
 @Component({
   selector: 'sidebar-menu',
@@ -62,6 +63,21 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         'fas fa-theater-masks',
         'Pages.Roles'
       ),
+
+      new MenuItem(
+        'Images',
+        '/app/sys-images',
+        'fas fa-theater-masks',
+        PermissionNames.Admins
+      ),
+
+      new MenuItem(
+        'Images',
+        '/app/seller-images',
+        'fas fa-theater-masks',
+        PermissionNames.Seller
+      ),
+
       new MenuItem(this.l('About'), '/app/about', 'fas fa-info-circle'),
       new MenuItem(this.l('MultiLevelMenu'), '', 'fas fa-circle', '', [
         new MenuItem('ASP.NET Boilerplate', '', 'fas fa-dot-circle', '', [

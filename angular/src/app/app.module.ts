@@ -38,6 +38,10 @@ import { SidebarComponent } from './layout/sidebar.component';
 import { SidebarLogoComponent } from './layout/sidebar-logo.component';
 import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component';
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
+import { ImagesComponent } from './images/images.component';
+import { ImagesSellerComponent } from './images-seller/images-seller.component';
+import { CreateImageComponent } from './images/create-image/create-image.component';
+import { EditImageComponent } from './images/edit-image/edit-image.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +71,12 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     SidebarComponent,
     SidebarLogoComponent,
     SidebarUserPanelComponent,
-    SidebarMenuComponent
+    SidebarMenuComponent,
+    // image
+    ImagesComponent,
+    ImagesSellerComponent,
+    CreateImageComponent,
+    EditImageComponent
   ],
   imports: [
     CommonModule,

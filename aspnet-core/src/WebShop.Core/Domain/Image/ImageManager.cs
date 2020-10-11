@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Repositories;
+﻿using Abp.Dependency;
+using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using Abp.UI;
 using Microsoft.AspNetCore.Http;
@@ -12,13 +13,18 @@ using System.Text;
 using System.Threading.Tasks;
 using WebShop.Product;
 
-namespace WebShop.Image
+namespace WebShop.Domain.Image
 {
-    public class ImageManger : DomainService, IImageManager
+    public class ImageManager : DomainService, IImageManager
     {
         private readonly IRepository<Image, long> ImageRepository;
         private readonly IConfiguration Configuration;
-        public async Task DeleteImages(long[] ids)
+        public ImageManager(IConfiguration configuration, IRepository<Image, long> imageRepository)
+        {
+            Configuration = configuration;
+            ImageRepository = imageRepository;
+        }
+        public async Task DeleteImages(params long[] ids)
         {
             var images = ImageRepository.GetAll().Where(s=>ids.Contains(s.Id));
             foreach (var image in images)
@@ -34,19 +40,26 @@ namespace WebShop.Image
             return images;
         }
 
-        public async Task UploadImages(long sellerId, List<IFormFile> files)
+        public async Task<IQueryable<Image>> GetSystemImages()
+        {
+            var images = ImageRepository.GetAll().Where(s => s.SellerId == null);
+            return images;
+        }
+
+        public async Task UploadImages(long? sellerId, List<IFormFile> files)
         {
             foreach (var image in files)
             {
-                if (image.IsImage())
+                if (!image.IsImage())
                 {
                     throw new UserFriendlyException("Not valid image");
                 }
 
                 var timeStamp = DateTime.Now.Ticks.ToString();
                 var identified = $"{timeStamp}{Path.GetExtension(image.FileName)}";
-                var storePath = Configuration.GetValue<string>("StoredFilesPath");
-                var filePath = Path.Combine(storePath, identified);
+                var storePath = Configuration.GetValue<string>("Files:ImageLocation");
+                var urlPath = Path.Combine( storePath, identified);
+                var filePath = Path.Combine("wwwroot", urlPath);
 
                 if (image.Length > 0)
                 {
@@ -59,15 +72,13 @@ namespace WebShop.Image
 
                 var Image = new Image
                 {
-                    Url = filePath,
+                    Url = urlPath,
                     SellerId = sellerId,
-                    Identified = identified
+                    Identified = image.FileName
                 };
                 await ImageRepository.InsertAsync(Image);
             }
             await CurrentUnitOfWork.SaveChangesAsync();
-        }
-
-        
+        }       
     }
 }

@@ -13,9 +13,10 @@ namespace WebShop.ProductAdmin
     {
         private readonly IProductManager ProductManager;
         private readonly IRepository<Seller.Seller, long> SellerRepository;
-        public ProductAdminAppService()
+        public ProductAdminAppService(IProductManager productManager, IRepository<Seller.Seller, long> sellerRepository)
         {
-
+            ProductManager = productManager;
+            SellerRepository = sellerRepository;
         }
         public async Task Create(ProductCreateDto productCreateDto)
         {

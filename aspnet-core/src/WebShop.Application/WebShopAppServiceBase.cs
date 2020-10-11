@@ -6,6 +6,11 @@ using Abp.IdentityFramework;
 using Abp.Runtime.Session;
 using WebShop.Authorization.Users;
 using WebShop.MultiTenancy;
+using Abp.Domain.Repositories;
+using Abp.Application.Services.Dto;
+using System.Linq;
+using Abp.Linq.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebShop
 {
@@ -32,6 +37,50 @@ namespace WebShop
             }
 
             return user;
+        }
+
+        protected virtual async Task<Seller.Seller> GetSeller(IRepository<Seller.Seller, long> SellerRepository)
+        {
+            var userId = (await GetCurrentUserAsync()).Id;
+            var seller = await SellerRepository.
+                                FirstOrDefaultAsync(s => s.UserId == userId);
+            if (seller == null)
+            {
+                throw new Exception("Cannot get seller");
+            }
+            return seller;
+        }
+
+        protected virtual async Task<PagedResultDto<T>> GetPagedResult<T>(IQueryable<T> query, IPagedResultRequest input) where T : class
+        {
+            var items = ApplyPaging<T>(query, input);
+            var count = await query.CountAsync();
+            return new PagedResultDto<T>(count, await items.ToListAsync());
+        }
+
+        /// <summary>
+        /// Should apply paging if needed.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <param name="input">The input.</param>
+        protected virtual IQueryable<TEntity> ApplyPaging<TEntity>(IQueryable<TEntity> query, IPagedResultRequest input)
+        {
+            //Try to use paging if available
+            var pagedInput = input as IPagedResultRequest;
+            if (pagedInput != null)
+            {
+                return query.PageBy(pagedInput);
+            }
+
+            //Try to limit query result if available
+            var limitedInput = input as ILimitedResultRequest;
+            if (limitedInput != null)
+            {
+                return query.Take(limitedInput.MaxResultCount);
+            }
+
+            //No paging
+            return query;
         }
 
         protected virtual Task<Tenant> GetCurrentTenantAsync()

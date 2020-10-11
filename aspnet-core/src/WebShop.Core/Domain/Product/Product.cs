@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using WebShop.Category;
+using WebShop.Domain.Brand;
+using WebShop.Domain.Image;
 
 namespace WebShop.Product
 {
@@ -24,7 +26,7 @@ namespace WebShop.Product
         public virtual Seller.Seller Seller {get; set;}
         [ForeignKey(nameof(Product.Brand))]
         public long? BrandId { get; set; }
-        public virtual Brand.Brand Brand { get; set; }
+        public virtual Brand Brand { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories  { get; set; }
         public ProductState State { get; set; }
     }
@@ -51,13 +53,13 @@ namespace WebShop.Product
         public Product Product { get; set; }
         [ForeignKey(nameof(ProductImage.Image))]
         public long ImageId { get; set; }
-        public Image.Image Image { get; set; }
+        public Image Image { get; set; }
     }
 
     public class ProductCoverImage: FullAuditedEntity<long>
     {
         [ForeignKey(nameof(ProductImage.Image))]
         public long ImageId { get; set; }
-        public Image.Image Image { get; set; }
+        public Image Image { get; set; }
     }
 }

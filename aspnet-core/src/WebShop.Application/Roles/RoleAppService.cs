@@ -143,6 +143,7 @@ namespace WebShop.Roles
                 GrantedPermissionNames = grantedPermissions.Select(p => p.Name).ToList()
             };
         }
+
     }
 }
 
