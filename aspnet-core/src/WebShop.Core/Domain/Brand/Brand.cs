@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using WebShop.Domain.Image;
 
 namespace WebShop.Domain.Brand
 {
@@ -12,7 +13,8 @@ namespace WebShop.Domain.Brand
        // public virtual ICollection<Product.Product> Products { get; set; }
         [ForeignKey(nameof(BrandImage))]
         public long? BrandImageId { get; set; }
-        public BrandImage BrandImage { get; set; }
+        public virtual BrandImage BrandImage { get; set; }
+        public string Description { get; set; } 
     }
 
     public class BrandImage : FullAuditedEntity<long>

@@ -8,6 +8,7 @@ using System.Text;
 using WebShop.Category;
 using WebShop.Domain.Brand;
 using WebShop.Domain.Image;
+using WebShop.Domain.Seller;
 
 namespace WebShop.Product
 {
@@ -23,7 +24,7 @@ namespace WebShop.Product
         public virtual ICollection<ProductImage> ProductImages { get; set; }
         [ForeignKey(nameof(Product.Seller))]
         public long SellerId { get; set; }
-        public virtual Seller.Seller Seller {get; set;}
+        public virtual Seller Seller {get; set;}
         [ForeignKey(nameof(Product.Brand))]
         public long? BrandId { get; set; }
         public virtual Brand Brand { get; set; }

@@ -42,6 +42,14 @@ import { ImagesComponent } from './images/images.component';
 import { ImagesSellerComponent } from './images-seller/images-seller.component';
 import { CreateImageComponent } from './images/create-image/create-image.component';
 import { EditImageComponent } from './images/edit-image/edit-image.component';
+import { BrandComponent } from './brand/brand.component';
+import { CreateBrandComponent } from './brand/create-brand/create-brand.component';
+import { ImagePickerComponent } from './images/image-picker/image-picker.component';
+import { SellerInfoComponent } from './seller-info/seller-info.component';
+import { PaymentComponent } from './payment/payment.component';
+import { ProductComponent } from './product/product.component';
+import { AuctionComponent } from './auction/auction.component';
+import { PurchaseComponent } from './purchase/purchase.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +84,15 @@ import { EditImageComponent } from './images/edit-image/edit-image.component';
     ImagesComponent,
     ImagesSellerComponent,
     CreateImageComponent,
-    EditImageComponent
+    EditImageComponent,
+    BrandComponent,
+    CreateBrandComponent,
+    ImagePickerComponent,
+    SellerInfoComponent,
+    PaymentComponent,
+    ProductComponent,
+    AuctionComponent,
+    PurchaseComponent
   ],
   imports: [
     CommonModule,

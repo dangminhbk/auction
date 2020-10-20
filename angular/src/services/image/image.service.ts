@@ -1,9 +1,10 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ImageDto } from "@app/images/dto/image-dto";
+import { PagedRequestDto } from "@shared/paged-listing-component-base";
 import { extend } from "lodash-es";
 import { Observable } from "rxjs";
-import {BaseApiService} from 'services/base-api.service';
+import {BaseApiService, ResultDto} from 'services/base-api.service';
 
 @Injectable({
     providedIn: 'root'
@@ -24,4 +25,9 @@ export class ImageService extends BaseApiService<ImageDto> {
     uploadSystem(form: FormData) : Observable<any> {
         return this.http.post<any>(this.url + 'Upload', form);
     }
+
+    getAllSeller(request: PagedRequestDto): Observable<ResultDto<ImageDto>> {
+        const requestQuery = `skipCount=${request.skipCount}&maxResultCount=${request.maxResultCount}`;
+        return this.http.get<any>(this.url + 'GetAllSeller?' + requestQuery);
+      }
 }

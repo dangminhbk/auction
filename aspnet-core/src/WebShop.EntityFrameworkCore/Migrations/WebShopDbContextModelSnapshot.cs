@@ -1453,6 +1453,9 @@ namespace WebShop.Migrations
                         .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
                         .HasMaxLength(128);
 
+                    b.Property<long?>("SellerId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("varchar(64) CHARACTER SET utf8mb4")
@@ -1474,88 +1477,13 @@ namespace WebShop.Migrations
 
                     b.HasIndex("LastModifierUserId");
 
+                    b.HasIndex("SellerId");
+
                     b.HasIndex("TenantId", "NormalizedEmailAddress");
 
                     b.HasIndex("TenantId", "NormalizedUserName");
 
                     b.ToTable("AbpUsers");
-                });
-
-            modelBuilder.Entity("WebShop.Brand.Brand", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("BrandImageId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BrandImageId");
-
-                    b.ToTable("Brands");
-                });
-
-            modelBuilder.Entity("WebShop.Brand.BrandImage", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("ImageId")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
-
-                    b.ToTable("BrandImages");
                 });
 
             modelBuilder.Entity("WebShop.Category.Category", b =>
@@ -1591,6 +1519,86 @@ namespace WebShop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("WebShop.Domain.Brand.Brand", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("BrandImageId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandImageId");
+
+                    b.ToTable("Brands");
+                });
+
+            modelBuilder.Entity("WebShop.Domain.Brand.BrandImage", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("ImageId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("BrandImages");
                 });
 
             modelBuilder.Entity("WebShop.Domain.Image.Image", b =>
@@ -1634,6 +1642,189 @@ namespace WebShop.Migrations
                     b.HasIndex("SellerId");
 
                     b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("WebShop.Domain.Seller.Seller", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("PaymentRegisterStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("SellerCoverId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("SellerLogoId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("SellerPaymentOptionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SellerCoverId");
+
+                    b.HasIndex("SellerLogoId");
+
+                    b.HasIndex("SellerPaymentOptionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Sellers");
+                });
+
+            modelBuilder.Entity("WebShop.Domain.Seller.SellerCover", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("ImageId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("SellerCover");
+                });
+
+            modelBuilder.Entity("WebShop.Domain.Seller.SellerLogo", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("ImageId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("SellerLogo");
+                });
+
+            modelBuilder.Entity("WebShop.Domain.Seller.SellerPaymentOption", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ExtensionData")
+                        .HasColumnName("Payload")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("PaymentOption")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SellerPaymentOptions");
                 });
 
             modelBuilder.Entity("WebShop.MultiTenancy.Tenant", b =>
@@ -1881,43 +2072,6 @@ namespace WebShop.Migrations
                     b.ToTable("ProductImages");
                 });
 
-            modelBuilder.Entity("WebShop.Seller.Seller", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Sellers");
-                });
-
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
                 {
                     b.HasBaseType("Abp.Application.Features.FeatureSetting");
@@ -2112,16 +2266,20 @@ namespace WebShop.Migrations
                     b.HasOne("WebShop.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+
+                    b.HasOne("WebShop.Domain.Seller.Seller", "Seller")
+                        .WithMany()
+                        .HasForeignKey("SellerId");
                 });
 
-            modelBuilder.Entity("WebShop.Brand.Brand", b =>
+            modelBuilder.Entity("WebShop.Domain.Brand.Brand", b =>
                 {
-                    b.HasOne("WebShop.Brand.BrandImage", "BrandImage")
+                    b.HasOne("WebShop.Domain.Brand.BrandImage", "BrandImage")
                         .WithMany()
                         .HasForeignKey("BrandImageId");
                 });
 
-            modelBuilder.Entity("WebShop.Brand.BrandImage", b =>
+            modelBuilder.Entity("WebShop.Domain.Brand.BrandImage", b =>
                 {
                     b.HasOne("WebShop.Domain.Image.Image", "Image")
                         .WithMany()
@@ -2132,9 +2290,48 @@ namespace WebShop.Migrations
 
             modelBuilder.Entity("WebShop.Domain.Image.Image", b =>
                 {
-                    b.HasOne("WebShop.Seller.Seller", "Seller")
+                    b.HasOne("WebShop.Domain.Seller.Seller", "Seller")
                         .WithMany()
                         .HasForeignKey("SellerId");
+                });
+
+            modelBuilder.Entity("WebShop.Domain.Seller.Seller", b =>
+                {
+                    b.HasOne("WebShop.Domain.Seller.SellerCover", "SellerCover")
+                        .WithMany()
+                        .HasForeignKey("SellerCoverId");
+
+                    b.HasOne("WebShop.Domain.Seller.SellerLogo", "SellerLogo")
+                        .WithMany()
+                        .HasForeignKey("SellerLogoId");
+
+                    b.HasOne("WebShop.Domain.Seller.SellerPaymentOption", "SellerPaymentOption")
+                        .WithMany()
+                        .HasForeignKey("SellerPaymentOptionId");
+
+                    b.HasOne("WebShop.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebShop.Domain.Seller.SellerCover", b =>
+                {
+                    b.HasOne("WebShop.Domain.Image.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebShop.Domain.Seller.SellerLogo", b =>
+                {
+                    b.HasOne("WebShop.Domain.Image.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebShop.MultiTenancy.Tenant", b =>
@@ -2158,16 +2355,16 @@ namespace WebShop.Migrations
 
             modelBuilder.Entity("WebShop.Product.Product", b =>
                 {
-                    b.HasOne("WebShop.Brand.Brand", "Brand")
-                        .WithMany("Products")
+                    b.HasOne("WebShop.Domain.Brand.Brand", "Brand")
+                        .WithMany()
                         .HasForeignKey("BrandId");
 
                     b.HasOne("WebShop.Product.ProductCoverImage", "CoverImage")
                         .WithMany()
                         .HasForeignKey("CoverImageId");
 
-                    b.HasOne("WebShop.Seller.Seller", "Seller")
-                        .WithMany("Products")
+                    b.HasOne("WebShop.Domain.Seller.Seller", "Seller")
+                        .WithMany()
                         .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2208,15 +2405,6 @@ namespace WebShop.Migrations
                     b.HasOne("WebShop.Product.Product", "Product")
                         .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WebShop.Seller.Seller", b =>
-                {
-                    b.HasOne("WebShop.Authorization.Users.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

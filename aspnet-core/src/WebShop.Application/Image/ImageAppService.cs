@@ -32,9 +32,9 @@ namespace WebShop.Domain.Image
 
         [AbpAuthorize(nameof(PermissionNames.Sellers))]
         [HttpPost]
-        public async Task UploadSeller(ImageUploadDto input)
+        public async Task UploadSeller([FromForm] ImageUploadDto input)
         {
-            var seller = await GetSeller(SellerRepository);
+            var seller = await GetCurrentSeller();
             await ImageManager.UploadImages(seller.Id, input.Files);
         }
 
@@ -56,7 +56,7 @@ namespace WebShop.Domain.Image
         [HttpGet]
         public async Task<PagedResultDto<ImageListDto>> GetAllSeller(PagedResultRequestDto input)
         {
-            var seller = await GetSeller(SellerRepository);
+            var seller = await GetCurrentSeller();
             var images = await ImageManager.GetImagesForSeller(seller.Id);
             var imageResult = images.Select(s => new ImageListDto
             {

@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-navy shadow fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Online Auction</a>
+      <button (click)="toggleClick()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      <div class="collapse navbar-collapse" [ngClass]="{'show': toggle}" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <ng-container *ngFor="let item of menuItems">
+            <ng-container
+              *ngTemplateOutlet="sidebarInner; context: { item: item }"
+            ></ng-container>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <ng-template #sidebarInner let-item="item">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="{{item.route}}" routerLinkActive="active" href="#">{{item.label}}</a>
+    </li>
+  </ng-template>
+
+  

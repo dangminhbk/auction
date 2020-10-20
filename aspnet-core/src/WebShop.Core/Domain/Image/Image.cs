@@ -12,6 +12,6 @@ namespace WebShop.Domain.Image
         public string Url { get; set; }
         [ForeignKey(nameof(Image.Seller))]
         public long? SellerId { get; set; }
-        public Seller.Seller Seller { get; set; }
+        public virtual Seller.Seller Seller { get; set; }
     }
 }

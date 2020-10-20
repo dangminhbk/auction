@@ -11,6 +11,13 @@ import { ChangePasswordComponent } from './users/change-password/change-password
 import { ImagesComponent } from './images/images.component';
 import { ImagesSellerComponent } from './images-seller/images-seller.component';
 import { PermissionNames } from '@shared/const/PermissionNames';
+import { BrandComponent } from './brand/brand.component';
+import { CreateBrandComponent } from './brand/create-brand/create-brand.component';
+import { SellerInfoComponent } from './seller-info/seller-info.component';
+import { ProductComponent } from './product/product.component';
+import { PaymentComponent } from './payment/payment.component';
+import { PurchaseComponent } from './purchase/purchase.component';
+import { AuctionComponent } from './auction/auction.component';
 
 @NgModule({
     imports: [
@@ -19,14 +26,31 @@ import { PermissionNames } from '@shared/const/PermissionNames';
                 path: '',
                 component: AppComponent,
                 children: [
+
+                    // All user
+                    { path: 'update-password', component: ChangePasswordComponent },
+                    { path: 'about', component: AboutComponent },
+                    // All user except buyer
                     { path: 'home', component: HomeComponent,  canActivate: [AppRouteGuard] },
-                    { path: 'users', component: UsersComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
+                    // Admin
                     { path: 'sys-images', component: ImagesComponent, data: { permission: PermissionNames.Admins }, canActivate: [AppRouteGuard] },
+                    { path: 'brands', component: BrandComponent, data: { permission: PermissionNames.Admins }, canActivate: [AppRouteGuard] },
+                    { path: 'create-brand', component: CreateBrandComponent, data: {permission: PermissionNames.Admins, canActivate: [AppRouteGuard]}},
+                    { path: 'edit-brand/:id', component: CreateBrandComponent, data: {permission: PermissionNames.Admins, canActivate: [AppRouteGuard]}},
+
+                    // Seller
+                    { path: 'seller-info', component: SellerInfoComponent, data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
+                    { path: 'product', component: ProductComponent, data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
+                    { path: 'payment-info', component: PaymentComponent, data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
+                    { path: 'invoice', component: PurchaseComponent, data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
                     { path: 'seller-images', component: ImagesSellerComponent, data: { permission: PermissionNames.Seller }, canActivate: [AppRouteGuard] },
+                    { path: 'auction', component: AuctionComponent, data: { permission: PermissionNames.Seller }, canActivate: [AppRouteGuard] },
+
+                    // No use
                     { path: 'roles', component: RolesComponent, data: { permission: 'Pages.Roles' }, canActivate: [AppRouteGuard] },
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
-                    { path: 'about', component: AboutComponent },
-                    { path: 'update-password', component: ChangePasswordComponent }
+                    { path: 'users', component: UsersComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
+
                 ]
             }
         ])

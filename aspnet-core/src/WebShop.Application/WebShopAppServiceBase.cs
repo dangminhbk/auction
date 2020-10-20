@@ -11,6 +11,8 @@ using Abp.Application.Services.Dto;
 using System.Linq;
 using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
+using WebShop.Domain.Seller;
+using Abp.Dependency;
 
 namespace WebShop
 {
@@ -23,9 +25,12 @@ namespace WebShop
 
         public UserManager UserManager { get; set; }
 
+        public ISellerManager SellerManager { get; set; }
+
         protected WebShopAppServiceBase()
         {
             LocalizationSourceName = WebShopConsts.LocalizationSourceName;
+            //this.SellerManager = IocManager.Instance.Resolve<ISellerManager>();
         }
 
         protected virtual async Task<User> GetCurrentUserAsync()
@@ -39,11 +44,11 @@ namespace WebShop
             return user;
         }
 
-        protected virtual async Task<Seller.Seller> GetSeller(IRepository<Seller.Seller, long> SellerRepository)
+        protected virtual async Task<Domain.Seller.Seller> GetCurrentSeller()
         {
             var userId = (await GetCurrentUserAsync()).Id;
-            var seller = await SellerRepository.
-                                FirstOrDefaultAsync(s => s.UserId == userId);
+            var seller = await SellerManager.
+                                GetSellerByUserId(userId);
             if (seller == null)
             {
                 throw new Exception("Cannot get seller");

@@ -1,5 +1,6 @@
 import { AppComponentBase } from 'shared/app-component-base';
 import { Injector, OnInit } from '@angular/core';
+import { UrlHelper } from './helpers/UrlHelper';
 
 export class PagedResultDto {
     items: any[];

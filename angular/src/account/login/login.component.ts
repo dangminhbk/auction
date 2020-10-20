@@ -3,6 +3,7 @@ import { AbpSessionService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/app-component-base';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { AppAuthService } from '@shared/auth/app-auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './login.component.html',
@@ -14,9 +15,12 @@ export class LoginComponent extends AppComponentBase {
   constructor(
     injector: Injector,
     public authService: AppAuthService,
-    private _sessionService: AbpSessionService
+    private _sessionService: AbpSessionService,
   ) {
     super(injector);
+    if (this._sessionService.userId != undefined) {
+       window.location.href = '/app';
+    }
   }
 
   get multiTenancySideIsTeanant(): boolean {

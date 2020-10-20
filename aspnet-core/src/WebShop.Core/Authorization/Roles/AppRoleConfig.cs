@@ -38,6 +38,27 @@ namespace WebShop.Authorization.Roles
                     MultiTenancySides.Tenant
                 )
             );
+
+            roleManagementConfig.StaticRoles.Add(
+                new StaticRoleDefinition(
+                    StaticRoleNames.Host.Admin,
+                    MultiTenancySides.Tenant
+                )
+            );
+
+            roleManagementConfig.StaticRoles.Add(
+                new StaticRoleDefinition(
+                    StaticRoleNames.Host.Buyer,
+                    MultiTenancySides.Tenant
+                )
+            );
+
+            roleManagementConfig.StaticRoles.Add(
+                new StaticRoleDefinition(
+                    StaticRoleNames.Host.Seller,
+                    MultiTenancySides.Tenant
+                )
+            );
         }
     }
 }

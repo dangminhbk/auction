@@ -21,6 +21,9 @@ export class AccountComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.appSession.userId != undefined) {
+      window.location.href = '/app';
+   }
     this.renderer.addClass(document.body, 'login-page');
   }
 }

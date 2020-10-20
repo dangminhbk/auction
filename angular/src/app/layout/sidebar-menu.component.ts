@@ -44,13 +44,11 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
 
   getMenuItems(): MenuItem[] {
     return [
-      new MenuItem(this.l('HomePage'), '/app/home', 'fas fa-home'),
       new MenuItem(
-        this.l('Tenants'),
-        '/app/tenants',
-        'fas fa-building',
-        'Pages.Tenants'
-      ),
+        this.l('Dashboard'),
+        '/app/home', 
+        'fas fa-chart-line'),
+
       new MenuItem(
         this.l('Users'),
         '/app/users',
@@ -64,72 +62,63 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         'Pages.Roles'
       ),
 
+      // admin
       new MenuItem(
-        'Images',
+        this.l('Images'),
         '/app/sys-images',
-        'fas fa-theater-masks',
+        'fas fa-image',
         PermissionNames.Admins
       ),
 
       new MenuItem(
-        'Images',
+        this.l('Brands'),
+        '/app/brands',
+        'fas fa-copyright',
+        PermissionNames.Admins
+      ),
+
+      // seller
+      new MenuItem(
+        this.l('Images'),
         '/app/seller-images',
-        'fas fa-theater-masks',
+        'fas fa-image',
         PermissionNames.Seller
       ),
 
-      new MenuItem(this.l('About'), '/app/about', 'fas fa-info-circle'),
-      new MenuItem(this.l('MultiLevelMenu'), '', 'fas fa-circle', '', [
-        new MenuItem('ASP.NET Boilerplate', '', 'fas fa-dot-circle', '', [
-          new MenuItem(
-            'Home',
-            'https://aspnetboilerplate.com?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Templates',
-            'https://aspnetboilerplate.com/Templates?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Samples',
-            'https://aspnetboilerplate.com/Samples?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Documents',
-            'https://aspnetboilerplate.com/Pages/Documents?ref=abptmpl',
-            'far fa-circle'
-          ),
-        ]),
-        new MenuItem('ASP.NET Zero', '', 'fas fa-dot-circle', '', [
-          new MenuItem(
-            'Home',
-            'https://aspnetzero.com?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Features',
-            'https://aspnetzero.com/Features?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Pricing',
-            'https://aspnetzero.com/Pricing?ref=abptmpl#pricing',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Faq',
-            'https://aspnetzero.com/Faq?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Documents',
-            'https://aspnetzero.com/Documents?ref=abptmpl',
-            'far fa-circle'
-          )
-        ])
-      ])
+      new MenuItem(
+        this.l('Payment'),
+        '/app/payment-info',
+        'fas fa-money-bill-wave',
+        PermissionNames.Seller
+      ),
+
+      new MenuItem(
+        this.l('Info'),
+        '/app/seller-info',
+        'fas fa-info',
+        PermissionNames.Seller
+      ),
+
+      new MenuItem(
+        this.l('Products'),
+        '/app/product',
+        'fas fa-store',
+        PermissionNames.Seller
+      ),
+
+      new MenuItem(
+        this.l('Auctions'),
+        '/app/auction',
+        'fas fa-balance-scale',
+        PermissionNames.Seller
+      ),
+
+      new MenuItem(
+        this.l('Invoices'),
+        '/app/invoice',
+        'fas fa-file-invoice-dollar',
+        PermissionNames.Seller
+      ),
     ];
   }
 

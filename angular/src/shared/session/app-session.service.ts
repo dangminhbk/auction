@@ -49,6 +49,10 @@ export class AppSessionService {
         return (this._tenant ? this._tenant.tenancyName : '.') + '\\' + userName;
     }
 
+    getName(): string {
+        return this._user?.name;
+    }
+
     init(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             this._sessionService.getCurrentLoginInformations().toPromise().then((result: GetCurrentLoginInformationsOutput) => {

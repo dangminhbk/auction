@@ -21,7 +21,6 @@ export class ImagesComponent extends PagedListingComponentBase<ImageDto> {
   images: ImageDto[] = [];
   advancedFiltersVisible = false;
   isActive: boolean | null;
-  getImagePath = UrlHelper.getImagePath;
   constructor(
     private imageService: ImageService,
     injector: Injector,

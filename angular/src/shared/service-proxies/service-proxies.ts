@@ -1867,6 +1867,7 @@ export class RegisterInput implements IRegisterInput {
         data["emailAddress"] = this.emailAddress;
         data["password"] = this.password;
         data["captchaResponse"] = this.captchaResponse;
+        console.log('Hihi');
         return data; 
     }
 

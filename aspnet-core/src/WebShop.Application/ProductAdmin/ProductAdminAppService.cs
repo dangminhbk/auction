@@ -12,8 +12,8 @@ namespace WebShop.ProductAdmin
     public class ProductAdminAppService : WebShopAppServiceBase
     {
         private readonly IProductManager ProductManager;
-        private readonly IRepository<Seller.Seller, long> SellerRepository;
-        public ProductAdminAppService(IProductManager productManager, IRepository<Seller.Seller, long> sellerRepository)
+        private readonly IRepository<Domain.Seller.Seller, long> SellerRepository;
+        public ProductAdminAppService(IProductManager productManager, IRepository<Domain.Seller.Seller, long> sellerRepository)
         {
             ProductManager = productManager;
             SellerRepository = sellerRepository;

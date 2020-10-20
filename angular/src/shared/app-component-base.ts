@@ -11,6 +11,7 @@ import {
 } from 'abp-ng2-module';
 
 import { AppSessionService } from '@shared/session/app-session.service';
+import { UrlHelper } from './helpers/UrlHelper';
 
 export abstract class AppComponentBase {
 
@@ -25,6 +26,8 @@ export abstract class AppComponentBase {
     multiTenancy: AbpMultiTenancyService;
     appSession: AppSessionService;
     elementRef: ElementRef;
+
+    getImagePath = UrlHelper.getImagePath;
 
     constructor(injector: Injector) {
         this.localization = injector.get(LocalizationService);

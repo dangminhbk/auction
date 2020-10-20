@@ -6,6 +6,7 @@ using WebShop.MultiTenancy;
 using WebShop.Product;
 using WebShop.Domain.Brand;
 using WebShop.Domain.Image;
+using WebShop.Domain.Seller;
 
 namespace WebShop.EntityFrameworkCore
 {
@@ -18,7 +19,10 @@ namespace WebShop.EntityFrameworkCore
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ProductCoverImage> ProductCoverImages { get; set; }
         // Seller
-        public DbSet<Seller.Seller> Sellers { get; set; }
+        public DbSet<Seller> Sellers { get; set; }
+        public DbSet<SellerLogo> SellerLogos { get; set; }
+        public DbSet<SellerLogo> SellerCover { get; set; }
+        public DbSet<SellerPaymentOption> SellerPaymentOptions { get; set; }
         // Brand
         public DbSet<Brand> Brands { get; set; }
         public DbSet<BrandImage> BrandImages {get; set;}
@@ -26,7 +30,6 @@ namespace WebShop.EntityFrameworkCore
         public DbSet<Category.Category> Categories { get; set; }
         // Image
         public DbSet<Image> Images { get; set; }
-
 
         public WebShopDbContext(DbContextOptions<WebShopDbContext> options)
             : base(options)

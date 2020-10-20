@@ -48,6 +48,10 @@ export abstract class BaseApiService<T> {
     return this.http.put(this.url + 'Update', data);
   }
 
+  edit(data: object): Observable<any> {
+    return this.http.post(this.url + 'Edit', data);
+  }
+
   create(data: object): Observable<any> {
     return this.http.post(this.url + 'Create', data);
   }

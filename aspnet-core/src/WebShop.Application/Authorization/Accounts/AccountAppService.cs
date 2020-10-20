@@ -5,6 +5,7 @@ using Abp.Zero.Configuration;
 using WebShop.Authorization.Accounts.Dto;
 using WebShop.Authorization.Roles;
 using WebShop.Authorization.Users;
+using WebShop.Domain.Seller;
 
 namespace WebShop.Authorization.Accounts
 {
@@ -13,12 +14,16 @@ namespace WebShop.Authorization.Accounts
         // from: http://regexlib.com/REDetails.aspx?regexp_id=1923
         public const string PasswordRegex = "(?=^.{8,}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s)[0-9a-zA-Z!@#$%^&*()]*$";
 
+        private readonly ISellerManager SellerManeger;
         private readonly UserRegistrationManager _userRegistrationManager;
 
         public AccountAppService(
-            UserRegistrationManager userRegistrationManager)
+            UserRegistrationManager userRegistrationManager,
+            ISellerManager sellerManeger
+            )
         {
             _userRegistrationManager = userRegistrationManager;
+            SellerManeger = sellerManeger;
         }
 
         public async Task<IsTenantAvailableOutput> IsTenantAvailable(IsTenantAvailableInput input)
@@ -76,7 +81,7 @@ namespace WebShop.Authorization.Accounts
             };
         }
 
-        public async Task<RegisterOutput> RegisterSeller(RegisterInput input)
+        public async Task<RegisterOutput> RegisterSeller(RegisterSellerInput input)
         {
             var user = await _userRegistrationManager.RegisterAsync(
                 input.Name,
@@ -86,6 +91,15 @@ namespace WebShop.Authorization.Accounts
                 input.Password,
                 true,
                 new List<string>() { StaticRoleNames.Host.Seller }
+            );
+
+            await SellerManager.RegisterSeller(
+                user.Id,
+                input.SellerName,
+                input.Address,
+                input.PhoneNumber,
+                input.EmailAddress,
+                input.Description
             );
 
             var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);

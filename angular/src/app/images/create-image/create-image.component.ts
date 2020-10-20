@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
@@ -14,6 +14,7 @@ export class CreateImageComponent extends AppComponentBase implements OnInit {
   images: File[] = [];
   saving = false;
   @Output() onSave = new EventEmitter<any>();
+  @Input() forAdmin = true;
   constructor(
     injector: Injector,
     public bsModalRef: BsModalRef,

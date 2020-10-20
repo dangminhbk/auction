@@ -17,6 +17,8 @@ import { AccountFooterComponent } from './layout/account-footer.component';
 // tenants
 import { TenantChangeComponent } from './tenant/tenant-change.component';
 import { TenantChangeDialogComponent } from './tenant/tenant-change-dialog.component';
+import { RegisterSellerComponent } from './register-seller/register-seller.component';
+import { RegisterBuyerComponent } from './register-buyer/register-buyer.component';
 
 @NgModule({
     imports: [
@@ -39,6 +41,8 @@ import { TenantChangeDialogComponent } from './tenant/tenant-change-dialog.compo
         // tenant
         TenantChangeComponent,
         TenantChangeDialogComponent,
+        RegisterSellerComponent,
+        RegisterBuyerComponent,
     ],
     entryComponents: [
         // tenant

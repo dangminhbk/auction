@@ -75,9 +75,13 @@
       </div>
     </div>
   </form>
-  <p *ngIf="isSelfRegistrationAllowed" class="mb-1">
-    <a [routerLink]="['../register']">
+  <p *ngIf="isSelfRegistrationAllowed" style="display: flex;" class="mb-1">
+    <a [routerLink]="['../buyer-register']">
       <i class="fa fa-plus-circle"></i> {{ "Register" | localize }}
+    </a>
+
+    <a style="margin-left: auto;" [routerLink]="['../seller-register']">
+      <i class="fa fa-plus-circle"></i> {{ "Became a Seller?" | localize }}
     </a>
   </p>
 </div>
