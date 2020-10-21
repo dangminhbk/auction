@@ -26,8 +26,12 @@ export class ImageService extends BaseApiService<ImageDto> {
         return this.http.post<any>(this.url + 'Upload', form);
     }
 
+    uploadSeller(form: FormData) : Observable<any> {
+        return this.http.post<any>(this.url + 'UploadSeller', form);
+    }
+
     getAllSeller(request: PagedRequestDto): Observable<ResultDto<ImageDto>> {
         const requestQuery = `skipCount=${request.skipCount}&maxResultCount=${request.maxResultCount}`;
         return this.http.get<any>(this.url + 'GetAllSeller?' + requestQuery);
-      }
+    }
 }

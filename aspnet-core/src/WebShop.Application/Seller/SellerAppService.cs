@@ -12,6 +12,7 @@ using WebShop.Domain.Seller;
 using WebShop.Extension;
 using WebShop.Seller.Dto;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebShop.Seller
 {
@@ -21,26 +22,29 @@ namespace WebShop.Seller
         {
         }
 
+        [HttpPut]
         [AbpAuthorize(PermissionNames.Sellers)]
         public async Task UpdateSellerInfo(UpdateSellerDto input)
         {
+            var sellerId = (await GetCurrentSeller()).Id;
             await SellerManager.UpdateSellerInfo(
-                input.SellerId,
+                sellerId,
                 input.SellerName,
                 input.Address,
                 input.PhoneNumber,
-                input.EmailAddress,
                 input.Description,
                 input.SellerCover,
                 input.SellerLogo
             );
         }
+
+        [HttpPut]
         [AbpAuthorize(PermissionNames.Sellers)]
         public async Task UpdatePayment(UpdatePaymentDto input)
         {
-            var seller = await GetCurrentSeller();
+            var sellerId = (await GetCurrentSeller()).Id;
             await SellerManager.UpdatePayment(
-                seller.Id,
+                sellerId,
                 input.Payload,
                 input.SellerPaymentOption
             );
@@ -59,10 +63,10 @@ namespace WebShop.Seller
                 EmailAddress = seller.EmailAddress,
                 PaymentRegisterStatus = seller.PaymentRegisterStatus,
                 PhoneNumber = seller.PhoneNumber,
-                SellerCoverId = seller.SellerCoverId,
-                SellerCoverUrl = seller.SellerCover?.Image.Url,
-                SellerLogoId = seller.SellerLogoId,
-                SellerLogoUrl = seller.SellerLogo?.Image.Url,
+                SellerCoverId = seller.SellerCover?.Image?.Id,
+                SellerCoverUrl = seller.SellerCover?.Image?.Url,
+                SellerLogoId = seller.SellerLogo?.Image?.Id,
+                SellerLogoUrl = seller.SellerLogo?.Image?.Url,
                 UserId = seller.UserId,
                 UserName = seller.User.UserName
             };

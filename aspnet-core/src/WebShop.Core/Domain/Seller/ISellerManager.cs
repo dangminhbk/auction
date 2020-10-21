@@ -22,7 +22,6 @@ namespace WebShop.Domain.Seller
             string Name,
             string Address,
             string PhoneNumber,
-            string EmailAddress,
             string Description,
             long? CoverImage,
             long? Logo

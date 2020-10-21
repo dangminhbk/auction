@@ -1,94 +1,108 @@
-<form
-  class="form-horizontal"
-  autocomplete="off"
-  style="margin-left: 30px;"
-  #createBrandForm = "ngForm"
->
-  <div>
-    <h3>Seller Info</h3>
-    <tabset>
-      <tab>
-        <div class="form-group row required">
-          <label class="col-md-3 col-form-label" for="name">
-            {{ "Seller Name" | localize }}
-          </label>
-          <div class="col-md-3">
-            <input
-              type="text"
-              class="form-control"
-              name="name"
-              id="name"
-              required
-              maxlength="32"
-              [(ngModel)]="sellerInfo.name"
-              #nameModel="ngModel"
-              #nameEl
-            />
-            <abp-validation-summary
-              [control]="nameModel"
-              [controlEl]="nameEl"
-            ></abp-validation-summary>
-          </div>
-        </div>
-        <div class="form-group row required">
-          <label class="col-md-3 col-form-label" for="description">
-            Description
-          </label>
-          <div class="col-md-6">
-            <textarea
-              type="text"
-              rows="10" cols="70"
-              class="form-control"
-              name="description"
-              id="description"
-              required
-              maxlength="300"
-              [(ngModel)]="sellerInfo.description"
-              #descriptionModel="ngModel"
-              #descriptionEl
-            ></textarea>
-            <abp-validation-summary
-              [control]="descriptionModel"
-              [controlEl]="descriptionEl"
-            ></abp-validation-summary>
-          </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-md-3 col-form-label">
-                Logo
-              </label>
-            <div class="col-md-3">
-                <button type="button"
-                class="btn btn-primary" (click)="openImagePickerLogo()">Pick</button>
-            </div>
+<form class="form-horizontal" autocomplete="off" style="margin-left: 30px;" #createBrandForm="ngForm">
+    <div>
+        <h3>Seller Info</h3>
+        <tabset>
+            <tab>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="name">
+                        {{ "Seller Name" | localize }}
+                    </label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="name" id="name" required maxlength="32"
+                            [(ngModel)]="sellerInfo.name" #nameModel="ngModel" #nameEl [disabled]="!isEdit" />
+                        <abp-validation-summary [control]="nameModel" [controlEl]="nameEl"></abp-validation-summary>
+                    </div>
+                </div>
 
-            <div class="col-md-12 offset-md-3">
-                <img width="100" height="100" *ngIf="sellerInfo.sellerLogoId" src="{{getImagePath(sellerInfo.sellerCoverId)}}" alt="">
-            </div>
-        </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="description">
+                        Description
+                    </label>
+                    <div class="col-md-6">
+                        <textarea type="text" rows="10" cols="70" class="form-control" name="description"
+                            id="description" required maxlength="300" [(ngModel)]="sellerInfo.description"
+                            [disabled]="!isEdit" #descriptionModel="ngModel" #descriptionEl></textarea>
+                        <abp-validation-summary [control]="descriptionModel" [controlEl]="descriptionEl">
+                        </abp-validation-summary>
+                    </div>
+                </div>
 
-        <div class="form-group row">
-            <label class="col-md-3 col-form-label">
-                Cover
-              </label>
-            <div class="col-md-3">
-                <button type="button"
-                class="btn btn-primary" (click)="openImagePickerLogo()">Pick</button>
-            </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="address">
+                        {{ "Address" | localize }}
+                    </label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="address" id="adress" required maxlength="200"
+                            [(ngModel)]="sellerInfo.address" #addressModel="ngModel" #addressEl [disabled]="!isEdit" />
+                        <abp-validation-summary [control]="addressModel" [controlEl]="addressEl"></abp-validation-summary>
+                    </div>
+                </div>
 
-            <div class="col-md-12 offset-md-3">
-                <img width="100" height="100" *ngIf="sellerInfo.sellerLogoId" src="{{getImagePath(sellerInfo.sellerCoverId)}}" alt="">
-            </div>
-        </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="phoneNumber">
+                        {{ "Phone number" | localize }}
+                    </label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" required maxlength="32"
+                            [(ngModel)]="sellerInfo.phoneNumber" #phoneNumberModel="ngModel" #phoneNumberEl [disabled]="!isEdit" />
+                        <abp-validation-summary [control]="phoneNumberModel" [controlEl]="phoneNumberEl"></abp-validation-summary>
+                    </div>
+                </div>
 
-        <div class="form-group row">
-            <div class="col-md-3 offset-md-3">
-                <button style="margin-right: 10px;" [(disabled)] = "!createBrandForm.form.valid" class="btn btn-primary">Save</button>
-                <button [(disabled)] = "!createBrandForm.form.valid" class="btn btn-primary">Edit</button>
-            </div>
-        </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="emailAddress">
+                        {{ "Email address" | localize }}
+                    </label>
+                    <div class="col-md-3">
+                        <input type="email" class="form-control" name="emailAddress" id="emailAddress" required
+                            [(ngModel)]="sellerInfo.emailAddress" #emailAddressModel="ngModel" #emailAddressEl disabled />
+                        <abp-validation-summary [control]="emailAddressModel" [controlEl]="emailAddressEl"></abp-validation-summary>
+                    </div>
+                </div>
 
-      </tab>
-    </tabset>
-  </div>
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">
+                        Logo
+                    </label>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" [disabled]="!isEdit"
+                            (click)="openImagePickerLogo()">Pick</button>
+                    </div>
+
+                    <div class="col-md-12 offset-md-3">
+                        <img width="100" height="100" *ngIf="sellerInfo.sellerLogoId"
+                            src="{{getImagePath(sellerInfo.sellerLogoUrl)}}" alt="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">
+                        Cover
+                    </label>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" [disabled]="!isEdit"
+                            (click)="openImagePickerCover()">Pick</button>
+                    </div>
+
+                    <div class="col-md-12 offset-md-3">
+                        <img width="100" height="100" *ngIf="sellerInfo.sellerCoverId"
+                            src="{{getImagePath(sellerInfo.sellerCoverUrl)}}" alt="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3 offset-md-3">
+                        <button style="margin-right: 10px;" [(disabled)]="!createBrandForm.form.valid"
+                            class="btn btn-primary" (click)="save()" >Save</button>
+                        <button (click)="isEdit = !isEdit" class="btn btn-primary">
+                            <i *ngIf="!isEdit" class="fas fa-lock"></i>
+                            <i *ngIf="isEdit" class="fas fa-lock-open"></i>
+                            {{isEdit? "Lock": "Edit"}}
+                        </button>
+                    </div>
+                </div>
+
+            </tab>
+        </tabset>
+    </div>
 </form>

@@ -38,7 +38,7 @@ export class ImagePickerComponent extends PagedListingComponentBase<ImageDto> {
     if (this.forAdmin) {
       serviceCall = this.imageService.getAll(request);       
     } else {
-      serviceCall = this.imageService.getAll(request);       
+      serviceCall = this.imageService.getAllSeller(request);
     }
 
     serviceCall.pipe(

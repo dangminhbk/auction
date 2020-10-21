@@ -54,7 +54,11 @@ export class ImagesSellerComponent extends PagedListingComponentBase<ImageDto> {
   }
 
   createImage()  {
-    const createDialog = this._modalService.show(CreateImageComponent);
+    const createDialog = this._modalService.show(CreateImageComponent, { 
+      initialState: {
+        forAdmin: false
+      }
+    });
 
     createDialog.content.onSave.subscribe(() => {
       this.refresh();

@@ -1,3 +1,4 @@
+import {SellerUpdateDto} from './seller-update-dto';
 export class SellerInfoDto {
     sellerLogoId: number;
     sellerCoverId: number;

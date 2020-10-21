@@ -3,6 +3,7 @@ using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,11 @@ namespace WebShop.Domain.Seller
 
         public async Task<IQueryable<Seller>> GetAllSeller()
         {
+            return (await GetAllInternal()).AsNoTracking();
+        }
+
+        private async Task<IQueryable<Seller>> GetAllInternal()
+        {
             return this.SellerRepository.GetAllIncluding(
                 s => s.SellerLogo,
                 s => s.SellerLogo.Image,
@@ -37,6 +43,11 @@ namespace WebShop.Domain.Seller
                 s => s.SellerCover.Image,
                 s => s.User
             );
+        }
+
+        private async Task<Seller> GetInternal(long id)
+        {
+            return (await GetAllInternal()).FirstOrDefault(s => s.Id == id);
         }
 
         public async Task<Seller> GetSellerById(long SellerId)
@@ -52,16 +63,16 @@ namespace WebShop.Domain.Seller
         public async Task<SellerPaymentOption> GetSellerPaymentOption(long SellerId)
         {
             var seller = SellerRepository
-                .GetAllIncluding(s=>s.SellerPaymentOption)
-                .FirstOrDefault(s=>s.Id == SellerId);
+                .GetAllIncluding(s => s.SellerPaymentOption)
+                .FirstOrDefault(s => s.Id == SellerId);
             return seller.SellerPaymentOption;
         }
 
         public async Task RegisterSeller(
-            long UserId, 
-            string Name, 
-            string Address, 
-            string PhoneNumber, 
+            long UserId,
+            string Name,
+            string Address,
+            string PhoneNumber,
             string EmailAddress,
             string Description)
         {
@@ -91,11 +102,11 @@ namespace WebShop.Domain.Seller
         {
             return (await this.GetAllSeller())
                 .WhereIf(!keyword.IsNullOrEmpty(),
-                    s=>s.Name.Contains(keyword)
+                    s => s.Name.Contains(keyword)
             );
         }
 
-        public async Task UpdatePayment(long SellerId, 
+        public async Task UpdatePayment(long SellerId,
             List<KeyValuePair<string, string>> Payload,
             PaymentOption paymentOption
             )
@@ -114,20 +125,20 @@ namespace WebShop.Domain.Seller
         }
 
         public async Task UpdateSellerInfo(
-            long SellerId, 
-            string Name, 
-            string Address, 
-            string PhoneNumber, 
-            string EmailAddress, 
-            string Description, 
-            long? CoverImage, 
+            long SellerId,
+            string Name,
+            string Address,
+            string PhoneNumber,
+            string Description,
+            long? CoverImage,
             long? Logo)
         {
             var seller = await SellerRepository.GetAsync(SellerId);
 
             if (CoverImage.HasValue)
             {
-                if (seller.SellerCover?.Image?.Id != CoverImage)
+                var oldImage = seller.SellerCover?.Image;
+                if (oldImage == null || oldImage?.Id != CoverImage.Value)
                 {
                     var cover = new SellerCover
                     {
@@ -140,24 +151,24 @@ namespace WebShop.Domain.Seller
 
             if (Logo.HasValue)
             {
-                if (seller.SellerLogo?.Image?.Id != Logo)
+                var oldImage = seller.SellerCover?.Image;
+                if (oldImage == null || oldImage.Id != Logo.Value)
                 {
                     var logo = new SellerLogo
                     {
-                        ImageId = CoverImage.Value
+                        ImageId = Logo.Value
                     };
-
                     seller.SellerLogo = logo;
                 }
             }
 
             seller.Name = Name;
             seller.Address = Address;
-            seller.EmailAddress = EmailAddress;
             seller.PhoneNumber = PhoneNumber;
             seller.Description = Description;
 
             await SellerRepository.UpdateAsync(seller);
+            await CurrentUnitOfWork.SaveChangesAsync();
         }
     }
 }

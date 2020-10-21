@@ -7,11 +7,7 @@ namespace WebShop.Seller.Dto
 {
     public class UpdateSellerDto
     {
-        public long SellerId { get; set; }
         [Required]
-        public string EmailAddress { get; set; }
-        [Required]
-        [MinLength(100)]
         [MaxLength(1000)]
         public string Description { get; set; }
         [Required]

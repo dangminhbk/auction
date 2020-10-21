@@ -25,12 +25,12 @@ namespace WebShop
 
         public UserManager UserManager { get; set; }
 
-        public ISellerManager SellerManager { get; set; }
+        protected ISellerManager SellerManager { get; set; }
 
         protected WebShopAppServiceBase()
         {
             LocalizationSourceName = WebShopConsts.LocalizationSourceName;
-            //this.SellerManager = IocManager.Instance.Resolve<ISellerManager>();
+            SellerManager = IocManager.Instance.Resolve<ISellerManager>();
         }
 
         protected virtual async Task<User> GetCurrentUserAsync()
