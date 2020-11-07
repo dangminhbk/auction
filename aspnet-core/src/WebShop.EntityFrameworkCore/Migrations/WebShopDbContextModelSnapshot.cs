@@ -1931,9 +1931,6 @@ namespace WebShop.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<long>("Quantity")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("SellerId")
                         .HasColumnType("bigint");
 

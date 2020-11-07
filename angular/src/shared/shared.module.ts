@@ -17,12 +17,13 @@ import { LayoutStoreService } from './layout/layout-store.service';
 
 import { BusyDirective } from './directives/busy.directive';
 import { EqualValidator } from './directives/equal-validator.directive';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular/ckeditor.module';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
-        NgxPaginationModule
+        NgxPaginationModule,
     ],
     declarations: [
         AbpPaginationControlsComponent,

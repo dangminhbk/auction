@@ -12,26 +12,32 @@ import { PagedRequestDto } from '../shared/paged-listing-component-base';
   providedIn: 'root'
 })
 export abstract class BaseApiService<T> {
+
   protected baseUrl = AppConsts.remoteServiceBaseUrl;
   protected http: HttpClient;
-
-  abstract name();
 
   constructor(http: HttpClient) {
     this.http = http;
   }
+
 
   protected get rootApi() {
     return this.baseUrl + 'api/services/app/';
   }
 
   protected get url() {
-    return this.baseUrl + '/api/services/app/' + this.name() + "/";
+    return this.baseUrl + '/api/services/app/' + this.name() + '/';
   }
+
+  abstract name();
 
   getAll(request: PagedRequestDto): Observable<ResultDto<T>> {
     const requestQuery = `skipCount=${request.skipCount}&maxResultCount=${request.maxResultCount}`;
     return this.http.get<any>(this.url + 'GetAll?' + requestQuery);
+  }
+
+  getDropdown(): Observable<any> {
+    return this.http.get<any>(this.url + 'GetDropdown');
   }
 
   get(id: any): Observable<any> {

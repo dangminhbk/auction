@@ -49,5 +49,37 @@ body.swal2-height-auto {
 div.wrapper,
 div.content-wrapper,
 div.sidebar {
-  min-height: 100vh;
+  max-height: 100vh;
+}
+
+.wrapper .content-wrapper {
+  max-height: calc(100vh - calc(3.5rem + 1px) - calc(3.5rem + 1px));
+  overflow: auto;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* scrollbar track */
+::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+/* scrollbar handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: #007bff;
+}
+
+.modal-body {
+  max-height: 60vh;
+  overflow-x: scroll;
+}
+
+.btn-minus {
+  position: absolute;
+  top: 0;
+  left: 0;
 }

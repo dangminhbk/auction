@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebShop.ProductAdmin.Dto
 {
     public class ProductCreateDto
     {
+        [Required]
         public string Name { get; set; }
+        [Required]
         public decimal Price { get; set; }
-        public long Quantity { get; set; }
+        [Required]
         public string Description { get; set; }
-        public long? CoverImageId { get; set; }
-        public ICollection<long> ImageIds { get; set; }
-        public ICollection<long> CategoryIds { get; set; }
-        public long SellerId { get; set; }
-        public long? BrandId { get; set; }
+        [Required]
+        public long CoverImageId { get; set; }
+        [Required]
+        public long[] ImageIds { get; set; }
+        public long[] CategoryIds { get; set; }
+        [Required]
+        public long BrandId { get; set; }
     }
 }

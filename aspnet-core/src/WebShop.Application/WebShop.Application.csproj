@@ -11,6 +11,9 @@
     <RootNamespace>WebShop</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Abp.AspNetCore.SignalR" Version="5.13.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\WebShop.Core\WebShop.Core.csproj" />
   </ItemGroup>
 </Project>

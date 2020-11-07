@@ -24,7 +24,7 @@ export class ImagesSellerComponent extends PagedListingComponentBase<ImageDto> {
   ) {
     super(injector);
   }
-    
+
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.imageService.getAllSeller(request)
     .pipe(
@@ -43,7 +43,7 @@ export class ImagesSellerComponent extends PagedListingComponentBase<ImageDto> {
       undefined,
       (result: boolean) => {
         if (result) {
-          this.imageService.deleteSystem(entity.id).subscribe(() => {
+          this.imageService.deleteSeller(entity.id).subscribe(() => {
             abp.notify.success(this.l('SuccessfullyDeleted'));
             this.refresh();
           });

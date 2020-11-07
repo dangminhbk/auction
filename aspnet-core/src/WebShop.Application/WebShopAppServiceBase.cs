@@ -51,7 +51,7 @@ namespace WebShop
                                 GetSellerByUserId(userId);
             if (seller == null)
             {
-                throw new Exception("Cannot get seller");
+                return null;
             }
             return seller;
         }

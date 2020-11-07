@@ -14,6 +14,7 @@ export class EntityDto {
 export class PagedRequestDto {
     skipCount: number;
     maxResultCount: number;
+    keyword: string;
 }
 
 export abstract class PagedListingComponentBase<TEntityDto> extends AppComponentBase implements OnInit {
@@ -23,6 +24,8 @@ export abstract class PagedListingComponentBase<TEntityDto> extends AppComponent
     public totalPages = 1;
     public totalItems: number;
     public isTableLoading = false;
+
+    items: TEntityDto[] = [];
 
     constructor(injector: Injector) {
         super(injector);

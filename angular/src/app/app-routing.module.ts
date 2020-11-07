@@ -18,6 +18,8 @@ import { ProductComponent } from './product/product.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PurchaseComponent } from './purchase/purchase.component';
 import { AuctionComponent } from './auction/auction.component';
+import { SellerAdminComponent } from './seller-admin/seller-admin.component';
+import { CreateProductComponent } from './product/create-product/create-product.component';
 
 @NgModule({
     imports: [
@@ -37,10 +39,11 @@ import { AuctionComponent } from './auction/auction.component';
                     { path: 'brands', component: BrandComponent, data: { permission: PermissionNames.Admins }, canActivate: [AppRouteGuard] },
                     { path: 'create-brand', component: CreateBrandComponent, data: {permission: PermissionNames.Admins, canActivate: [AppRouteGuard]}},
                     { path: 'edit-brand/:id', component: CreateBrandComponent, data: {permission: PermissionNames.Admins, canActivate: [AppRouteGuard]}},
-
+                    { path: 'sellers', component: SellerAdminComponent, data: {permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
                     // Seller
                     { path: 'seller-info', component: SellerInfoComponent, data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
                     { path: 'product', component: ProductComponent, data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
+                    { path: 'create-product', component: CreateProductComponent, data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
                     { path: 'payment-info', component: PaymentComponent, data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
                     { path: 'invoice', component: PurchaseComponent, data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
                     { path: 'seller-images', component: ImagesSellerComponent, data: { permission: PermissionNames.Seller }, canActivate: [AppRouteGuard] },

@@ -29,7 +29,7 @@ export abstract class AppComponentBase {
 
     getImagePath = UrlHelper.getImagePath;
 
-    constructor(injector: Injector) {
+    constructor(protected injector: Injector) {
         this.localization = injector.get(LocalizationService);
         this.permission = injector.get(PermissionCheckerService);
         this.feature = injector.get(FeatureCheckerService);

@@ -50,6 +50,12 @@ import { PaymentComponent } from './payment/payment.component';
 import { ProductComponent } from './product/product.component';
 import { AuctionComponent } from './auction/auction.component';
 import { PurchaseComponent } from './purchase/purchase.component';
+import { SellerAdminComponent } from './seller-admin/seller-admin.component';
+import { SellerAdminDetailComponent } from './seller-admin/seller-admin-detail/seller-admin-detail.component';
+import { SellerAdminPaymentDetailComponent } from './seller-admin/seller-admin-payment-detail/seller-admin-payment-detail.component';
+import { CreateProductComponent } from './product/create-product/create-product.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NgxCurrencyModule } from "ngx-currency";
 
 @NgModule({
   declarations: [
@@ -92,7 +98,11 @@ import { PurchaseComponent } from './purchase/purchase.component';
     PaymentComponent,
     ProductComponent,
     AuctionComponent,
-    PurchaseComponent
+    PurchaseComponent,
+    SellerAdminComponent,
+    SellerAdminDetailComponent,
+    SellerAdminPaymentDetailComponent,
+    CreateProductComponent,
   ],
   imports: [
     CommonModule,
@@ -108,6 +118,8 @@ import { PurchaseComponent } from './purchase/purchase.component';
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
+    CKEditorModule,
+    NgxCurrencyModule,
   ],
   providers: [],
   entryComponents: [

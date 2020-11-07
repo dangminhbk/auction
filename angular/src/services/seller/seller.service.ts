@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SellerInfoDto } from '@app/seller-info/dto/seller-info-dto';
 import { SellerUpdateDto } from '@app/seller-info/dto/seller-update-dto';
+import { PagedRequestDto } from '@shared/paged-listing-component-base';
 import { Observable } from 'rxjs';
 import { BaseApiService, ResonseGetItem, ResultDto } from '../base-api.service';
 
@@ -14,6 +15,7 @@ export class SellerService extends BaseApiService<any> {
     super(http);
   }
   name = () => 'Seller';
+
   getYourSeller(): Observable<ResonseGetItem<SellerInfoDto>> {
     return this.http.get<ResonseGetItem<SellerInfoDto>>(this.url + 'GetYourSellerInfo');
   }
@@ -25,4 +27,16 @@ export class SellerService extends BaseApiService<any> {
   updatePayment() {
 
   }
+
+  getAllPublicSeller(request:  PagedRequestDto) {
+    const requestQuery = `skipCount=${request.skipCount}&maxResultCount=${request.maxResultCount}&keyword=${request.keyword}`;
+    return this.http.get<any>(this.url + 'GetAllPublicSellers?' + requestQuery);
+    
+  }
+  
+  getSellerById(id: number): Observable<ResonseGetItem<SellerInfoDto>> {
+    return this.http.get<ResonseGetItem<SellerInfoDto>>(this.url + `GetSellerInfo?SellerId=${id}`);
+  }
+
+
 }

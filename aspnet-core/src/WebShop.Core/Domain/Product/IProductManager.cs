@@ -10,49 +10,52 @@ namespace WebShop.Product
     public interface IProductManager : IDomainService
     {
         #region Seller
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
-        Task CreateProduct(Product product);
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
-        Task UpdateProduct(Product product);
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
-        Task DeleteProduct(Product product);
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        Task<IQueryable<Product>> GetAll();
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sellerId"></param>
-        /// <returns></returns>
-        Task<IQueryable<Product>> GetAllForSeller(long sellerId);
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sellerId"></param>
-        /// <param name="searchText"></param>
-        /// <returns></returns>
-        Task<IQueryable<Product>> SearchForSeller(long sellerId, string searchText);
+
+        Task CreateProduct(
+            string Name,
+            decimal Price,
+            string Description,
+            long? CoverImageId,
+            long[] ProductImages,
+            long SellerId,
+            long? BrandId,
+            long[] ProductCategories
+        );
+        Task UpdateProduct(
+            long Id,
+            string Name,
+            decimal Price,
+            string Description,
+            long? CoverImageId,
+            long[] ProductImages,
+            long SellerId,
+            long? BrandId,
+            long[] ProductCategories
+         );
+
+        Task DeleteProduct(long id, long sellerId);
+
+        Task<IQueryable<Product>> GetAll(
+            string keyword,
+            decimal? minPrice,
+            decimal? maxPrice,
+            DateTime? minCreateDate,
+            DateTime? maxCreateDate,
+            long? brandId,
+            long[] categories
+        );
+
+        Task<Product> Get(long id, long sellerId);
+
+        Task<IQueryable<Product>> GetAllForSeller(
+            long sellerId, 
+            string keyword
+        );
+
         #endregion
 
         #region Buyer
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+
         Task<IQueryable<Product>> GetAllForBuyer();
         /// <summary>
         /// 

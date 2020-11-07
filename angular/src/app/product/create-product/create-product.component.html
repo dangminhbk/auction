@@ -1,0 +1,109 @@
+<form autocomplete="off" style="margin-left: 20px; margin-right: 20px;" #createBrandForm="ngForm">
+    <div class="card card-primary" style="margin-top: 20px;">
+        <h3 class="card-header bg-dark">Create product</h3>
+        <div class="card-body">
+            <div class="form-group row required">
+                <label class="col-md-3 col-form-label" for="name">
+                    {{ "Name" | localize }}
+                </label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" name="name" id="name" required maxlength="32"
+                        [(ngModel)]="product.name" #nameModel="ngModel" #nameEl />
+                    <abp-validation-summary [control]="nameModel" [controlEl]="nameEl"></abp-validation-summary>
+                </div>
+            </div>
+
+            <div class="form-group row required">
+                <label class="col-md-3 col-form-label" for="brand">
+                    {{ "Brand" | localize }}
+                </label>
+                <div class="col-md-3">
+                    <select class="form-control" [(ngModel)]="product.brandId" name="brand" id="brand">
+                        <option *ngFor="let item of brands" [ngValue]="item.id">{{item.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row required">
+                <label class="col-md-3 col-form-label" for="price">
+                    {{ "Price" | localize }}
+                </label>
+                <div class="col-md-3">
+                    <input currencyMask [options]="{ prefix: 'VND ', thousands: '.', decimal: ',', inputMode: 1 }" class="form-control" name="price" id="price" required
+                        [(ngModel)]="product.price" #priceModel="ngModel" #priceEl />
+                    <abp-validation-summary [control]="priceModel" [controlEl]="priceEl"></abp-validation-summary>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">
+                    Cover
+                </label>
+                <div class="col-md-3">
+                    <label for="cover" style="margin-bottom: 0px;" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        <input style="display: none;" type="file" (change)="coverChange($event)" multiple class="form-control custom-upload" name="cover" id="cover" />
+                    </label>
+
+                    <button (click)="openCoverPicker()" style="margin-left: 2px;" class="btn btn-primary">
+                        Pick
+                    </button>
+                </div>
+
+                <div style="margin-top: 20px;" class="col-md-9 offset-md-3">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button *ngIf="coverImage" class="btn btn-minus btn-primary" (click)="coverImage = undefined" >
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <img *ngIf="coverImage" width="100%" height="100px" src="{{coverImage.url}}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">
+                    Images
+                </label>
+                <div class="col-md-3">
+                    <label for="images" style="margin-bottom: 0px;" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        <input type="file" style="display: none;" (change)="imageChange($event)" multiple class="form-control" name="images" id="images" />
+                    </label>
+                    <button style="margin-left: 2px;" (click)="openImagePicker()" class="btn btn-primary">
+                        Pick
+                    </button>
+                </div>
+                <br>
+                <div style="margin-top: 20px;" class="col-md-9 offset-md-3">
+                    <div class="row">
+                        <div class="col-md-3" style="margin-right: 5px;" *ngFor="let image of images">
+                            <button class="btn btn-minus btn-primary" (click)="removeImage(image.id)" >
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <img width="100%" height="100px" src="{{image.url}}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row required">
+                <label class="col-md-3 col-form-label" for="description">
+                    Description
+                </label>
+                <div class="col-md-9">
+                    <ckeditor required [(ngModel)]="product.description" (ready)="onReady($event)" [editor]="Editor"
+                        #descriptionModel="ngModel" #descriptionEl name="description"></ckeditor>
+                    <abp-validation-summary [control]="descriptionModel" [controlEl]="descriptionEl">
+                    </abp-validation-summary>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <button [(disabled)]="!createBrandForm.form.valid" (click)="save()" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>

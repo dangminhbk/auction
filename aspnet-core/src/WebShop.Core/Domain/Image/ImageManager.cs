@@ -46,8 +46,9 @@ namespace WebShop.Domain.Image
             return images;
         }
 
-        public async Task UploadImages(long? sellerId, List<IFormFile> files)
+        public async Task<long[]> UploadImages(long? sellerId, List<IFormFile> files)
         {
+            var ids = new List<long>();
             foreach (var image in files)
             {
                 if (!image.IsImage())
@@ -76,9 +77,43 @@ namespace WebShop.Domain.Image
                     SellerId = sellerId,
                     Identified = image.FileName
                 };
-                await ImageRepository.InsertAsync(Image);
+                var id = await ImageRepository.InsertAndGetIdAsync(Image);
+                ids.Add(id);
             }
             await CurrentUnitOfWork.SaveChangesAsync();
-        }       
+            return ids.ToArray();
+        }
+
+        public async Task<string> UploadWithResult(long? sellerId, IFormFile image)
+        {
+            if (!image.IsImage())
+            {
+                throw new UserFriendlyException("Not valid image");
+            }
+
+            var timeStamp = DateTime.Now.Ticks.ToString();
+            var identified = $"{timeStamp}{Path.GetExtension(image.FileName)}";
+            var storePath = Configuration.GetValue<string>("Files:ImageLocation");
+            var urlPath = Path.Combine(storePath, identified);
+            var filePath = Path.Combine("wwwroot", urlPath);
+
+            if (image.Length > 0)
+            {
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await image.CopyToAsync(stream);
+                }
+            }
+
+            var Image = new Image
+            {
+                Url = urlPath,
+                SellerId = sellerId,
+                Identified = image.FileName
+            };
+            await ImageRepository.InsertAsync(Image);
+            return Image.Url;
+        }
     }
 }

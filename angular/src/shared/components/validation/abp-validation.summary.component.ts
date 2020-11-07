@@ -7,7 +7,9 @@ import {
   OnInit
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { AppComponentBase } from '@shared/app-component-base';
+import { type } from 'os';
 import { AbpValidationError } from './abp-validation.api';
 
 @Component({
@@ -71,7 +73,9 @@ export class AbpValidationSummaryComponent extends AppComponentBase implements O
           this.control.valid &&
           (this.control.dirty || this.control.touched)
         ) {
-          this._renderer.removeClass(this.controlEl, 'is-invalid');
+          if(!(this.controlEl instanceof CKEditorComponent)) {
+            this._renderer.removeClass(this.controlEl, 'is-invalid');
+          }
         }
       });
     }
@@ -79,7 +83,9 @@ export class AbpValidationSummaryComponent extends AppComponentBase implements O
 
   getValidationErrorMessage(error: AbpValidationError): string {
     if (this.controlEl) {
-      this._renderer.addClass(this.controlEl, 'is-invalid');
+      if(!(this.controlEl instanceof CKEditorComponent)) {
+        this._renderer.addClass(this.controlEl, 'is-invalid');
+      }
     }
 
     const propertyValue = this.control.errors[error.name][error.propertyKey];

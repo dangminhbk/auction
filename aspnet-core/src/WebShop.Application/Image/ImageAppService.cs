@@ -25,17 +25,25 @@ namespace WebShop.Domain.Image
 
         [AbpAuthorize(nameof(PermissionNames.Admins))]
         [HttpPost]
-        public async Task Upload([FromForm] ImageUploadDto input)
+        public async Task<long[]> Upload([FromForm] ImageUploadDto input)
         {
-            await ImageManager.UploadImages(null, input.Files);
+            return await ImageManager.UploadImages(null, input.Files);
         }
 
         [AbpAuthorize(nameof(PermissionNames.Sellers))]
         [HttpPost]
-        public async Task UploadSeller([FromForm] ImageUploadDto input)
+        public async Task<long[]> UploadSeller([FromForm] ImageUploadDto input)
         {
             var seller = await GetCurrentSeller();
-            await ImageManager.UploadImages(seller.Id, input.Files);
+            return await ImageManager.UploadImages(seller.Id, input.Files);
+        }
+
+        [AbpAuthorize(PermissionNames.Admins,PermissionNames.Sellers)]
+        public async Task<string> UploadCK([FromForm] ImageUploadDto input)
+        {
+            var seller = await GetCurrentSeller();
+            var url = await ImageManager.UploadWithResult(seller?.Id, input.Files[0]);
+            return url;
         }
 
         [AbpAuthorize(nameof(PermissionNames.Admins))]

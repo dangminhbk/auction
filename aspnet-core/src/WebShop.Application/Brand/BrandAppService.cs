@@ -57,6 +57,21 @@ namespace WebShop.Brand
             return await GetPagedResult<BrandDto>(result, input);
         }
 
+        public async Task<List<BrandDto>> GetDropdown()
+        {
+            var raw = await BrandManager.GetAllBrand(null);
+            var result = raw.Select(s => new BrandDto
+            {
+                BrandImageId = s.BrandImage.Image.Id,
+                BrandImageUrl = s.BrandImage.Image.Url,
+                Description = s.Description,
+                Id = s.Id,
+                Name = s.Name
+            });
+
+            return result.ToList();
+        }
+
         public async Task<BrandDto> Get(long id)
         {
             var raw = await BrandManager.GetBrand(id);

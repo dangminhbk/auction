@@ -15,26 +15,86 @@ namespace WebShop.Product
         {
             ProductRepository = productRepository;
         }
-        public async Task CreateProduct(Product product)
+        public async Task CreateProduct(
+            string Name,
+            decimal Price,
+            string Description,
+            long? CoverImageId,
+            long[] ProductImages,
+            long SellerId,
+            long? BrandId,
+            long[] ProductCategories
+        )
         {
-            await ProductRepository.InsertAsync(product);
-            await Commit();
+            var product = new Product
+            {
+                Name = Name,
+                BrandId = BrandId,
+                SellerId = SellerId,
+                Description = Description,
+                Price = Price
+            };
+
+            if (CoverImageId.HasValue)
+            {
+                var cover = new ProductCoverImage
+                {
+                    ImageId = CoverImageId.Value
+                };
+
+                product.CoverImage = cover;
+            }
+
+            product.ProductImages = new List<ProductImage>();
+
+            foreach (var image in ProductImages)
+            {
+                var productImage = new ProductImage
+                {
+                    ImageId = image
+                };
+
+                product.ProductImages.Add(productImage);
+            }
+
+            await this.ProductRepository.InsertAsync(product);
         }
 
-        public async Task DeleteProduct(Product product)
+        public async Task DeleteProduct(long id, long sellerId)
         {
-            await ProductRepository.DeleteAsync(product);
-            await Commit();
+
         }
-        public async Task UpdateProduct(Product product)
+        public async Task UpdateProduct(
+            long Id,
+            string Name,
+            decimal Price,
+            string Description,
+            long? CoverImageId,
+            long[] ProductImages,
+            long SellerId,
+            long? BrandId,
+            long[] ProductCategories)
         {
-            await ProductRepository.UpdateAsync(product);
-            await Commit();
         }
 
-        public Task<IQueryable<Product>> GetAll()
+        public async Task<IQueryable<Product>> GetAll(
+            string keyword, 
+            decimal? minPrice, 
+            decimal? maxPrice,
+            DateTime? minCreateDate,
+            DateTime? maxCreateDate,
+            long? brandId,
+            long[] categories
+            )
         {
-            throw new NotImplementedException();
+            var result = this.ProductRepository
+                .GetAllIncluding(
+                s => s.ProductImages,
+                s => s.CoverImage,
+                s => s.Brand,
+                s => s.CoverImage.Image
+                );
+            return result;
         }
 
         public Task<IQueryable<Product>> GetAllByBrand(long brandId)
@@ -52,11 +112,6 @@ namespace WebShop.Product
             throw new NotImplementedException();
         }
 
-        public Task<IQueryable<Product>> GetAllForSeller(long sellerId)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<IQueryable<Product>> SearchForBuyer(string searchText)
         {
             throw new NotImplementedException();
@@ -70,6 +125,22 @@ namespace WebShop.Product
         private async Task Commit()
         {
             await CurrentUnitOfWork.SaveChangesAsync();
+        }
+
+        public Task<IQueryable<Product>> GetAll(string keyword, decimal minPrice, decimal maxPrice, DateTime minCreateDate, DateTime maxCreateDate, long brandId, long[] categories)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Product> Get(long id, long sellerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IQueryable<Product>> GetAllForSeller(long sellerId, string keyword)
+        {
+            return (await this.GetAll(keyword,null, null, null, null, null, null))
+                .Where(s=>s.SellerId == sellerId);
         }
     }
 }

@@ -15,19 +15,29 @@ export class ImageService extends BaseApiService<ImageDto> {
         super(http);
     }
     name = () => 'Image';
-    
+
     deleteSystem(id: any): Observable<any> {
         return this.http.delete<any>(this.url + 'DeleteSystem', {
           params: new HttpParams().set('Id', id)
         });
       }
 
-    uploadSystem(form: FormData) : Observable<any> {
+    deleteSeller(id: any): Observable<any> {
+        return this.http.delete<any>(this.url + 'DeleteSeller', {
+          params: new HttpParams().set('Id', id)
+        });
+      }
+
+    uploadSystem(form: FormData): Observable<any> {
         return this.http.post<any>(this.url + 'Upload', form);
     }
 
     uploadSeller(form: FormData) : Observable<any> {
         return this.http.post<any>(this.url + 'UploadSeller', form);
+    }
+
+    uploadCK(form: FormData): Promise<any> {
+        return this.http.post<any>(this.url + 'UploadCK', form ).toPromise();
     }
 
     getAllSeller(request: PagedRequestDto): Observable<ResultDto<ImageDto>> {

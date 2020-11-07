@@ -119,6 +119,13 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         'fas fa-file-invoice-dollar',
         PermissionNames.Seller
       ),
+
+      new MenuItem(
+        this.l('Sellers'),
+        '/app/sellers',
+        'fas fa-store',
+        PermissionNames.Admins
+      ),
     ];
   }
 

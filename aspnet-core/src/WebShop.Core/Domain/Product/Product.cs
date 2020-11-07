@@ -16,12 +16,11 @@ namespace WebShop.Product
     {
         public string Name { get; set; }
         public decimal Price { get; set; }
-        public long Quantity { get; set; }
         public string Description { get; set; }
         [ForeignKey(nameof(ProductCoverImage))]
         public long? CoverImageId { get; set; }
-        public virtual ProductCoverImage CoverImage { get; set; }
-        public virtual ICollection<ProductImage> ProductImages { get; set; }
+        public ProductCoverImage CoverImage { get; set; }
+        public ICollection<ProductImage> ProductImages { get; set; }
         [ForeignKey(nameof(Product.Seller))]
         public long SellerId { get; set; }
         public virtual Seller Seller {get; set;}
