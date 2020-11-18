@@ -2,11 +2,8 @@
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
 using System.Threading.Tasks;
 using WebShop.Authorization;
 using WebShop.Domain.Image.Dto;
@@ -34,15 +31,15 @@ namespace WebShop.Domain.Image
         [HttpPost]
         public async Task<long[]> UploadSeller([FromForm] ImageUploadDto input)
         {
-            var seller = await GetCurrentSeller();
+            Seller.Seller seller = await GetCurrentSeller();
             return await ImageManager.UploadImages(seller.Id, input.Files);
         }
 
-        [AbpAuthorize(PermissionNames.Admins,PermissionNames.Sellers)]
+        [AbpAuthorize(PermissionNames.Admins, PermissionNames.Sellers)]
         public async Task<string> UploadCK([FromForm] ImageUploadDto input)
         {
-            var seller = await GetCurrentSeller();
-            var url = await ImageManager.UploadWithResult(seller?.Id, input.Files[0]);
+            Seller.Seller seller = await GetCurrentSeller();
+            string url = await ImageManager.UploadWithResult(seller?.Id, input.Files[0]);
             return url;
         }
 
@@ -50,8 +47,9 @@ namespace WebShop.Domain.Image
         [HttpGet]
         public async Task<PagedResultDto<ImageListDto>> GetAll(PagedResultRequestDto input)
         {
-            var images = await ImageManager.GetSystemImages();
-            var imageResult = images.Select(s => new ImageListDto {
+            IQueryable<Image> images = await ImageManager.GetSystemImages();
+            IQueryable<ImageListDto> imageResult = images.Select(s => new ImageListDto
+            {
                 Id = s.Id,
                 CreationTime = s.CreationTime,
                 Identified = s.Identified,
@@ -64,9 +62,9 @@ namespace WebShop.Domain.Image
         [HttpGet]
         public async Task<PagedResultDto<ImageListDto>> GetAllSeller(PagedResultRequestDto input)
         {
-            var seller = await GetCurrentSeller();
-            var images = await ImageManager.GetImagesForSeller(seller.Id);
-            var imageResult = images.Select(s => new ImageListDto
+            Seller.Seller seller = await GetCurrentSeller();
+            IQueryable<Image> images = await ImageManager.GetImagesForSeller(seller.Id);
+            IQueryable<ImageListDto> imageResult = images.Select(s => new ImageListDto
             {
                 Id = s.Id,
                 CreationTime = s.CreationTime,

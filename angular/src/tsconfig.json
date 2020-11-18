@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    // "esModuleInterop": true,
+    // "allowSyntheticDefaultImports": true,
     "declaration": false,
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,

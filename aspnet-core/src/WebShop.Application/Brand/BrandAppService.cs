@@ -1,9 +1,7 @@
 ﻿using Abp.Application.Services.Dto;
-using System;
 using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
 using System.Linq;
-using System.Text;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using WebShop.Brand.Dto;
 using WebShop.Domain.Brand;
@@ -44,8 +42,8 @@ namespace WebShop.Brand
 
         public async Task<PagedResultDto<BrandDto>> GetAll(PagedBrandRequestDto input)
         {
-            var raw = await BrandManager.GetAllBrand(input.Keyword);
-            var result = raw.Select(s => new BrandDto
+            IQueryable<Domain.Brand.Brand> raw = await BrandManager.GetAllBrand(input.Keyword);
+            IQueryable<BrandDto> result = raw.Select(s => new BrandDto
             {
                 BrandImageId = s.BrandImage.Image.Id,
                 BrandImageUrl = s.BrandImage.Image.Url,
@@ -59,8 +57,8 @@ namespace WebShop.Brand
 
         public async Task<List<BrandDto>> GetDropdown()
         {
-            var raw = await BrandManager.GetAllBrand(null);
-            var result = raw.Select(s => new BrandDto
+            IQueryable<Domain.Brand.Brand> raw = await BrandManager.GetAllBrand(null);
+            IQueryable<BrandDto> result = raw.Select(s => new BrandDto
             {
                 BrandImageId = s.BrandImage.Image.Id,
                 BrandImageUrl = s.BrandImage.Image.Url,
@@ -74,7 +72,7 @@ namespace WebShop.Brand
 
         public async Task<BrandDto> Get(long id)
         {
-            var raw = await BrandManager.GetBrand(id);
+            Domain.Brand.Brand raw = await BrandManager.GetBrand(id);
             return new BrandDto
             {
                 Id = raw.Id,

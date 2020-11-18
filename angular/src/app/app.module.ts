@@ -56,6 +56,8 @@ import { SellerAdminPaymentDetailComponent } from './seller-admin/seller-admin-p
 import { CreateProductComponent } from './product/create-product/create-product.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NgxCurrencyModule } from "ngx-currency";
+import { CreateAuctionComponent } from './auction/create-auction/create-auction.component';
+import { AuctionDetailComponent } from './auction/auction-detail/auction-detail.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +105,8 @@ import { NgxCurrencyModule } from "ngx-currency";
     SellerAdminDetailComponent,
     SellerAdminPaymentDetailComponent,
     CreateProductComponent,
+    CreateAuctionComponent,
+    AuctionDetailComponent,
   ],
   imports: [
     CommonModule,

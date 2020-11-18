@@ -18,6 +18,7 @@ using Abp.Dependency;
 using Abp.Json;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using WebShop.Auction;
 
 namespace WebShop.Web.Host.Startup
 {
@@ -55,8 +56,6 @@ namespace WebShop.Web.Host.Startup
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
 
-            services.AddSignalR();
-
             // Configure CORS for angular2 UI
             services.AddCors(
                 options => options.AddPolicy(
@@ -69,12 +68,18 @@ namespace WebShop.Web.Host.Startup
                                 .Select(o => o.RemovePostFix("/"))
                                 .ToArray()
                         )
+                        //.AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod()
+                   
                         .AllowCredentials()
                 )
             );
 
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
+            });
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             services.AddSwaggerGen(options =>
             {
@@ -135,6 +140,7 @@ namespace WebShop.Web.Host.Startup
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<AbpCommonHub>("/signalr");
+                endpoints.MapHub<AuctionHub>("/signalr-auction");
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
             });

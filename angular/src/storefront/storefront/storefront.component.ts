@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SignalRAspNetCoreHelper } from '@shared/helpers/SignalRAspNetCoreHelper';
 
 @Component({
   selector: 'app-storefront',
@@ -10,6 +11,7 @@ export class StorefrontComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }

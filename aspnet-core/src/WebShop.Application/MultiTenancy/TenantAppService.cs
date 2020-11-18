@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Abp.Application.Services;
+﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
@@ -9,12 +7,14 @@ using Abp.IdentityFramework;
 using Abp.Linq.Extensions;
 using Abp.MultiTenancy;
 using Abp.Runtime.Security;
+using Microsoft.AspNetCore.Identity;
+using System.Linq;
+using System.Threading.Tasks;
 using WebShop.Authorization;
 using WebShop.Authorization.Roles;
 using WebShop.Authorization.Users;
 using WebShop.Editions;
 using WebShop.MultiTenancy.Dto;
-using Microsoft.AspNetCore.Identity;
 
 namespace WebShop.MultiTenancy
 {
@@ -48,12 +48,12 @@ namespace WebShop.MultiTenancy
             CheckCreatePermission();
 
             // Create tenant
-            var tenant = ObjectMapper.Map<Tenant>(input);
+            Tenant tenant = ObjectMapper.Map<Tenant>(input);
             tenant.ConnectionString = input.ConnectionString.IsNullOrEmpty()
                 ? null
                 : SimpleStringCipher.Instance.Encrypt(input.ConnectionString);
 
-            var defaultEdition = await _editionManager.FindByNameAsync(EditionManager.DefaultEditionName);
+            Abp.Application.Editions.Edition defaultEdition = await _editionManager.FindByNameAsync(EditionManager.DefaultEditionName);
             if (defaultEdition != null)
             {
                 tenant.EditionId = defaultEdition.Id;
@@ -74,11 +74,11 @@ namespace WebShop.MultiTenancy
                 await CurrentUnitOfWork.SaveChangesAsync(); // To get static role ids
 
                 // Grant all permissions to admin role
-                var adminRole = _roleManager.Roles.Single(r => r.Name == StaticRoleNames.Tenants.Admin);
+                Role adminRole = _roleManager.Roles.Single(r => r.Name == StaticRoleNames.Tenants.Admin);
                 await _roleManager.GrantAllPermissionsAsync(adminRole);
 
                 // Create admin user for the tenant
-                var adminUser = User.CreateTenantAdminUser(tenant.Id, input.AdminEmailAddress);
+                User adminUser = User.CreateTenantAdminUser(tenant.Id, input.AdminEmailAddress);
                 await _userManager.InitializeOptionsAsync(tenant.Id);
                 CheckErrors(await _userManager.CreateAsync(adminUser, User.DefaultPassword));
                 await CurrentUnitOfWork.SaveChangesAsync(); // To get admin user's id
@@ -110,7 +110,7 @@ namespace WebShop.MultiTenancy
         {
             CheckDeletePermission();
 
-            var tenant = await _tenantManager.GetByIdAsync(input.Id);
+            Tenant tenant = await _tenantManager.GetByIdAsync(input.Id);
             await _tenantManager.DeleteAsync(tenant);
         }
 

@@ -1,8 +1,6 @@
 ﻿using Abp.AutoMapper;
 using Abp.Domain.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WebShop.Domain.Image.Dto
 {

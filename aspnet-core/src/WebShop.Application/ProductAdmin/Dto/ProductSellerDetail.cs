@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WebShop.ProductAdmin.Dto
+﻿namespace WebShop.ProductAdmin.Dto
 {
     public class ProductSellerDetail
     {

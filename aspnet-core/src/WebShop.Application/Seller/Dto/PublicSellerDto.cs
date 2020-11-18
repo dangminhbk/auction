@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WebShop.Seller.Dto
+﻿namespace WebShop.Seller.Dto
 {
     public class PublicSellerDto
     {

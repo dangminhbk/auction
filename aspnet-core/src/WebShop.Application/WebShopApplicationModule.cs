@@ -6,7 +6,7 @@ using WebShop.Authorization;
 namespace WebShop
 {
     [DependsOn(
-        typeof(WebShopCoreModule), 
+        typeof(WebShopCoreModule),
         typeof(AbpAutoMapperModule))]
     public class WebShopApplicationModule : AbpModule
     {
@@ -17,7 +17,7 @@ namespace WebShop
 
         public override void Initialize()
         {
-            var thisAssembly = typeof(WebShopApplicationModule).GetAssembly();
+            System.Reflection.Assembly thisAssembly = typeof(WebShopApplicationModule).GetAssembly();
 
             IocManager.RegisterAssemblyByConvention(thisAssembly);
 

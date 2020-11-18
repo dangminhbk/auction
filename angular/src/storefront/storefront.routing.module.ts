@@ -1,9 +1,10 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuctionComponent } from "./auction/auction.component";
-import { HomeComponent } from "./home/home.component";
-import { ShopDetailComponent } from "./shop-detail/shop-detail.component";
-import { ShopComponent } from "./shop/shop.component";
+import { AuctionDetailComponent } from './auction-detail/auction-detail.component';
+import { AuctionComponent } from './auction/auction.component';
+import { HomeComponent } from './home/home.component';
+import { ShopDetailComponent } from './shop-detail/shop-detail.component';
+import { ShopComponent } from './shop/shop.component';
 import {StorefrontComponent} from './storefront/storefront.component';
 
 @NgModule({
@@ -26,20 +27,26 @@ import {StorefrontComponent} from './storefront/storefront.component';
                         ]
                     },
                     {
+                        path: 'auction/:id',
+                        component: AuctionDetailComponent,
+                        children: [
+                        ]
+                    },
+                    {
                         path: 'shop',
                         component: ShopComponent,
                         children: [
                         ]
                     },
                     {
-                        path: 'shop-detail',
+                        path: 'shop/:id',
                         component: ShopDetailComponent,
                         children: [
                         ]
                     }
                 ]
             }
-            
+
         ])
     ],
     exports: [RouterModule]

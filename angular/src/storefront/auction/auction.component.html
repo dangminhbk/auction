@@ -1,20 +1,64 @@
-<div class="card">
-    <div class="card-header">
-      <h3 class="card-title">Default Card Example</h3>
-      <div class="card-tools">
-        <!-- Buttons, labels, and many other things can be placed here! -->
-        <!-- Here is a label for example -->
-        <span class="badge badge-primary">Label</span>
+<div class="conatiner card" style="margin: 10px; min-height: 100vh;">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 col-sm-12">
+      <div class="card" style="margin: 10px;">
+        <div class="card-header text-uppercase text-lg">Các phiên đấu giá hiện tại</div>
       </div>
-      <!-- /.card-tools -->
     </div>
-    <!-- /.card-header -->
-    <div class="card-body">
-      The body of the card
+    <div class="col-md-8 offset-md-2 col-sm-12" style="min-height: 80vh;">
+      <div class="container">
+        <div class="row">
+           <div *ngFor="let item of items" #auctioncard class="col-md-4 col-sm-6">
+              <div class="card">
+                <div class="card-header">
+                  <!-- <a class="text-uppercase" routerLink="auction/{{item.id}}">{{item.productName}}</a> -->
+                  <a class="text-uppercase" routerLink="{{item.id}}">{{item.productName}}</a>
+                </div>
+                <div class="card-body">
+                  <img class="img-fluid" src="{{getImagePath(item.productImage)}}" alt="">
+                  <!-- <img class="img-fluid" src="{{getImagePath(item.productImage)}}" alt=""> -->
+                  <div class="bid-info">
+                    <countdown class="text-orange text-lg" [config]="{ stopTime: calculateEndTime(item.endTime), format: 'hh:mm:ss'  }">
+                    </countdown>
+                    <div style="display: flex; flex-direction: row; width: 100%;">
+                      <div>{{item.currentPrice | currency}}</div>
+                      <div style="margin-left: auto;">{{item.numberOfBid}} Bids</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+        </div>
+      </div>
     </div>
-    <!-- /.card-body -->
-    <div class="card-footer">
-      The footer of the card
+    <div class="col-md-8 offset-md-2 col-sm-12">
+      <div class="card-footer bg-light border-top">
+        <div class="row">
+          <div class="col-sm-4 col-12 text-sm-left text-center">
+            <button class="btn btn-secondary" (click)="refresh()">
+              <i class="fas fa-redo-alt"></i>
+            </button>
+          </div>
+          <div class="col-sm-4 col-12 text-center">
+            <p class="mb-0 my-2">
+              {{ "TotalRecordsCount" | localize: totalItems }}
+            </p>
+          </div>
+          <div class="col-sm-4 col-12">
+            <div class="float-sm-right m-auto">
+              <abp-pagination-controls
+                [maxSize] = "maxSize" 
+                id="server"
+                (pageChange)="getDataPage($event)"
+              >
+              </abp-pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- /.card-footer -->
   </div>
+
+</div>
+

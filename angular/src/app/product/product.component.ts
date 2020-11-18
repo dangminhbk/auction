@@ -6,11 +6,14 @@ import { ProductService} from 'services/product/product.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { ResultDto } from 'services/base-api.service';
+import { CreateAuctionComponent } from '@app/auction/create-auction/create-auction.component';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.css'],
+  animations: [appModuleAnimation()]
 })
 export class ProductComponent extends PagedListingComponentBase<ProductListDto> {
 
@@ -23,6 +26,16 @@ export class ProductComponent extends PagedListingComponentBase<ProductListDto> 
     private _modalService: BsModalService
   ) {
     super(injector);
+  }
+
+  createAuction(product: ProductListDto) {
+    const createDialog = this._modalService.show(CreateAuctionComponent, {initialState: {
+      product: product
+    }});
+
+    createDialog.content.onSave.subscribe(() => {
+      this.refresh();
+    });
   }
 
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {

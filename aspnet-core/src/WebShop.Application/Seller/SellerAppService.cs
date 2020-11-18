@@ -1,18 +1,12 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Authorization;
-using Abp.Domain.Entities;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
 using System.Threading.Tasks;
 using WebShop.Authorization;
-using WebShop.Domain.Seller;
 using WebShop.Extension;
 using WebShop.Seller.Dto;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 
 namespace WebShop.Seller
 {
@@ -26,7 +20,7 @@ namespace WebShop.Seller
         [AbpAuthorize(PermissionNames.Sellers)]
         public async Task UpdateSellerInfo(UpdateSellerDto input)
         {
-            var sellerId = (await GetCurrentSeller()).Id;
+            long sellerId = (await GetCurrentSeller()).Id;
             await SellerManager.UpdateSellerInfo(
                 sellerId,
                 input.SellerName,
@@ -42,7 +36,7 @@ namespace WebShop.Seller
         [AbpAuthorize(PermissionNames.Sellers)]
         public async Task UpdatePayment(UpdatePaymentDto input)
         {
-            var sellerId = (await GetCurrentSeller()).Id;
+            long sellerId = (await GetCurrentSeller()).Id;
             await SellerManager.UpdatePayment(
                 sellerId,
                 input.Payload,
@@ -53,7 +47,7 @@ namespace WebShop.Seller
         [AbpAuthorize(PermissionNames.Sellers)]
         public async Task<SellerDetailDto> GetYourSellerInfo()
         {
-            var seller = await GetCurrentSeller();
+            Domain.Seller.Seller seller = await GetCurrentSeller();
             return new SellerDetailDto
             {
                 Id = seller.Id,
@@ -74,7 +68,7 @@ namespace WebShop.Seller
 
         public async Task<PublicDetailSellerDto> GetPublicSellerInfo(long SellerId)
         {
-            var seller = await SellerManager.GetSellerById(SellerId);
+            Domain.Seller.Seller seller = await SellerManager.GetSellerById(SellerId);
             return new PublicDetailSellerDto
             {
                 Id = seller.Id,
@@ -88,7 +82,7 @@ namespace WebShop.Seller
         [AbpAuthorize(PermissionNames.Admins)]
         public async Task<SellerDetailDto> GetSellerInfo(long SellerId)
         {
-            var seller = await SellerManager.GetSellerById(SellerId);
+            Domain.Seller.Seller seller = await SellerManager.GetSellerById(SellerId);
             return new SellerDetailDto
             {
                 Id = seller.Id,
@@ -110,7 +104,7 @@ namespace WebShop.Seller
         [AbpAuthorize(PermissionNames.Admins)]
         public async Task<SellerPaymentDto> GetPaymenSellerInfo(long SellerId)
         {
-            var payment = await SellerManager.GetSellerPaymentOption(SellerId);
+            Domain.Seller.SellerPaymentOption payment = await SellerManager.GetSellerPaymentOption(SellerId);
             return new SellerPaymentDto
             {
                 Payload = payment.GetKeyValuePairData(),
@@ -121,8 +115,8 @@ namespace WebShop.Seller
         [AbpAuthorize(PermissionNames.Sellers)]
         public async Task<SellerPaymentDto> GetYourPaymenSellerInfo()
         {
-            var seller = await GetCurrentSeller();
-            var payment = await SellerManager.GetSellerPaymentOption(seller.Id);
+            Domain.Seller.Seller seller = await GetCurrentSeller();
+            Domain.Seller.SellerPaymentOption payment = await SellerManager.GetSellerPaymentOption(seller.Id);
             return new SellerPaymentDto
             {
                 Payload = payment.GetKeyValuePairData(),
@@ -134,7 +128,7 @@ namespace WebShop.Seller
         [AbpAuthorize(PermissionNames.Admins)]
         public async Task<PagedResultDto<SellerDto>> GetAllSellers(PagedSellerRequestDto input)
         {
-            var sellers = (await SellerManager
+            IQueryable<SellerDto> sellers = (await SellerManager
                 .SearchSeller(input.Keyword))
                 .Select(s =>
                 new SellerDto
@@ -152,14 +146,14 @@ namespace WebShop.Seller
 
         public async Task<PagedResultDto<PublicSellerDto>> GetAllPublicSellers(PagedSellerRequestDto input)
         {
-            var sellers = (await SellerManager
+            IQueryable<PublicSellerDto> sellers = (await SellerManager
                 .SearchSeller(input.Keyword))
                 .Select(s =>
                 new PublicSellerDto
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    LogoUrl = s.SellerLogo.Image.Url              
+                    LogoUrl = s.SellerLogo.Image.Url
                 });
 
             return await GetPagedResult(sellers, input);

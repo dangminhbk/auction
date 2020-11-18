@@ -29,25 +29,25 @@ export class CreateBrandComponent extends AppComponentBase implements OnInit {
     private activatedRouter: ActivatedRoute
   ) {
     super(injecto);
-    if(router.url.includes('edit-brand')) {
+    if (router.url.includes('edit-brand')) {
       this.isUpdate = true;
       this.title = 'Edit brand';
     }
    }
 
   ngOnInit(): void {
-    if(this.isUpdate) {
+    if (this.isUpdate) {
       const id = this.activatedRouter.snapshot.paramMap.get('id');
       this.brandService
-      .get(id).subscribe(s=>{
+      .get(id).subscribe(s => {
         this.brand = s.result as BrandDto;
-      })
+      });
     }
   }
 
   openImagePicker(): void {
     const createDialog = this._modalService.show(ImagePickerComponent,
-      { 
+      {
         initialState: {
           pickMany: false
         }
@@ -55,7 +55,7 @@ export class CreateBrandComponent extends AppComponentBase implements OnInit {
     );
 
     createDialog.content.onSavePickedImage.subscribe((s: ImageDto[]) => {
-      if (s.length == 0) {
+      if (s.length === 0) {
         this.brand.brandImageId = undefined;
       } else {
         this.brand.brandImageId = s[0].id;
@@ -67,21 +67,20 @@ export class CreateBrandComponent extends AppComponentBase implements OnInit {
 
   save() {
     abp.ui.setBusy();
-    var observerble = new Observable<any>();
+    let observerble = new Observable<any>();
     if (this.isUpdate) {
       observerble = this.brandService.edit(this.brand);
-    }
-    else {
+    } else {
       observerble = this.brandService.create(this.brand);
     }
     observerble.
-    subscribe(s=>{
+    subscribe(s => {
       this.notify.info(this.l('SavedSuccessfully'));
-      setTimeout(()=>{
+      setTimeout(() => {
         abp.ui.unblock();
         this.router.navigate(['/app/brands']);
-      },1000);
-    }, err =>{
+      }, 1000);
+    }, err => {
       console.log(err);
       this.notify.error(err.error.error.message, 'Update failed!');
     });

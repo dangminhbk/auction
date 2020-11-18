@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Abp.Auditing;
+﻿using Abp.Auditing;
 using Abp.Authorization.Users;
 using Abp.Extensions;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using WebShop.Validation;
 
 namespace WebShop.Authorization.Accounts.Dto

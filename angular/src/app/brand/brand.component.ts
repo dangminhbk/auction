@@ -1,8 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { BrandDto} from './dto/brand-dto';
-import {BrandService} from 'services/brand/brand.service';
+import { BrandDto } from './dto/brand-dto';
+import { BrandService } from 'services/brand/brand.service';
 import { finalize } from 'rxjs/operators';
 import { ResultDto } from 'services/base-api.service';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 export class BrandComponent extends PagedListingComponentBase<BrandDto> {
 
   brands: BrandDto[] = [];
-  keyword = "";
+  keyword = '';
 
   constructor(
     private _brandService: BrandService,
@@ -26,20 +26,24 @@ export class BrandComponent extends PagedListingComponentBase<BrandDto> {
     super(injector);
   }
 
+  createItem() {
+  }
+
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this._brandService.search(request, this.keyword)
-    .pipe(
-      finalize(() => {
-        finishedCallback();
-      })
-    )
-    .subscribe((result: ResultDto<BrandDto>) => {
-      this.brands = result.result.items;
-      this.showPaging(result.result, pageNumber);
-    });  }
+      .pipe(
+        finalize(() => {
+          finishedCallback();
+        })
+      )
+      .subscribe((result: ResultDto<BrandDto>) => {
+        this.brands = result.result.items;
+        this.showPaging(result.result, pageNumber);
+      });
+  }
   protected delete(entity: BrandDto): void {
     this._brandService.delete(entity.id)
-    .subscribe()
+      .subscribe();
 
     abp.message.confirm(
       'Do you want to delete?',
@@ -53,9 +57,6 @@ export class BrandComponent extends PagedListingComponentBase<BrandDto> {
         }
       }
     );
-  }
-
-  createItem() {
   }
 
 }

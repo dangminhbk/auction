@@ -1,5 +1,6 @@
 ﻿using Abp.Domain.Repositories;
 using Abp.Domain.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,12 +89,13 @@ namespace WebShop.Product
             )
         {
             var result = this.ProductRepository
-                .GetAllIncluding(
-                s => s.ProductImages,
-                s => s.CoverImage,
-                s => s.Brand,
-                s => s.CoverImage.Image
-                );
+                .GetAll()
+                .Include(s => s.ProductImages)
+                .ThenInclude(s => s.Image)
+                .Include(s => s.CoverImage)
+                .ThenInclude(s => s.Image)
+                .Include(s => s.Brand);
+
             return result;
         }
 
@@ -132,9 +134,17 @@ namespace WebShop.Product
             throw new NotImplementedException();
         }
 
-        public Task<Product> Get(long id, long sellerId)
+        public async Task<Product> Get(long id, long sellerId)
         {
-            throw new NotImplementedException();
+            var product = this.ProductRepository
+                .GetAll()
+                .Include(s => s.ProductImages)
+                .ThenInclude(s => s.Image)
+                .Include(s => s.CoverImage)
+                .ThenInclude(s => s.Image)
+                .Include(s => s.Brand)
+                .FirstOrDefault(s=>s.Id == id);
+            return product;
         }
 
         public async Task<IQueryable<Product>> GetAllForSeller(long sellerId, string keyword)

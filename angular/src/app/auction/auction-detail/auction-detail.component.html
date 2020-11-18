@@ -1,0 +1,112 @@
+<div class="card card-primary" style="margin: 20px;">
+    <h3 class="card-header bg-dark">Auction Detail</h3>
+    <div class="card-body">
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="name">
+                Product name
+            </label>
+            <div class="col-md-9">
+                <p>{{product.name}}</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="description">
+                Product image
+            </label>
+            <div class="col-md-9">
+                <img width="200" height="200" src="{{getImagePath(product.coverImageUrl)}}" alt="">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+                Initial price
+            </label>
+            <div class="col-md-3">
+                <p> {{auction.initPrice | currency}}
+                    <span>VND</span>
+                </p>
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+                Acceptable price
+            </label>
+            <div class="col-md-3">
+                <p> {{auction.minAcceptPrice | currency}}
+                    <span>VND</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+                Start time
+            </label>
+            <div class="col-md-3">
+                <p> {{auction.startDate | date}}
+                </p>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+                End time
+            </label>
+            <div class="col-md-3">
+                <p> {{auction.endDate | date}}
+                </p>
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+                Last price
+            </label>
+            <div class="col-md-3">
+                <p> {{auction.currentPrice | currency}}
+                    <span>VND</span>
+                </p>
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+                Last bidder
+            </label>
+            <div class="col-md-3">
+            </div>
+
+            <div class="col-md-12">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+                Last time bid
+            </label>
+            <div class="col-md-3">
+            </div>
+
+            <div class="col-md-12">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+                All bids
+            </label>
+            <div class="col-md-12">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-12">
+                <button class="btn btn-primary">Make Invoice</button>
+            </div>
+        </div>
+
+
+    </div>
+</div>

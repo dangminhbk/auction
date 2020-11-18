@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using Abp.Authorization;
+﻿using Abp.Authorization;
 using Abp.Runtime.Session;
+using System.Threading.Tasks;
 using WebShop.Configuration.Dto;
 
 namespace WebShop.Configuration

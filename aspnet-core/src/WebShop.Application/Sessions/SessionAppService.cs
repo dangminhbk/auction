@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Abp.Auditing;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Auditing;
 using WebShop.Sessions.Dto;
 
 namespace WebShop.Sessions
@@ -10,7 +10,7 @@ namespace WebShop.Sessions
         [DisableAuditing]
         public async Task<GetCurrentLoginInformationsOutput> GetCurrentLoginInformations()
         {
-            var output = new GetCurrentLoginInformationsOutput
+            GetCurrentLoginInformationsOutput output = new GetCurrentLoginInformationsOutput
             {
                 Application = new ApplicationInfoDto
                 {

@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Abp.Application.Services;
+﻿using Abp.Application.Services;
+using System.Threading.Tasks;
 using WebShop.Authorization.Accounts.Dto;
 
 namespace WebShop.Authorization.Accounts

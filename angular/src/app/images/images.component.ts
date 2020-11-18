@@ -28,18 +28,26 @@ export class ImagesComponent extends PagedListingComponentBase<ImageDto> {
   ) {
     super(injector);
   }
-    
+
+  createImage() {
+    const createDialog = this._modalService.show(CreateImageComponent);
+
+    createDialog.content.onSave.subscribe(() => {
+      this.refresh();
+    });
+  }
+
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.imageService.getAll(request)
-    .pipe(
-      finalize(() => {
-        finishedCallback();
-      })
-    )
-    .subscribe((result: ResultDto<ImageDto>) => {
-      this.images = result.result.items;
-      this.showPaging(result.result, pageNumber);
-    });
+      .pipe(
+        finalize(() => {
+          finishedCallback();
+        })
+      )
+      .subscribe((result: ResultDto<ImageDto>) => {
+        this.images = result.result.items;
+        this.showPaging(result.result, pageNumber);
+      });
   }
   protected delete(entity: any): void {
     abp.message.confirm(
@@ -57,11 +65,4 @@ export class ImagesComponent extends PagedListingComponentBase<ImageDto> {
 
   }
 
-  createImage()  {
-    const createDialog = this._modalService.show(CreateImageComponent);
-
-    createDialog.content.onSave.subscribe(() => {
-      this.refresh();
-    });
-  }
 }

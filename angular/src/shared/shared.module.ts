@@ -18,6 +18,7 @@ import { LayoutStoreService } from './layout/layout-store.service';
 import { BusyDirective } from './directives/busy.directive';
 import { EqualValidator } from './directives/equal-validator.directive';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular/ckeditor.module';
+import { TimeBasedActivePipe } from './pipes/time-based-active.pipe';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular/ckeditor.module';
         AbpModalFooterComponent,
         LocalizePipe,
         BusyDirective,
-        EqualValidator
+        EqualValidator,
+        TimeBasedActivePipe
     ],
     exports: [
         AbpPaginationControlsComponent,
@@ -40,6 +42,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular/ckeditor.module';
         AbpModalHeaderComponent,
         AbpModalFooterComponent,
         LocalizePipe,
+        TimeBasedActivePipe,
         BusyDirective,
         EqualValidator
     ]

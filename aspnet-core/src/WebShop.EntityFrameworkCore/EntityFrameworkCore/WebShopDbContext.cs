@@ -7,6 +7,8 @@ using WebShop.Product;
 using WebShop.Domain.Brand;
 using WebShop.Domain.Image;
 using WebShop.Domain.Seller;
+using WebShop.Domain.Auction;
+using WebShop.Domain.Bid;
 
 namespace WebShop.EntityFrameworkCore
 {
@@ -30,6 +32,14 @@ namespace WebShop.EntityFrameworkCore
         public DbSet<Category.Category> Categories { get; set; }
         // Image
         public DbSet<Image> Images { get; set; }
+
+        // Auction
+        public DbSet<Auction> Auctions { get; set; }
+
+        // Bid
+        public DbSet<Bid> Bids { get; set; }
+
+        //
 
         public WebShopDbContext(DbContextOptions<WebShopDbContext> options)
             : base(options)

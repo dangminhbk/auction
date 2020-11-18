@@ -76,12 +76,12 @@
     </div>
   </form>
   <p *ngIf="isSelfRegistrationAllowed" style="display: flex;" class="mb-1">
-    <a [routerLink]="['../buyer-register']">
-      <i class="fa fa-plus-circle"></i> {{ "Register" | localize }}
+    <a [routerLink]="['../register']">
+      <i class="fa fa-plus-circle"></i> {{ "Đăng ký" | localize }}
     </a>
 
     <a style="margin-left: auto;" [routerLink]="['../seller-register']">
-      <i class="fa fa-plus-circle"></i> {{ "Became a Seller?" | localize }}
+      <i class="fa fa-plus-circle"></i> {{ "Trở thành người bán" | localize }}
     </a>
   </p>
 </div>

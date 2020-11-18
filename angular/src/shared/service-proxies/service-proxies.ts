@@ -88,7 +88,7 @@ export class AccountServiceProxy {
      * @return Success
      */
     register(body: RegisterInput | undefined): Observable<RegisterOutput> {
-        let url_ = this.baseUrl + "/api/services/app/Account/Register";
+        let url_ = this.baseUrl + "/api/services/app/Account/RegisterBuyer";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);

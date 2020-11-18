@@ -1,18 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Abp.Application.Services;
-using Abp.IdentityFramework;
-using Abp.Runtime.Session;
-using WebShop.Authorization.Users;
-using WebShop.MultiTenancy;
-using Abp.Domain.Repositories;
+﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
-using System.Linq;
-using Abp.Linq.Extensions;
-using Microsoft.EntityFrameworkCore;
-using WebShop.Domain.Seller;
 using Abp.Dependency;
+using Abp.IdentityFramework;
+using Abp.Linq.Extensions;
+using Abp.Runtime.Session;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using WebShop.Authorization.Users;
+using WebShop.Domain.Seller;
+using WebShop.MultiTenancy;
 
 namespace WebShop
 {
@@ -35,7 +34,7 @@ namespace WebShop
 
         protected virtual async Task<User> GetCurrentUserAsync()
         {
-            var user = await UserManager.FindByIdAsync(AbpSession.GetUserId().ToString());
+            User user = await UserManager.FindByIdAsync(AbpSession.GetUserId().ToString());
             if (user == null)
             {
                 throw new Exception("There is no current user!");
@@ -46,8 +45,8 @@ namespace WebShop
 
         protected virtual async Task<Domain.Seller.Seller> GetCurrentSeller()
         {
-            var userId = (await GetCurrentUserAsync()).Id;
-            var seller = await SellerManager.
+            long userId = (await GetCurrentUserAsync()).Id;
+            Domain.Seller.Seller seller = await SellerManager.
                                 GetSellerByUserId(userId);
             if (seller == null)
             {
@@ -58,8 +57,8 @@ namespace WebShop
 
         protected virtual async Task<PagedResultDto<T>> GetPagedResult<T>(IQueryable<T> query, IPagedResultRequest input) where T : class
         {
-            var items = ApplyPaging<T>(query, input);
-            var count = await query.CountAsync();
+            IQueryable<T> items = ApplyPaging<T>(query, input);
+            int count = await query.CountAsync();
             return new PagedResultDto<T>(count, await items.ToListAsync());
         }
 
@@ -71,14 +70,14 @@ namespace WebShop
         protected virtual IQueryable<TEntity> ApplyPaging<TEntity>(IQueryable<TEntity> query, IPagedResultRequest input)
         {
             //Try to use paging if available
-            var pagedInput = input as IPagedResultRequest;
+            IPagedResultRequest pagedInput = input as IPagedResultRequest;
             if (pagedInput != null)
             {
                 return query.PageBy(pagedInput);
             }
 
             //Try to limit query result if available
-            var limitedInput = input as ILimitedResultRequest;
+            ILimitedResultRequest limitedInput = input as ILimitedResultRequest;
             if (limitedInput != null)
             {
                 return query.Take(limitedInput.MaxResultCount);

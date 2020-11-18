@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using WebShop.Domain.Seller;
 
 namespace WebShop.Seller.Dto
@@ -8,6 +6,6 @@ namespace WebShop.Seller.Dto
     public class UpdatePaymentDto
     {
         public PaymentOption SellerPaymentOption { get; set; }
-        public List<KeyValuePair<string, string>> Payload {get; set;}
+        public List<KeyValuePair<string, string>> Payload { get; set; }
     }
 }

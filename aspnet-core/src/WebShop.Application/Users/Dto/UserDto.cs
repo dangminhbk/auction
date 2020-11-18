@@ -1,8 +1,8 @@
-using System;
-using System.ComponentModel.DataAnnotations;
 using Abp.Application.Services.Dto;
 using Abp.Authorization.Users;
 using Abp.AutoMapper;
+using System;
+using System.ComponentModel.DataAnnotations;
 using WebShop.Authorization.Users;
 
 namespace WebShop.Users.Dto
