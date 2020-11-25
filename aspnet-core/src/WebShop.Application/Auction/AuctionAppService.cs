@@ -1,4 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Extensions;
+using Abp.Linq.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -6,6 +8,7 @@ using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using WebShop.Auction.Dto;
 using WebShop.Domain.Auction;
+using WebShop.DtoBase;
 
 namespace WebShop.Auction
 {
@@ -35,17 +38,25 @@ namespace WebShop.Auction
         }
 
         [HttpGet]
-        public async Task<PagedResultDto<AuctionListDto>> ListActiveAuction(PagedResultRequestDto input)
+        public async Task<PagedResultDto<AuctionListDto>> ListActiveAuction(PagedSearchDto input)
         {
             DateTime now = DateTime.UtcNow;
             IQueryable<Domain.Auction.Auction> auctions = (await _auctionManager
-                .GetAll()).Where(s => s.EndDate > now);
+                .GetAll())
+                .Where(s => s.EndDate > now)
+                .Where(s => s.StartDate < now)
+                .WhereIf(!input.Keyword.IsNullOrEmpty(),s=>s.Product.Name.Contains(input.Keyword))
+                .OrderByDescending(s => s.EndDate);
+
             IQueryable<AuctionListDto> results = auctions.Select(s => new AuctionListDto
             {
+                StartTime = s.StartDate,
                 Id = s.Id,
                 ProductName = s.Product.Name,
                 EndTime = s.EndDate,
-                ProductImage = s.Product.CoverImage.Image.Url
+                ProductImage = s.Product.CoverImage.Image.Url,
+                CurrentPrice = s.CurrentPrice,
+                NumberOfBid = s.NumberOfBid
             });
 
             return await GetPagedResult<AuctionListDto>(results, input);
@@ -73,7 +84,8 @@ namespace WebShop.Auction
             Domain.Seller.Seller seller = await GetCurrentSeller();
             IQueryable<Domain.Auction.Auction> auctions = (await _auctionManager
                 .GetAll()
-                ).Where(s => s.SellerId == seller.Id);
+                ).Where(s => s.SellerId == seller.Id)
+                .OrderByDescending(s=>s.EndDate);
             IQueryable<AuctionListDto> results = auctions.Select(s => new AuctionListDto
             {
                 Id = s.Id,
@@ -99,7 +111,10 @@ namespace WebShop.Auction
                 ProductId = item.ProductId,
                 StartDate = item.StartDate,
                 CurrentPrice = item.CurrentPrice,
-                NumberOfBids = item.NumberOfBid
+                NumberOfBids = item.NumberOfBid,
+                LastBidTime = item.LastBidTime,
+                UserName = item.Winner?.UserName
+           
             };
         }
 

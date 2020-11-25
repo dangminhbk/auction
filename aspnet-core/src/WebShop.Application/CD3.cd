@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="WebShop.Auction.AuctionAppService">
+    <Position X="2.75" Y="4.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAABAAAAAAAAAAAEAAEAAIgAAABACAAA=</HashCode>
+      <FileName>Auction\AuctionAppService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebShop.Auction.AuctionHub">
+    <Position X="1.75" Y="12.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>EAAABAAEAAIAAAAAAAAAABAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Auction\AuctionHub.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Abp.AspNetCore.SignalR.Hubs.AbpHubBase">
+    <Position X="1.25" Y="8.5" Width="4" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="WebShop.WebShopAppServiceBase">
+    <Position X="16.75" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAEAAAAAAAAABAAAAIAAhEAEAAAAAQAA=</HashCode>
+      <FileName>WebShopAppServiceBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebShop.Authorization.Accounts.AccountAppService">
+    <Position X="12.5" Y="4.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAEAAABAAAAAAAAIDAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Authorization\Accounts\AccountAppService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WebShop.Brand.BrandAppService">
+    <Position X="21.5" Y="4.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAIAAAAEAAEACggAAAAAAAAA=</HashCode>
+      <FileName>Brand\BrandAppService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebShop.Domain.Image.ImageAppService">
+    <Position X="30.5" Y="4.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAEAgMAAAAAAABAgIAgAAAAAA=</HashCode>
+      <FileName>Image\ImageAppService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebShop.Invoice.InvoiceAppService">
+    <Position X="7.75" Y="4.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAACAAAAIEAAAoAAAAAAQAA=</HashCode>
+      <FileName>Invoice\InvoiceAppService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebShop.ProductAdmin.ProductAdminAppService">
+    <Position X="17" Y="4.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAABAQAAAAAAAAAEAAEABAAAAAAAAAAA=</HashCode>
+      <FileName>ProductAdmin\ProductAdminAppService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebShop.Seller.SellerAppService">
+    <Position X="25.5" Y="4.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAABAAAAIAIAAAAAIAAAAIgAAAgAAIA=</HashCode>
+      <FileName>Seller\SellerAppService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

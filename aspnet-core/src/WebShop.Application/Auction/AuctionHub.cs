@@ -33,7 +33,7 @@ namespace WebShop.Auction
         {
             long UserId = AbpSession.UserId.Value;
             User User = await _userManager.FindByIdAsync(UserId.ToString());
-            DateTime timeStamp = DateTime.Now;
+            DateTime timeStamp = DateTime.UtcNow;
             string auctionName = $"auction-{input.AuctionId}";
             try
             {

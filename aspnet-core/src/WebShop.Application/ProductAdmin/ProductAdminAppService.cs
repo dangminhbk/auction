@@ -41,6 +41,26 @@ namespace WebShop.ProductAdmin
 
             await CurrentUnitOfWork.SaveChangesAsync();
         }
+        [HttpPost]
+        public async Task Edit(ProductEditDto input)
+        {
+            Domain.Seller.Seller seller = await GetCurrentSeller();
+            // Check images asset
+
+            //
+            await ProductManager.UpdateProduct(
+                input.Id,
+                input.Name,
+                input.Price,
+                input.Description,
+                input.CoverImageId,
+                input.ImageIds,
+                input.BrandId,
+                input.CategoryIds
+                );
+
+            await CurrentUnitOfWork.SaveChangesAsync();
+        }
 
         public async Task<PagedResultDto<ProductListDto>> GetAllSeller(PagedProductRequestDto input)
         {
@@ -63,6 +83,11 @@ namespace WebShop.ProductAdmin
         {
             //var seller = await GetCurrentSeller();
             Product.Product product = await ProductManager.Get(input.Id, 0);
+            var images = product.ProductImages.Select(s => new ImageDto
+            {
+                Id = s.Image.Id,
+                Url = s.Image.Url
+            });
 
             return new ProductSellerDetail
             {
@@ -75,7 +100,9 @@ namespace WebShop.ProductAdmin
                 ImageUrls = product.ProductImages?.Where(s => s.Image != null).Select(s => s.Image.Url).ToArray(),
                 Name = product.Name,
                 Price = product.Price,
-                SellerId = product.SellerId
+                SellerId = product.SellerId,
+                Images = images.ToList(),
+                CategoryIds = product.ProductCategories?.Select(s=>s.CategoryId).ToArray()
             };
         }
 

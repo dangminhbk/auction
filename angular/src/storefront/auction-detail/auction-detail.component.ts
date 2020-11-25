@@ -4,9 +4,10 @@ import { AuctionService } from 'services/auction/auction.service';
 import { ProductService } from 'services/product/product.service';
 import { ProductDetailDto } from './dto/product-detail-dto';
 import { AuctionDetailDto } from './dto/auction-detail-dto';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { mergeMap } from 'rxjs/operators';
 import { SignalRAspNetCoreHelper } from '@shared/helpers/SignalRAspNetCoreHelper';
+import * as dayjs from 'dayjs';
 @Component({
   selector: 'app-auction-detail',
   templateUrl: './auction-detail.component.html',
@@ -21,7 +22,8 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
     injector: Injector,
     protected _productService: ProductService,
     protected _auctionService: AuctionService,
-    protected _router: ActivatedRoute
+    protected _router: ActivatedRoute,
+    protected router: Router
   ) {
     super(injector);
   }
@@ -37,35 +39,37 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
     SignalRAspNetCoreHelper.initSignalR(() => {
 
       abp.signalr.startConnection('/signalr-auction', (connection) => {
-          chatHub = connection; // Save a reference to the hub
+        chatHub = connection; // Save a reference to the hub
 
-          chatHub.on('getMessage', (message) => {
-              console.log('received message: ' + message);
-              abp.notify.info('received message: ' + message);
-            });
+        chatHub.on('getMessage', (message) => {
+          console.log('received message: ' + message);
+          abp.notify.info('received message: ' + message);
+        });
 
-          chatHub.on('NewBidIsValid', (message) => {
-              console.log(message);
-              abp.notify.info(`Người dùng ${message.username} vừa đặt giá mới`);
-              abp.event.trigger('auction.newPrice', {
-                price: message.price,
-                auctionId: message.auctionId
-              });
-            });
-
-          chatHub.on('BidSuccess', (message) => {
-              abp.notify.success('Đặt giá thành công');
-            });
-
-          chatHub.on('BidFailed', function (message) {
-            abp.notify.error('Đặt giá thất bại');
+        chatHub.on('NewBidIsValid', (message) => {
+          console.log(message);
+          abp.notify.info(`Người dùng ${message.username} vừa đặt giá mới`);
+          abp.event.trigger('auction.newPrice', {
+            price: message.price,
+            auctionId: message.auctionId,
+            username: message.username,
+            bidTime: message.bidTime
           });
-        }).then((connection) => {
-            abp.notify.info('Kết nối đấu giá thành công');
-            chatHub.invoke('JoinAuction', { Id: parseInt(auctionId) });
-            // abp.log.debug('Connected to myChatHub server!');
-            // abp.event.trigger('myChatHub.connected');
-          });
+        });
+
+        chatHub.on('BidSuccess', (message) => {
+          abp.notify.success('Đặt giá thành công');
+        });
+
+        chatHub.on('BidFailed', function (message) {
+          abp.notify.error('Đặt giá thất bại');
+        });
+      }).then((connection) => {
+        abp.notify.info('Kết nối đấu giá thành công');
+        chatHub.invoke('JoinAuction', { Id: parseInt(auctionId) });
+        // abp.log.debug('Connected to myChatHub server!');
+        // abp.event.trigger('myChatHub.connected');
+      });
 
       abp.event.on('auction.placeBid', function (bid) {
         chatHub.invoke('CallPrice', {
@@ -77,7 +81,7 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
 
     abp.event.on('auction.newPrice', (bid) => {
       if (bid.auctionId === parseInt(auctionId)) {
-        this.auction.currentPrice = bid.price;
+        this.newBid(bid);
       }
     });
   }
@@ -97,10 +101,20 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
         console.log(this.product);
         console.log(this.auction);
         abp.ui.clearBusy();
+        this.endAution();
+
       }, er => {
         abp.ui.clearBusy();
+        this.router.navigate(['/storefront/auction']);
       });
 
+  }
+
+  protected endAution() {
+    if (!this.isActive(this.auction.endDate)) {
+      abp.notify.warn('Phiên đấu giá đã kết thúc');
+      this.router.navigate(['/storefront/auction']);
+    }
   }
 
   placeBid() {
@@ -116,10 +130,19 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
       auctionId: this.auction.id
     });
 
-
   }
 
-  newBid(price) {
-    this.auction.currentPrice = price;
+  isActive(value: Date): boolean {
+    const today = dayjs(new Date());
+    const day = dayjs(value);
+    return (today.isBefore(day)) ? true : false;
+  }
+
+
+  newBid(bid) {
+    console.log(bid);
+    this.auction.currentPrice = bid.price;
+    this.auction.userName = bid.username;
+    this.auction.lastBidTime = bid.bidTime;
   }
 }

@@ -58,6 +58,10 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NgxCurrencyModule } from "ngx-currency";
 import { CreateAuctionComponent } from './auction/create-auction/create-auction.component';
 import { AuctionDetailComponent } from './auction/auction-detail/auction-detail.component';
+import { InvoiceComponent } from './invoice/invoice.component';
+import { CreateInvoiceComponent } from './invoice/create-invoice/create-invoice.component';
+import { InvoiceDetailComponent } from './invoice/invoice-detail/invoice-detail.component';
+import { CategoryComponent } from './category/category.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +111,10 @@ import { AuctionDetailComponent } from './auction/auction-detail/auction-detail.
     CreateProductComponent,
     CreateAuctionComponent,
     AuctionDetailComponent,
+    InvoiceComponent,
+    CreateInvoiceComponent,
+    InvoiceDetailComponent,
+    CategoryComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,81 @@
+<div [@routerTransition]>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <h1>{{ "Đơn hàng" | localize }}</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content px-2">
+        <div class="container-fluid">
+            <div class="card card-primary">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap" [busy]="isTableLoading">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>{{ "Mã" | localize }}</th>
+                                <th>{{ "Sản phẩm" | localize }}</th>
+                                <th>{{ "Số tiền" | localize }}</th>
+                                <th>{{ "Trạng thái" | localize }}</th>
+                                <th>{{ "Ngày tạo" | localize }}</th>
+                                <th style="width: 310px;">{{ "Hành động" | localize }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="
+                    let item of items
+                      | paginate
+                        : {
+                            id: 'server',
+                            itemsPerPage: pageSize,
+                            currentPage: pageNumber,
+                            totalItems: totalItems
+                          }
+                  ">
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.productName }}</td>
+                                <td>
+                                    {{ item.subTotal }}
+                                </td>
+                                <td [innerHTML]="getStatus(item.paymentStatus)"></td>
+                                <td>{{ item.createDate | date: 'short' }}</td>
+                                <td>
+                                    <button type="button" [disabled]="item.paymentStatus !== 0" class="btn btn-sm bg-primary mx-2" (click)="updateAddress(item.id)">
+                                        {{ "Cập nhập" | localize }}
+                                    </button>
+
+                                    <button type="button" class="btn btn-sm bg-primary mx-2"
+                                        routerLink="{{item.id}}">
+                                        {{ "Chi tiết" | localize }}
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-light border-top">
+                    <div class="row">
+                        <div class="col-sm-4 col-12 text-sm-left text-center">
+                            <button class="btn btn-secondary" (click)="refresh()">
+                                <i class="fas fa-redo-alt"></i>
+                            </button>
+                        </div>
+                        <div class="col-sm-4 col-12 text-center">
+                            <p class="mb-0 my-2">
+                                {{ "TotalRecordsCount" | localize: totalItems }}
+                            </p>
+                        </div>
+                        <div class="col-sm-4 col-12">
+                            <div class="float-sm-right m-auto">
+                                <abp-pagination-controls id="server" (pageChange)="getDataPage($event)">
+                                </abp-pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -15,19 +15,22 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { ImagePickerComponent } from '@app/images/image-picker/image-picker.component';
 import { ImageDto } from '@app/images/dto/image-dto';
 import { Guid } from 'guid-typescript';
-import { CurrencyMaskInputMode, NgxCurrencyModule } from "ngx-currency";
-import { Router } from '@angular/router';
+import { CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { CategoryService } from 'services/category/category.service';
+import { CategoryDto } from 'app/category/Dto/category-dto';
 
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
   styleUrls: ['./create-product.component.css']
 })
-export class CreateProductComponent extends AppComponentBase {
+export class CreateProductComponent extends AppComponentBase implements OnInit {
 
   title: string;
   brands: BrandDto[] = [];
   images: ImageListDto[] = [];
+  categories: CategoryDto[] = [];
   coverImage: ImageListDto;
   product: CreateProductDto = new CreateProductDto();
   public Editor = ClassicEditor;
@@ -41,13 +44,18 @@ export class CreateProductComponent extends AppComponentBase {
     private _productService: ProductService,
     private _modalService: BsModalService,
     private _imageService: ImageService,
+    private _categoryService: CategoryService,
     private _router: Router,
+    private _routerSnapshot: ActivatedRoute
   ) {
     super(injector);
     this.product.description = '';
   }
 
   ngOnInit(): void {
+    this.product.categoryIds = [];
+    this.title = this._routerSnapshot.snapshot.data.title;
+    this.isEdit = this._routerSnapshot.snapshot.data.isEdit;
     this.load();
   }
 
@@ -58,14 +66,17 @@ export class CreateProductComponent extends AppComponentBase {
     if (!this.isEdit) {
       apiCall = forkJoin(
         {
-          brand: this._brandService.getDropdown()
+          brand: this._brandService.getDropdown(),
+          category: this._categoryService.getDropdown()
         }
       );
     } else {
+      const id = parseInt(this._routerSnapshot.snapshot.paramMap.get('id'));
       apiCall = forkJoin(
         {
-          product: this._productService.get(0),
-          brand: this._brandService.getDropdown()
+          product: this._productService.get(id),
+          brand: this._brandService.getDropdown(),
+          category: this._categoryService.getDropdown()
         }
       );
     }
@@ -76,9 +87,24 @@ export class CreateProductComponent extends AppComponentBase {
       }))
       .subscribe(s => {
         this.brands = s.brand.result;
-
+        this.categories = s.category.result;
         if (this.isEdit) {
           this.product = s.product.result;
+          this.images = s.product.result.images.map(s => {
+            return {
+              id: s.id,
+              url: this.getImagePath(s.url),
+              isUpload: false
+            };
+          }
+          );
+          if (s.product.result.coverImageUrl !== undefined) {
+            this.coverImage = new ImageListDto();
+            this.coverImage.url = this.getImagePath(s.product.result.coverImageUrl);
+            this.coverImage.id = s.product.result.coverImageId;
+            this.coverImage.isUpload = false;
+            console.log(this.product);
+          }
         }
 
       });
@@ -91,7 +117,21 @@ export class CreateProductComponent extends AppComponentBase {
       const adapter = new MyUploadAdapter(this.injector.get(ImageService));
       adapter.loader = loader;
       return adapter;
+    };
+  }
+
+  onChangeCategory(id: number, event) {
+    if (this.product.categoryIds.find(s => s === id)) {
+      this.product.categoryIds = this.product.categoryIds.filter(s => s === id);
+    } else {
+      this.product.categoryIds.push(id);
     }
+
+    console.log(this.product.categoryIds);
+  }
+
+  isChecked(id) {
+    return this.product.categoryIds.find(s => s === id) !== undefined;
   }
 
   imageChange(event: any) {
@@ -112,7 +152,7 @@ export class CreateProductComponent extends AppComponentBase {
   }
 
   removeImage(id: string) {
-    this.images = this.images.filter(s => s.id != id);
+    this.images = this.images.filter(s => s.id !== id);
   }
 
   coverChange(event: any) {
@@ -126,7 +166,7 @@ export class CreateProductComponent extends AppComponentBase {
       image.isUpload = true;
       image.url = reader.result.toString();
       this.coverImage = image;
-    }
+    };
   }
 
   openImagePicker(): void {
@@ -185,63 +225,68 @@ export class CreateProductComponent extends AppComponentBase {
     this.product.imageIds = [];
     this.product.imageIds.push(...idImage);
 
-    if (this.isEdit) {
+    let coverImageObserverble: Observable<any>;
+    let uploadImageObserverble: Observable<any>;
 
+    if (this.coverImage.isUpload) {
+      const formData = new FormData();
+      formData.append('Files', this.coverImage.file);
+      coverImageObserverble = this._imageService.uploadSeller(formData);
     } else {
-      // upload image
-      let coverImageObserverble: Observable<any>;
-      let uploadImageObserverble: Observable<any>;
-
-      if (this.coverImage.isUpload) {
-        const formData = new FormData();
-        formData.append('Files', this.coverImage.file);
-        coverImageObserverble = this._imageService.uploadSeller(formData);
-      } else {
-        coverImageObserverble = of({ result: [parseInt(this.coverImage.id)] });
-      }
-
-      const data = new FormData();
-      const imageToUpload = this.images.filter(s => s.isUpload);
-      if (imageToUpload.length > 0) {
-        imageToUpload.forEach(s => {
-          data.append('Files', s.file);
-        });
-        uploadImageObserverble = this._imageService.uploadSeller(data);
-      } else {
-        uploadImageObserverble = of({ result: [] });
-      }
-
-      zip(
-        coverImageObserverble,
-        uploadImageObserverble
-      ).pipe(mergeMap(s => {
-        this.product.imageIds.push(...s[1].result);
-        this.product.coverImageId = s[0].result[0];
-        console.log(this.product);
-        return this._productService.create(this.product);
-      }))
-        .subscribe(s => {
-          abp.notify.success('success');
-          this._router.navigate(['/app/product']);
-          abp.ui.clearBusy();
-        }, s => {
-          abp.notify.error('error');
-          abp.ui.clearBusy();
-        });
-
-      // upload.pipe(mergeMap(s=> {
-      //   this.product.imageIds.push(...s.result);
-      //   return this._productService.create(this.product);
-      // }), finalize(()=> {
-      //   abp.ui.clearBusy();
-      // }))
-      // .subscribe(s=> {
-      //   abp.notify.success('success');
-      // },s=> {
-      //   abp.notify.error('error');
-      // });
-      // create new product
+      coverImageObserverble = of({ result: [parseInt(this.coverImage.id)] });
     }
+
+    const data = new FormData();
+    const imageToUpload = this.images.filter(s => s.isUpload);
+    if (imageToUpload.length > 0) {
+      imageToUpload.forEach(s => {
+        data.append('Files', s.file);
+      });
+      uploadImageObserverble = this._imageService.uploadSeller(data);
+    } else {
+      uploadImageObserverble = of({ result: [] });
+    }
+
+    zip(
+      coverImageObserverble,
+      uploadImageObserverble
+    ).pipe(mergeMap(s => {
+      this.product.imageIds.push(...s[1].result);
+      this.product.coverImageId = s[0].result[0];
+      console.log(this.product);
+
+      let saveObserverble: Observable<any>;
+
+      if (this.isEdit) {
+        saveObserverble = this._productService.edit(this.product);
+
+      } else {
+        saveObserverble = this._productService.create(this.product);
+      }
+
+      return saveObserverble;
+    }))
+      .subscribe(s => {
+        abp.notify.success('success');
+        this._router.navigate(['/app/product']);
+        abp.ui.clearBusy();
+      }, s => {
+        abp.notify.error('error');
+        abp.ui.clearBusy();
+      });
+
+    // upload.pipe(mergeMap(s=> {
+    //   this.product.imageIds.push(...s.result);
+    //   return this._productService.create(this.product);
+    // }), finalize(()=> {
+    //   abp.ui.clearBusy();
+    // }))
+    // .subscribe(s=> {
+    //   abp.notify.success('success');
+    // },s=> {
+    //   abp.notify.error('error');
+    // });
+    // create new product
   }
 
 }

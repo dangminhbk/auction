@@ -32,7 +32,7 @@
               type="text"
               class="form-control"
               name="keyword"
-              [placeholder]="'SearchWithThreeDot' | localize"
+              [placeholder]="'Tìm kiếm ...' | localize"
               [(ngModel)]="keyword"
               (keyup.enter)="getDataPage(1)"
             />
@@ -44,7 +44,7 @@
               <tr>
                 <th>{{ "RoleName" | localize }}</th>
                 <th>{{ "DisplayName" | localize }}</th>
-                <th style="width: 200px;">{{ "Actions" | localize }}</th>
+                <th style="width: 200px;">{{ "Hành động" | localize }}</th>
               </tr>
             </thead>
             <tbody>

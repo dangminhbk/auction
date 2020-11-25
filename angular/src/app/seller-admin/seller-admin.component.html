@@ -26,7 +26,7 @@
                     type="text"
                     class="form-control"
                     name="keyword"
-                    [placeholder]="'SearchWithThreeDot' | localize"
+                    [placeholder]="'Tìm kiếm ...' | localize"
                     [(ngModel)]="keyword"
                     (keyup.enter)="getDataPage(1)"
                   />
@@ -39,7 +39,7 @@
                   <th>{{ "Id" | localize }}</th>
                   <th>{{ "Name" | localize }}</th>
                   <th>{{ "Logo" | localize }}</th>
-                  <th style="width: 310px;">{{ "Actions" | localize }}</th>
+                  <th style="width: 310px;">{{ "Hành động" | localize }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -67,7 +67,7 @@
                       (click)="detail(item.id)"
                     >
                       <i class="fas fa-info"></i>
-                      {{ "Detail" | localize }}
+                      {{ "Chi tiết" | localize }}
                     </button>
 
                     <button

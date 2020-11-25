@@ -1,0 +1,61 @@
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center font-weight-bold mb-1">{{invoice.seller.name}}</h3>
+                    <p class="text-center font-weight-bold"><small class="font-weight-bold">Số điện thoại:
+                            {{invoice.seller.phoneNumber}}</small></p>
+                    <p class="text-center font-weight-bold"><small class="font-weight-bold">Địa chỉ:
+                            {{invoice.seller.address}}</small></p>
+                    <div class="row pb-2 p-2">
+
+                        <div class="col-md-6">
+                            <p><strong>Tên khách hàng</strong>: {{invoice.receiperName}}</p>
+                            <p><strong>Ngày lập</strong>: {{invoice.creationTime}}</p>
+                            <p><strong>Địa chỉ</strong>: {{invoice.address}}</p>
+                            <p><strong>Điện thoại</strong>: {{invoice.phoneNumber}}</p>
+                        </div>
+
+                        <div class="col-md-6 text-right">
+                            <p class="mb-0"><strong>Hóa đơn số</strong>: {{invoice.serialNumber}}</p>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase small font-weight-bold">Mô tả</th>
+                                    <th class="text-uppercase small font-weight-bold">Số lượng</th>
+                                    <th class="text-uppercase small font-weight-bold">Giá</th>
+                                    <th class="text-uppercase small font-weight-bold">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>{{invoice.productName}}</td>
+                                    <td>1</td>
+                                    <td>{{invoice.subTotal}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="font-weight-bold small">
+                                <tr>
+                                    <td colspan="2">Total</td>
+                                    <td></td>
+                                    <td>{{invoice.subTotal | currency: 'VND'}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">Bằng chữ: {{docso(invoice.subTotal) | uppercase}} ĐỒNG
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!--table responsive end-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,10 +1,10 @@
 <form autocomplete="off" style="margin-left: 20px; margin-right: 20px;" #createBrandForm="ngForm">
     <div class="card card-primary" style="margin-top: 20px;">
-        <h3 class="card-header bg-dark">Create product</h3>
+        <h3 class="card-header bg-dark">{{title}}</h3>
         <div class="card-body">
             <div class="form-group row required">
                 <label class="col-md-3 col-form-label" for="name">
-                    {{ "Name" | localize }}
+                    {{ "Tên sản phẩm" | localize }}
                 </label>
                 <div class="col-md-9">
                     <input type="text" class="form-control" name="name" id="name" required maxlength="32"
@@ -15,7 +15,7 @@
 
             <div class="form-group row required">
                 <label class="col-md-3 col-form-label" for="brand">
-                    {{ "Brand" | localize }}
+                    {{ "Nhãn hiệu" | localize }}
                 </label>
                 <div class="col-md-3">
                     <select class="form-control" [(ngModel)]="product.brandId" name="brand" id="brand">
@@ -23,10 +23,32 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="brand">
+                    {{ "Danh mục" | localize }}
+                </label>
+                <div class="col-md-6 row">
+                        <div *ngFor="let cate of categories; let i = index" class="col-md-4">
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              [id]="'cate_' + i"
+                              (change)="onChangeCategory(cate.id ,$event)"
+                              [checked]="isChecked(cate.id)"
+                            />
+                            <label class="custom-control-label" [for]="'cate_' + i">
+                              {{ cate.name }}
+                            </label>
+                          </div>
+                        </div>
+                </div>  
+                
+            </div>
 
             <div class="form-group row required">
                 <label class="col-md-3 col-form-label" for="price">
-                    {{ "Price" | localize }}
+                    {{ "Giá tiền" | localize }}
                 </label>
                 <div class="col-md-3">
                     <input currencyMask [options]="{ prefix: 'VND ', thousands: '.', decimal: ',', inputMode: 1 }" class="form-control" name="price" id="price" required
@@ -37,7 +59,7 @@
 
             <div class="form-group row">
                 <label class="col-md-3 col-form-label">
-                    Cover
+                    Ảnh bìa
                 </label>
                 <div class="col-md-3">
                     <label for="cover" style="margin-bottom: 0px;" class="btn btn-primary">
@@ -46,7 +68,7 @@
                     </label>
 
                     <button (click)="openCoverPicker()" style="margin-left: 2px;" class="btn btn-primary">
-                        Pick
+                        Chọn
                     </button>
                 </div>
 
@@ -64,7 +86,7 @@
 
             <div class="form-group row">
                 <label class="col-md-3 col-form-label">
-                    Images
+                    Hình ảnh
                 </label>
                 <div class="col-md-3">
                     <label for="images" style="margin-bottom: 0px;" class="btn btn-primary">
@@ -72,7 +94,7 @@
                         <input type="file" style="display: none;" (change)="imageChange($event)" multiple class="form-control" name="images" id="images" />
                     </label>
                     <button style="margin-left: 2px;" (click)="openImagePicker()" class="btn btn-primary">
-                        Pick
+                        Chọn
                     </button>
                 </div>
                 <br>
@@ -89,7 +111,7 @@
             </div>
             <div class="form-group row required">
                 <label class="col-md-3 col-form-label" for="description">
-                    Description
+                    Mô tả
                 </label>
                 <div class="col-md-9">
                     <ckeditor required [(ngModel)]="product.description" (ready)="onReady($event)" [editor]="Editor"
@@ -100,7 +122,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-12">
-                    <button [(disabled)]="!createBrandForm.form.valid" (click)="save()" class="btn btn-primary">Save</button>
+                    <button [(disabled)]="!createBrandForm.form.valid" (click)="save()" class="btn btn-primary">Lưu</button>
                 </div>
             </div>
         </div>

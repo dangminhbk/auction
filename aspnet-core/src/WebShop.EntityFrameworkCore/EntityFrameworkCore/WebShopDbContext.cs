@@ -9,6 +9,7 @@ using WebShop.Domain.Image;
 using WebShop.Domain.Seller;
 using WebShop.Domain.Auction;
 using WebShop.Domain.Bid;
+using WebShop.Domain.Invoice;
 
 namespace WebShop.EntityFrameworkCore
 {
@@ -39,7 +40,8 @@ namespace WebShop.EntityFrameworkCore
         // Bid
         public DbSet<Bid> Bids { get; set; }
 
-        //
+        // Invoice
+        public DbSet<Invoice> Invoices { get; set; }
 
         public WebShopDbContext(DbContextOptions<WebShopDbContext> options)
             : base(options)

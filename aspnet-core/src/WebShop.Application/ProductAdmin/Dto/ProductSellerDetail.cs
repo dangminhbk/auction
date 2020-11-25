@@ -1,4 +1,7 @@
-﻿namespace WebShop.ProductAdmin.Dto
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace WebShop.ProductAdmin.Dto
 {
     public class ProductSellerDetail
     {
@@ -13,5 +16,6 @@
         public long[] CategoryIds { get; set; }
         public long SellerId { get; set; }
         public long? BrandId { get; set; }
+        public List<ImageDto> Images { get; set; }
     }
 }

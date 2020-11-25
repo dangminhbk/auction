@@ -26,4 +26,9 @@ export class AuctionService extends BaseApiService<any> {
     return this.http.get<any>(this.url + 'GetAllForSeller?' + requestQuery);
   }
 
+  getAllBids(request: PagedRequestDto, id: number): Observable<ResultDto<any>> {
+    const requestQuery = `skipCount=${request.skipCount}&maxResultCount=${request.maxResultCount}&AuctionId=${id}`;
+    return this.http.get<any>(this.url + 'GetBidsByAuctions?' + requestQuery);
+  }
+
 }

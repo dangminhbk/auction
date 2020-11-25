@@ -1,6 +1,8 @@
 ﻿using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using Abp.Domain.Uow;
+using Abp.UI;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +35,10 @@ namespace WebShop.Domain.Auction
             long SellerId
         )
         {
+            if( StartTime > EndTime || StartTime < DateTime.UtcNow)
+            {
+                throw new UserFriendlyException("Hãy nhập thời gian hợp lệ");
+            }
             var Auction = new Auction
             {
                 MinAcceptPrice = MinAcceptPrice,
@@ -49,7 +55,7 @@ namespace WebShop.Domain.Auction
         public async Task DeleteAuction(long id)
         {
             var auction = await _auctionRepository.GetAsync(id);
-            if (auction.StartDate > DateTime.Now)
+            if (auction.StartDate > DateTime.UtcNow)
             {
                 await _auctionRepository.DeleteAsync(id);
             }
@@ -69,14 +75,16 @@ namespace WebShop.Domain.Auction
             );
         }
 
-        public Task<IQueryable<Bid.Bid>> GetBids(long auctionId)
+        public async Task<IQueryable<Bid.Bid>> GetBids(long auctionId)
         {
-            throw new NotImplementedException();
+            return _bidRepository.GetAll().Where(s => s.AuctionId == auctionId);
         }
 
         public async Task<Auction> GetDetail(long id)
         {
-            var auction = await _auctionRepository.GetAsync(id);
+            var auction = await _auctionRepository.GetAll()
+                .Include(s=>s.Winner)
+                .FirstAsync(s=>s.Id == id);
             return auction;
         }
 
@@ -84,9 +92,12 @@ namespace WebShop.Domain.Auction
         public async Task<Auction> MakeBid(long AuctionId, decimal Price, long UserId, DateTime Time)
         {
             var auction = await _auctionRepository.GetAsync(AuctionId);
-            if (auction.EndDate > DateTime.Now && auction.CurrentPrice < Price)
+            if (auction.EndDate > DateTime.UtcNow && auction.CurrentPrice < Price && auction.InitPrice < Price)
             {
                 auction.CurrentPrice = Price;
+                auction.WinnerId = UserId;
+                auction.LastBidTime = Time;
+                auction.NumberOfBid += 1;
                 var bid = new Bid.Bid
                 {
                     AuctionId = auction.Id,
@@ -99,7 +110,7 @@ namespace WebShop.Domain.Auction
                 await _bidRepository.InsertAsync(bid);
             } else
             {
-                throw new Exception("Bid fail");
+                throw new Exception("Đấu giá thất bại");
             }
 
             return auction;

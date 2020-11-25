@@ -21,6 +21,8 @@ import { AuctionComponent } from './auction/auction.component';
 import { SellerAdminComponent } from './seller-admin/seller-admin.component';
 import { CreateProductComponent } from './product/create-product/create-product.component';
 import { AuctionDetailComponent } from './auction/auction-detail/auction-detail.component';
+import { InvoiceComponent } from './invoice/invoice.component';
+import { InvoiceDetailComponent } from 'storefront/invoice/invoice-detail/invoice-detail.component';
 
 @NgModule({
     imports: [
@@ -51,11 +53,15 @@ import { AuctionDetailComponent } from './auction/auction-detail/auction-detail.
                     data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
                     { path: 'product', component: ProductComponent,
                     data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
+                    { path: 'product/:id', component: CreateProductComponent,
+                    data: { permission: PermissionNames.Seller, title: 'Sửa', isEdit: true, canActivate: [AppRouteGuard]}},
                     { path: 'create-product', component: CreateProductComponent,
-                    data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
+                    data: { permission: PermissionNames.Seller, title: 'Tạo sản phẩm', isEdit: false, canActivate: [AppRouteGuard]}},
                     { path: 'payment-info', component: PaymentComponent,
                     data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
-                    { path: 'invoice', component: PurchaseComponent,
+                    { path: 'invoice', component: InvoiceComponent,
+                    data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
+                    { path: 'invoice/:id', component: InvoiceDetailComponent,
                     data: { permission: PermissionNames.Seller, canActivate: [AppRouteGuard]}},
                     { path: 'seller-images', component: ImagesSellerComponent,
                     data: { permission: PermissionNames.Seller }, canActivate: [AppRouteGuard] },

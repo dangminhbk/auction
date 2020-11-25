@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <h1>{{ "Auctions" | localize }}</h1>
+                    <h1>{{ "Đấu giá" | localize }}</h1>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
                             </button>
                         </div>
                         <input type="text" class="form-control" name="keyword"
-                            [placeholder]="'SearchWithThreeDot' | localize" [(ngModel)]="keyword"
+                            [placeholder]="'Tìm kiếm ...' | localize" [(ngModel)]="keyword"
                             (keyup.enter)="getDataPage(1)" />
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                                 <th>{{ "Current Price" | localize }}</th>
                                 <th>{{ "End time" | localize }}</th>
                                 <th>{{ "Status" | localize }}</th>
-                                <th style="width: 310px;">{{ "Actions" | localize }}</th>
+                                <th style="width: 310px;">{{ "Hành động" | localize }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,22 +55,16 @@
                                 </td>
                                 <td>{{ item.currentPrice }}</td>
                                 <td>
-                                    {{ item.endTime }}</td>
+                                    {{ dayjs(item.endTime).format('YYYY-MM-DDTHH:mm') }}</td>
                                 <td>
                                     <span style="padding: 2px; border-radius: 10%;" class="barge"
                                         [ngClass]="{'bg-red': !isActive(item.endTime), 'bg-green': isActive(item.endTime)}">
-                                        {{ isActive(item.endTime) ? 'Active': 'Expired' }}
+                                        {{ isActive(item.endTime) ? 'Hoạt động': 'Kết thúc' }}
                                     </span>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-sm bg-danger mx-2" (click)="delete(item)">
-                                        <i class="fas fa-trash"></i>
-                                        {{ "Delete" | localize }}
-                                    </button>
-
-                                    <button type="button" class="btn btn-sm bg-primary mx-2"
-                                        routerLink="{{item.id}}">
-                                        {{ "Detail" | localize }}
+                                    <button type="button" class="btn btn-sm bg-primary mx-2" routerLink="{{item.id}}">
+                                        {{ "Chi tiết" | localize }}
                                     </button>
                                 </td>
                             </tr>

@@ -28,7 +28,6 @@ namespace WebShop.Product
             string Description,
             long? CoverImageId,
             long[] ProductImages,
-            long SellerId,
             long? BrandId,
             long[] ProductCategories
          );

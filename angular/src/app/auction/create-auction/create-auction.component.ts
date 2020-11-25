@@ -33,7 +33,7 @@ export class CreateAuctionComponent extends AppComponentBase implements OnInit {
   ngOnInit(): void {
     this.auction.initPrice = this.product.price;
     this.auction.minAcceptPrice = this.product.price;
-    const date = dayjs().format('YYYY-MM-DDThh:mm');
+    const date = dayjs().format('YYYY-MM-DDTHH:mm');
     this.auction.startDateString = date;
     this.auction.productId = this.product.id;
   }
@@ -42,8 +42,10 @@ export class CreateAuctionComponent extends AppComponentBase implements OnInit {
     abp.ui.setBusy();
     dayjs.extend(utc);
     const  observerble = this.auctionService.create(this.auction);
-    this.auction.startDate = dayjs(this.auction.startDateString).utc().format('YYYY-MM-DDThh:mm:ss') as any;
-    this.auction.endDate = dayjs(this.auction.endDateString).utc().format('YYYY-MM-DDThh:mm:ss') as any;
+    console.log(dayjs('2020-11-19T07:00').utc().format('YYYY-MM-DDTHH:mm:ss'));
+    console.log(dayjs('2020-11-19T06:00').utc().format('YYYY-MM-DDTHH:mm:ss'));
+    this.auction.startDate = dayjs(this.auction.startDateString).utc().format('YYYY-MM-DDTHH:mm:ss') as any;
+    this.auction.endDate = dayjs(this.auction.endDateString).utc().format('YYYY-MM-DDTHH:mm:ss') as any;
     observerble.
     subscribe(s => {
       this.notify.info(this.l('SavedSuccessfully'));

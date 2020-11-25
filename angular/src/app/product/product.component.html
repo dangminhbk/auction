@@ -3,12 +3,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-6">
-          <h1>{{ "Products" | localize }}</h1>
+          <h1>{{ "Sản phẩm" | localize }}</h1>
         </div>
         <div class="col-6 text-right">
           <a href="javascript:;" class="btn bg-blue" routerLink="/app/create-product">
             <i class="fa fa-plus-square"></i>
-            {{ "New" | localize }}
+            {{ "Tạo mới" | localize }}
           </a>
         </div>
       </div>
@@ -26,9 +26,8 @@
                 <th>{{ "Id" | localize }}</th>
                 <th>{{ "Name" | localize }}</th>
                 <th>{{ "Image" | localize }}</th>
-                <th>{{ "Sold" | localize }}</th>
                 <th>{{ "Price" | localize }}</th>
-                <th style="width: 310px;">{{ "Actions" | localize }}</th>
+                <th style="width: 310px;">{{ "Hành động" | localize }}</th>
               </tr>
             </thead>
             <tbody>
@@ -47,22 +46,22 @@
                 <td>
                   <img width="40" height="40" src="{{getImagePath(item.coverImageUrl)}}" alt="">
                 </td>
-                <td></td>
-                <td>{{item.price | currency}}</td>
+                <td>{{item.price | currency: 'VND'}}</td>
                 <td>
-                  <button type="button" class="btn btn-sm bg-danger mx-2" (click)="delete()">
-                    <i class="fas fa-trash"></i>
-                    {{ "Delete" | localize }}
+
+                  <button type="button" class="btn btn-sm btn-secondary mx-2" routerLink="{{item.id}}">
+                    <i class="fas fa-wrench"></i>
+                    {{ "Sửa" | localize }}
                   </button>
 
                   <button type="button" class="btn btn-sm btn-primary mx-2" (click)="delete()">
                     <i class="fas fa-info"></i>
-                    {{ "Detail" | localize }}
+                    {{ "Chi tiết" | localize }}
                   </button>
 
                   <button type="button" class="btn btn-sm btn-primary mx-2" (click)="createAuction(item)">
                     <i class="fas fa-balance-scale"></i>
-                    {{ "New Auction" | localize }}
+                    {{ "Tạo đấu giá" | localize }}
                   </button>
 
                 </td>

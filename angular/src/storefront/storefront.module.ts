@@ -22,6 +22,10 @@ import { AuctionDetailComponent } from './auction-detail/auction-detail.componen
 import { AuctionComponent } from './auction/auction.component';
 import { CountdownModule } from 'ngx-countdown';
 import { NgxCurrencyModule } from 'ngx-currency';
+import { InvoiceComponent } from './invoice/invoice.component';
+import { UpdateInvoiceAddressComponent } from './invoice/update-invoice-address/update-invoice-address.component';
+import { InvoiceDetailComponent } from './invoice/invoice-detail/invoice-detail.component';
+import { AuctionCountdownComponent } from './auction/auction-countdown/auction-countdown.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +36,11 @@ import { NgxCurrencyModule } from 'ngx-currency';
     ShopComponent,
     ShopDetailComponent,
     AuctionDetailComponent,
-    AuctionComponent
+    AuctionComponent,
+    InvoiceComponent,
+    UpdateInvoiceAddressComponent,
+    InvoiceDetailComponent,
+    AuctionCountdownComponent
   ],
   imports: [
     FormsModule,

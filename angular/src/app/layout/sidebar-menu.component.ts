@@ -44,10 +44,10 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
 
   getMenuItems(): MenuItem[] {
     return [
-      new MenuItem(
-        this.l('Dashboard'),
-        '/app/home', 
-        'fas fa-chart-line'),
+      // new MenuItem(
+      //   this.l('Dashboard'),
+      //   '/app/home',
+      //   'fas fa-chart-line'),
 
       new MenuItem(
         this.l('Users'),
@@ -63,8 +63,9 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
       ),
 
       // admin
+
       new MenuItem(
-        this.l('Images'),
+        this.l('Hình ảnh'),
         '/app/sys-images',
         'fas fa-image',
         PermissionNames.Admins
@@ -78,43 +79,64 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
       ),
 
       // seller
-      new MenuItem(
-        this.l('Images'),
-        '/app/seller-images',
-        'fas fa-image',
-        PermissionNames.Seller
-      ),
+
+      // new MenuItem(
+      //   this.l('Payment'),
+      //   '/app/payment-info',
+      //   'fas fa-money-bill-wave',
+      //   PermissionNames.Seller
+      // ),
 
       new MenuItem(
-        this.l('Payment'),
-        '/app/payment-info',
-        'fas fa-money-bill-wave',
-        PermissionNames.Seller
+        'Cài đặt',
+        '',
+        'fas fa-cog',
+        PermissionNames.Seller,
+        [
+          new MenuItem(
+            this.l('Thông tin'),
+            '/app/seller-info',
+            'fas fa-info',
+            PermissionNames.Seller
+          ),
+          new MenuItem(
+            this.l('Hình ảnh'),
+            '/app/seller-images',
+            'fas fa-image',
+            PermissionNames.Seller
+          )
+        ]
       ),
 
-      new MenuItem(
-        this.l('Info'),
-        '/app/seller-info',
-        'fas fa-info',
-        PermissionNames.Seller
-      ),
+
 
       new MenuItem(
-        this.l('Products'),
-        '/app/product',
+        this.l('Sản phẩm'),
+        '',
         'fas fa-store',
-        PermissionNames.Seller
+        PermissionNames.Seller,
+        [new MenuItem(
+          'Tạo mới',
+          '/app/create-product',
+          'fas fa-minus',
+          PermissionNames.Seller,
+        ), new MenuItem(
+          'Danh sách',
+          '/app/product',
+          'fas fa-minus',
+          PermissionNames.Seller,
+        )]
       ),
 
       new MenuItem(
-        this.l('Auctions'),
+        this.l('Đấu giá'),
         '/app/auction',
         'fas fa-balance-scale',
         PermissionNames.Seller
       ),
 
       new MenuItem(
-        this.l('Invoices'),
+        this.l('Đơn hàng'),
         '/app/invoice',
         'fas fa-file-invoice-dollar',
         PermissionNames.Seller
@@ -126,6 +148,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         'fas fa-store',
         PermissionNames.Admins
       ),
+
     ];
   }
 

@@ -1,0 +1,38 @@
+<form class="form-horizontal" autocomplete="off" #createUserModal="ngForm" (ngSubmit)="save()">
+    <abp-modal-header [title]="'Cập nhập hóa đơn' | localize" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
+    <div class="modal-body">
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="name">
+                {{ "Địa chỉ" | localize }}
+            </label>
+            <div class="col-md-9">
+                <textarea rows="3" class="form-control" name="address" id="address" required maxlength="200"
+                    [ngModel]="invoice.address" #addressModel="ngModel" #addressEl ></textarea>
+                <abp-validation-summary [control]="addressModel" [controlEl]="addressEl"></abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="name">
+                {{ "Tên người nhận" | localize }}
+            </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="receiperName" id="receiperName" required maxlength="100"
+                    [ngModel]="invoice.receiperName" #receiperNameModel="ngModel" #receiperNameEl />
+                <abp-validation-summary [control]="receiperNameModel" [controlEl]="receiperNameEl"></abp-validation-summary>
+            </div>
+        </div>
+        
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="name">
+                {{ "Số điện thoại" | localize }}
+            </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" required maxlength="20"
+                    [ngModel]="invoice.phoneNumber" #phoneNumberModel="ngModel" #phoneNumberEl />
+                <abp-validation-summary [control]="phoneNumberModel" [controlEl]="phoneNumberEl"></abp-validation-summary>
+            </div>
+        </div>
+    </div>
+    <abp-modal-footer [saveDisabled]="!createUserModal.form.valid || saving"
+        (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
+</form>

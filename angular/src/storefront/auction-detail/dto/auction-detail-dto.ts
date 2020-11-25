@@ -6,4 +6,6 @@ export class AuctionDetailDto {
     endDate: Date;
     id: number;
     currentPrice: number;
+    lastBidTime: Date;
+    userName: string;
 }

@@ -32,7 +32,7 @@
                     type="text"
                     class="form-control"
                     name="keyword"
-                    [placeholder]="'SearchWithThreeDot' | localize"
+                    [placeholder]="'Tìm kiếm ...' | localize"
                     [(ngModel)]="keyword"
                     (keyup.enter)="getDataPage(1)"
                   />
@@ -45,8 +45,8 @@
                   <th>{{ "Id" | localize }}</th>
                   <th>{{ "Name" | localize }}</th>
                   <th>{{ "Logo" | localize }}</th>
-                  <th>{{ "Description" | localize }}</th>
-                  <th style="width: 310px;">{{ "Actions" | localize }}</th>
+                  <th>{{ "Mô tả" | localize }}</th>
+                  <th style="width: 310px;">{{ "Hành động" | localize }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,7 +83,7 @@
                     class="btn btn-sm bg-primary mx-2"
                     routerLink="{{'/app/edit-brand/'+item.id}}"
                   >
-                    {{ "Detail" | localize }}
+                    {{ "Chi tiết" | localize }}
                   </button>
                   </td>
                 </tr>

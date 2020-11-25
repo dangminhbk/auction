@@ -1,5 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
+import { PermissionNames } from '@shared/const/PermissionNames';
 import { MenuItem } from '@shared/layout/menu-item';
 
 @Component({
@@ -15,7 +16,7 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
     injector: Injector
   ) {
     super(injector);
-   }
+  }
 
   toggleClick() {
     this.toggle = !this.toggle;
@@ -23,14 +24,25 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit(): void {
-    let userName = this.appSession.getName();
-    this.menuItems = [
-      new MenuItem('Trang chủ', '/storefront/home', ''),
-      new MenuItem('Đấu giá', '/storefront/auction', ''),
-      new MenuItem('Cửa hàng', '/storefront/shop', ''),
-    ];
-    console.log(userName);
-    userName =  userName !== undefined ? userName : 'Đăng nhập';
-    this.menuItems.push(new MenuItem(userName, '/account/login', ''));
+    if (this.isGranted(PermissionNames.Seller) || this.isGranted(PermissionNames.Admins)) {
+      this.menuItems = [
+        new MenuItem('Trang chủ', '/storefront/home', ''),
+        new MenuItem('Quản trị', '/app', '')
+      ];
+    } else {
+      let userName = this.appSession.getName();
+      this.menuItems = [
+        new MenuItem('Trang chủ', '/storefront/home', ''),
+        new MenuItem('Đấu giá', '/storefront/auction', '')
+      ];
+
+      if (userName !== undefined) {
+        this.menuItems.push(new MenuItem('Đơn hàng', '/storefront/invoice', ''));
+        this.menuItems.push(new MenuItem('Đăng xuất', '/account/login', ''));
+      } else {
+        this.menuItems.push(new MenuItem('Đăng nhập', '/account/login', ''));
+      }
+    }
+
   }
 }

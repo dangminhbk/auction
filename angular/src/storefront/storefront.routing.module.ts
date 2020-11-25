@@ -3,6 +3,8 @@ import { RouterModule } from '@angular/router';
 import { AuctionDetailComponent } from './auction-detail/auction-detail.component';
 import { AuctionComponent } from './auction/auction.component';
 import { HomeComponent } from './home/home.component';
+import { InvoiceDetailComponent } from './invoice/invoice-detail/invoice-detail.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 import { ShopDetailComponent } from './shop-detail/shop-detail.component';
 import { ShopComponent } from './shop/shop.component';
 import {StorefrontComponent} from './storefront/storefront.component';
@@ -43,6 +45,14 @@ import {StorefrontComponent} from './storefront/storefront.component';
                         component: ShopDetailComponent,
                         children: [
                         ]
+                    },
+                    {
+                        path: 'invoice',
+                        component: InvoiceComponent
+                    },
+                    {
+                        path: 'invoice/:id',
+                        component: InvoiceDetailComponent
                     }
                 ]
             }

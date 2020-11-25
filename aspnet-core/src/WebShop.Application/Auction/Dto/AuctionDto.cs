@@ -12,5 +12,7 @@ namespace WebShop.Auction.Dto
         public DateTime EndDate { get; set; }
         public decimal CurrentPrice { get; set; }
         public long NumberOfBids { get; set; }
+        public string UserName { get; set; }
+        public DateTime LastBidTime { get; set; }
     }
 }

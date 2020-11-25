@@ -19,7 +19,7 @@ export class CreateBrandComponent extends AppComponentBase implements OnInit {
 
   brand: BrandDto = new BrandDto();
   isUpdate = false;
-  title = 'Create brand';
+  title = 'Tạobrand';
 
   constructor(
     injecto: Injector,

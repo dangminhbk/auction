@@ -7,4 +7,6 @@ export class AuctionDetail {
     currentPrice: number;
     numberOfBids: number;
     id: number;
+    lastBidTime: Date;
+    userName: string;
 }

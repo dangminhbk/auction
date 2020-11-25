@@ -25,5 +25,6 @@ namespace WebShop.Domain.Auction
         public virtual User Winner { get; set; }
         public DateTime LastBidTime { get; set; }
         public long NumberOfBid { get; set; }
+        public bool HasMakeInvoice { get; set; } = false;
     }
 }

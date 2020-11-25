@@ -46,6 +46,18 @@ namespace WebShop.Product
                 product.CoverImage = cover;
             }
 
+            product.ProductCategories = new List<ProductCategory>();
+
+            foreach (var category in ProductCategories)
+            {
+                var productCategory = new ProductCategory
+                {
+                    CategoryId = category
+                };
+
+                product.ProductCategories.Add(productCategory);
+            }            
+
             product.ProductImages = new List<ProductImage>();
 
             foreach (var image in ProductImages)
@@ -72,10 +84,58 @@ namespace WebShop.Product
             string Description,
             long? CoverImageId,
             long[] ProductImages,
-            long SellerId,
             long? BrandId,
             long[] ProductCategories)
         {
+            var product = await Get(Id, 0);
+            product.Name = Name;
+            product.Price = Price;
+            product.Description = Description;
+            product.BrandId = BrandId;
+            if (product.CoverImageId.HasValue && product.CoverImage.ImageId != CoverImageId.Value)
+            {
+                product.CoverImage = new ProductCoverImage
+                {
+                    ImageId = CoverImageId.Value
+                };
+            }
+
+            if (CoverImageId.HasValue)
+            {
+                var cover = new ProductCoverImage
+                {
+                    ImageId = CoverImageId.Value
+                };
+
+                product.CoverImage = cover;
+            }
+
+            product.ProductCategories = new List<ProductCategory>();
+
+            foreach (var category in ProductCategories)
+            {
+                var productCategory = new ProductCategory
+                {
+                    CategoryId = category
+                };
+
+                product.ProductCategories.Add(productCategory);
+            }
+
+            product.ProductImages = new List<ProductImage>();
+
+            foreach (var image in ProductImages)
+            {
+                var productImage = new ProductImage
+                {
+                    ImageId = image
+                };
+
+                product.ProductImages.Add(productImage);
+            }
+
+            await ProductRepository.UpdateAsync(product);
+
         }
 
         public async Task<IQueryable<Product>> GetAll(
@@ -143,6 +203,8 @@ namespace WebShop.Product
                 .Include(s => s.CoverImage)
                 .ThenInclude(s => s.Image)
                 .Include(s => s.Brand)
+                .Include(s=>s.ProductCategories)
+                .ThenInclude(s=>s.Category)
                 .FirstOrDefault(s=>s.Id == id);
             return product;
         }

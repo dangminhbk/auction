@@ -17,6 +17,7 @@ export class AuctionComponent extends PagedListingComponentBase<AuctionListDto> 
 
   brands: AuctionListDto[] = [];
   keyword = '';
+  dayjs = dayjs;
 
   constructor(
     private _auctionService: AuctionService,
@@ -29,14 +30,19 @@ export class AuctionComponent extends PagedListingComponentBase<AuctionListDto> 
   }
 
   isActive(value: Date): boolean {
+    console.log(value);
     const today = dayjs(new Date());
-    const day = dayjs(value);
-
+    const day = dayjs(value + 'Z');
     return (today.isBefore(day)) ? true : false;
   }
 
+  CreateInvoice() {
+
+  }
+
+
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    this._auctionService.getAll(request)
+    this._auctionService.getAllForSeller(request)
       .pipe(
         finalize(() => {
           finishedCallback();

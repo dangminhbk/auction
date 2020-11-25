@@ -56,7 +56,7 @@ namespace WebShop.Domain.Image
                     throw new UserFriendlyException("Not valid image");
                 }
 
-                var timeStamp = DateTime.Now.Ticks.ToString();
+                var timeStamp = DateTime.UtcNow.Ticks.ToString();
                 var identified = $"{timeStamp}{Path.GetExtension(image.FileName)}";
                 var storePath = Configuration.GetValue<string>("Files:ImageLocation");
                 var urlPath = Path.Combine( storePath, identified);
@@ -91,7 +91,7 @@ namespace WebShop.Domain.Image
                 throw new UserFriendlyException("Not valid image");
             }
 
-            var timeStamp = DateTime.Now.Ticks.ToString();
+            var timeStamp = DateTime.UtcNow.Ticks.ToString();
             var identified = $"{timeStamp}{Path.GetExtension(image.FileName)}";
             var storePath = Configuration.GetValue<string>("Files:ImageLocation");
             var urlPath = Path.Combine(storePath, identified);

@@ -1,9 +1,9 @@
 <div class="card card-primary" style="margin: 20px;">
-    <h3 class="card-header bg-dark">Auction Detail</h3>
+    <h3 class="card-header bg-dark">Chi tiết phiên</h3>
     <div class="card-body">
         <div class="form-group row">
             <label class="col-md-3 col-form-label" for="name">
-                Product name
+                Sản phẩm
             </label>
             <div class="col-md-9">
                 <p>{{product.name}}</p>
@@ -11,7 +11,7 @@
         </div>
         <div class="form-group row">
             <label class="col-md-3 col-form-label" for="description">
-                Product image
+                Ảnh
             </label>
             <div class="col-md-9">
                 <img width="200" height="200" src="{{getImagePath(product.coverImageUrl)}}" alt="">
@@ -19,10 +19,10 @@
         </div>
         <div class="form-group row">
             <label class="col-md-3 col-form-label">
-                Initial price
+                Giá khởi đầu
             </label>
             <div class="col-md-3">
-                <p> {{auction.initPrice | currency}}
+                <p> {{auction.initPrice | currency: 'VND'}}
                     <span>VND</span>
                 </p>
             </div>
@@ -31,10 +31,10 @@
 
         <div class="form-group row">
             <label class="col-md-3 col-form-label">
-                Acceptable price
+                Giá chấp nhận
             </label>
             <div class="col-md-3">
-                <p> {{auction.minAcceptPrice | currency}}
+                <p> {{auction.minAcceptPrice | currency: 'VND'}}
                     <span>VND</span>
                 </p>
             </div>
@@ -42,20 +42,20 @@
 
         <div class="form-group row">
             <label class="col-md-3 col-form-label">
-                Start time
+                Bắt đầu
             </label>
             <div class="col-md-3">
-                <p> {{auction.startDate | date}}
+                <p> {{auction.startDate | date: 'short'}}
                 </p>
             </div>
 
         </div>
         <div class="form-group row">
             <label class="col-md-3 col-form-label">
-                End time
+                Kết thúc
             </label>
             <div class="col-md-3">
-                <p> {{auction.endDate | date}}
+                <p> {{auction.endDate | date: 'short'}}
                 </p>
             </div>
 
@@ -63,10 +63,10 @@
 
         <div class="form-group row">
             <label class="col-md-3 col-form-label">
-                Last price
+                Giá hiện tại
             </label>
             <div class="col-md-3">
-                <p> {{auction.currentPrice | currency}}
+                <p> {{auction.currentPrice | currency: 'VND'}}
                     <span>VND</span>
                 </p>
             </div>
@@ -75,35 +75,92 @@
 
         <div class="form-group row">
             <label class="col-md-3 col-form-label">
-                Last bidder
+                Tên người hiện tại
             </label>
             <div class="col-md-3">
-            </div>
-
-            <div class="col-md-12">
+                <p> {{auction.userName}}
+                </p>
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-md-3 col-form-label">
-                Last time bid
+                Thời gian cuối
             </label>
             <div class="col-md-3">
-            </div>
-
-            <div class="col-md-12">
+                <p> {{auction.lastBidTime | date: 'short'}}
+                </p>
             </div>
         </div>
         <div class="form-group row">
             <label class="col-md-3 col-form-label">
-                All bids
+                Các lần đặt giá
             </label>
             <div class="col-md-12">
+                <div class="table-responsive">
+
+                </div>
+                <table class="table table-hover text-nowrap" [busy]="isTableLoading">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>{{ "Id" | localize }}</th>
+                            <th>{{ "Bidder" | localize }}</th>
+                            <th>{{ "Price" | localize }}</th>
+                            <th>{{ "Bid time" | localize }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="
+                let item of bids
+                  | paginate
+                    : {
+                        id: 'server',
+                        itemsPerPage: pageSize,
+                        currentPage: pageNumber,
+                        totalItems: totalItems
+                      }
+              ">
+                            <td>{{item.id}}</td>
+                            <td>{{item.userName}}</td>
+                            <td>{{item.bidPrice | currency: 'VND'}}</td>
+                            <td>{{item.bidTime | date: 'short' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-sm-4 col-12 text-sm-left text-center">
+                        <button class="btn btn-secondary" (click)="loadBids()">
+                            <i class="fas fa-redo-alt"></i>
+                        </button>
+                    </div>
+                    <div class="col-sm-4 col-12 text-center">
+                        <p class="mb-0 my-2">
+                            {{ "TotalRecordsCount" | localize: totalItems }}
+                        </p>
+                    </div>
+                    <div class="col-sm-4 col-12">
+                        <div class="float-sm-right m-auto">
+                            <abp-pagination-controls id="server" (pageChange)="getDataPage($event)">
+                            </abp-pagination-controls>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-12">
-                <button class="btn btn-primary">Make Invoice</button>
+                <label class="col-md-3 col-form-label">
+                    Lập hóa đơn
+                </label>
+                <input class="form-control col-md-3" type="text" name="serialNo" [disabled]="isActive(auction.endDate)"
+                    [(ngModel)]="serialNumber" placeholder="Số hóa đơn" id="serialNo">
+                <div class="col-md-3"> 
+                    <button class="btn btn-primary" (click)="makeInvoice()"
+                        [disabled]="isActive(auction.endDate)">Lập</button>
+                </div>
             </div>
         </div>
 
