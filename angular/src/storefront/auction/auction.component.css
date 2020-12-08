@@ -1,3 +1,7 @@
 .bid-info {
     width: 100%;
 }
+
+.img-fluid {
+    height: 300px;
+}

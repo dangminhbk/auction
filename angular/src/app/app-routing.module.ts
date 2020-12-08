@@ -23,6 +23,7 @@ import { CreateProductComponent } from './product/create-product/create-product.
 import { AuctionDetailComponent } from './auction/auction-detail/auction-detail.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { InvoiceDetailComponent } from 'storefront/invoice/invoice-detail/invoice-detail.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
 @NgModule({
     imports: [
@@ -68,6 +69,15 @@ import { InvoiceDetailComponent } from 'storefront/invoice/invoice-detail/invoic
                     { path: 'auction', component: AuctionComponent,
                     data: { permission: PermissionNames.Seller }, canActivate: [AppRouteGuard] },
                     { path: 'auction/:id', component: AuctionDetailComponent,
+                    data: { permission: PermissionNames.Seller }, canActivate: [AppRouteGuard] },
+                    { path: 'statistic', component: StatisticComponent,
+                    data: { permission: PermissionNames.Seller }, canActivate: [AppRouteGuard] },
+
+                    { path: 'statistic/auction', component: StatisticComponent,
+                    data: { permission: PermissionNames.Seller }, canActivate: [AppRouteGuard] },
+                    { path: 'statistic/order', component: StatisticComponent,
+                    data: { permission: PermissionNames.Seller }, canActivate: [AppRouteGuard] },
+                    { path: 'statistic/product', component: StatisticComponent,
                     data: { permission: PermissionNames.Seller }, canActivate: [AppRouteGuard] },
 
                     // No use

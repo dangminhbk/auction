@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Shouldly;
-using Xunit;
+﻿using Shouldly;
+using System.Threading.Tasks;
 using WebShop.Sessions;
+using Xunit;
 
 namespace WebShop.Tests.Sessions
 {
@@ -21,10 +21,10 @@ namespace WebShop.Tests.Sessions
             LoginAsHostAdmin();
 
             // Act
-            var output = await _sessionAppService.GetCurrentLoginInformations();
+            WebShop.Sessions.Dto.GetCurrentLoginInformationsOutput output = await _sessionAppService.GetCurrentLoginInformations();
 
             // Assert
-            var currentUser = await GetCurrentUserAsync();
+            Authorization.Users.User currentUser = await GetCurrentUserAsync();
             output.User.ShouldNotBe(null);
             output.User.Name.ShouldBe(currentUser.Name);
             output.User.Surname.ShouldBe(currentUser.Surname);
@@ -36,11 +36,11 @@ namespace WebShop.Tests.Sessions
         public async Task Should_Get_Current_User_And_Tenant_When_Logged_In_As_Tenant()
         {
             // Act
-            var output = await _sessionAppService.GetCurrentLoginInformations();
+            WebShop.Sessions.Dto.GetCurrentLoginInformationsOutput output = await _sessionAppService.GetCurrentLoginInformations();
 
             // Assert
-            var currentUser = await GetCurrentUserAsync();
-            var currentTenant = await GetCurrentTenantAsync();
+            Authorization.Users.User currentUser = await GetCurrentUserAsync();
+            MultiTenancy.Tenant currentTenant = await GetCurrentTenantAsync();
 
             output.User.ShouldNotBe(null);
             output.User.Name.ShouldBe(currentUser.Name);

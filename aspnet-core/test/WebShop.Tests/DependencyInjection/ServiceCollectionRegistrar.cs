@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Abp.Dependency;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor.MsDependencyInjection;
-using Abp.Dependency;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using WebShop.EntityFrameworkCore;
 using WebShop.Identity;
 
@@ -13,15 +13,15 @@ namespace WebShop.Tests.DependencyInjection
     {
         public static void Register(IIocManager iocManager)
         {
-            var services = new ServiceCollection();
+            ServiceCollection services = new ServiceCollection();
 
             IdentityRegistrar.Register(services);
 
             services.AddEntityFrameworkInMemoryDatabase();
 
-            var serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(iocManager.IocContainer, services);
+            IServiceProvider serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(iocManager.IocContainer, services);
 
-            var builder = new DbContextOptionsBuilder<WebShopDbContext>();
+            DbContextOptionsBuilder<WebShopDbContext> builder = new DbContextOptionsBuilder<WebShopDbContext>();
             builder.UseInMemoryDatabase(Guid.NewGuid().ToString()).UseInternalServiceProvider(serviceProvider);
 
             iocManager.IocContainer.Register(

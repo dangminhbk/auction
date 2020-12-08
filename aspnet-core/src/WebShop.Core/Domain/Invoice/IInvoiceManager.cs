@@ -1,8 +1,5 @@
 ﻿using Abp.Domain.Services;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WebShop.Domain.Invoice
@@ -16,14 +13,14 @@ namespace WebShop.Domain.Invoice
             string SerialNumber
         );
         Task UpdateAddress(
-            long Id, 
-            string Address, 
-            string PhoneNumber, 
+            long Id,
+            string Address,
+            string PhoneNumber,
             string ReceiperName);
         Task<Invoice> Get(long Id);
         Task<IQueryable<Invoice>> GetAll();
         Task ChangeStatus(
-            long Id, 
+            long Id,
             OrderStatus status);
     }
 }

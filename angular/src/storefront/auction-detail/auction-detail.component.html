@@ -23,39 +23,109 @@
                 <div [innerHTML]="product.description">
                 </div>
             </div>
-
-            <div class="col-md-6 offset-md-6">
+            <div class="col-md-12" style="margin-top: 20px;">
                 <div class="row">
-                    <label style="margin-right: 10px;" for="">Người tổ chức đấu giá: </label>
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-4">
-                        <input placeholder="Giá" currencyMask [options]="{ prefix: 'VND ', thousands: '.', decimal: ',', inputMode: 1 }"
-                            class="form-control" name="price" id="price" required [(ngModel)]="bidPrices"
-                            #priceModel="ngModel" #priceEl />
+
+                    <div class="col-md-12">
+                        <div class="card card-widget widget-user-2">
+                            <div class="widget-user-header bg-primary">
+                                <!-- /.widget-user-image -->
+                                <h3 class="widget-user-username">Thông tin đấu giá</h3>
+                            </div> 
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label style="margin-right: 10px;" for="">Mức giá khởi điểm: </label>
+                                            <span>{{auction.initPrice | currency: 'VND'}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label style="margin-right: 10px;" for="">Người tổ chức đấu giá: </label>
+                                            <span>{{seller.name }}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label style="margin-right: 10px;" for="">Thời gian bắt đầu: </label>
+                                            <span>{{auction.startDate | date: 'short'}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label style="margin-right: 10px;" for="">Thời gian kết thúc: </label>
+                                            <span>{{auction.endDate | date: 'short'}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <input placeholder="Giá" currencyMask
+                                                [options]="{ prefix: 'VND ', thousands: '.', decimal: ',', inputMode: 1 }"
+                                                class="form-control" name="price" id="price" required
+                                                [(ngModel)]="bidPrices" #priceModel="ngModel" #priceEl />
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button (click)="placeBid()" class="btn btn-primary">
+                                                Đặt giá
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label style="margin-right: 10px;" for="">Mức giá hiện tại: </label>
+                                            <span>{{auction.currentPrice | currency: 'VND'}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label style="margin-right: 10px;" for="">Người thắng hiện tại: </label>
+                                            <span>{{auction.userName }}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label style="margin-right: 10px;" for="">Thời gian: </label>
+                                            <span>{{auction.lastBidTime | date: 'short'}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
-                    <div class="col-md-3">
-                        <button (click)="placeBid()" class="btn btn-primary">
-                            Đặt giá
-                        </button>
+                    <div class="col-md-12">
+                        <div class="card card-widget widget-user-2">
+                            <!-- Add the bg color to the header using any of the bg-* classes -->
+                            <div class="widget-user-header bg-primary">
+                                <div class="widget-user-image">
+                                    <img class="img-circle elevation-2" src="{{getImagePath(seller.logoUrl)}}"
+                                        alt="User Avatar">
+                                </div>
+                                <!-- /.widget-user-image -->
+                                <h3 class="widget-user-username">{{seller.name}}</h3>
+                            </div>
+                            <div class="card-footer p-0">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link">
+                                            Đã bán được <span class="float-right badge bg-primary">31</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link">
+                                            Đã tổ chức <span class="float-right badge bg-info">5</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link">
+                                            Số sản phẩm <span class="float-right badge bg-success">12</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <label style="margin-right: 10px;" for="">Mức giá hiện tại: </label>
-                        <span>{{auction.currentPrice | currency: 'VND'}}</span>
-                    </div>
-                    <div class="col-md-12">
-                        <label style="margin-right: 10px;" for="">Người thắng hiện tại: </label>
-                        <span>{{auction.userName }}</span>
-                    </div>
-                    <div class="col-md-12">
-                        <label style="margin-right: 10px;" for="">Thời gian: </label>
-                        <span>{{auction.lastBidTime | date: 'short'}}</span>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- /.row -->

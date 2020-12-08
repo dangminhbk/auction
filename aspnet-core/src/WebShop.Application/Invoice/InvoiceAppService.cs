@@ -1,11 +1,8 @@
 ﻿using Abp.Application.Services.Dto;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using WebShop.Domain.Invoice;
 using WebShop.Invoice.Dto;
-using System.Linq;
 
 namespace WebShop.Invoice
 {
@@ -43,11 +40,11 @@ namespace WebShop.Invoice
 
         public async Task<PagedResultDto<InvoiceListDto>> GetMyInvoices(PagedResultRequestDto input)
         {
-            var userId = AbpSession.UserId;
-            var raw = (await _invoiceManager.GetAll())
-                .Where(s=>s.UserId == userId);
+            long? userId = AbpSession.UserId;
+            IQueryable<Domain.Invoice.Invoice> raw = (await _invoiceManager.GetAll())
+                .Where(s => s.UserId == userId);
 
-            var result = raw.Select(s => new InvoiceListDto
+            IQueryable<InvoiceListDto> result = raw.Select(s => new InvoiceListDto
             {
                 CreateDate = s.CreationTime,
                 Id = s.Id,
@@ -63,10 +60,10 @@ namespace WebShop.Invoice
         public async Task<PagedResultDto<InvoiceListDto>> GetAll(PagedResultRequestDto input)
         {
             Domain.Seller.Seller seller = await GetCurrentSeller();
-            var raw = (await _invoiceManager.GetAll())
+            IQueryable<Domain.Invoice.Invoice> raw = (await _invoiceManager.GetAll())
                 .Where(s => s.SellerId == seller.Id);
 
-            var result = raw.Select(s => new InvoiceListDto
+            IQueryable<InvoiceListDto> result = raw.Select(s => new InvoiceListDto
             {
                 CreateDate = s.CreationTime,
                 Id = s.Id,
@@ -81,7 +78,7 @@ namespace WebShop.Invoice
 
         public async Task<InvoiceDetailDto> Get(EntityDto<long> input)
         {
-            var invoice = await _invoiceManager.Get(input.Id);
+            Domain.Invoice.Invoice invoice = await _invoiceManager.Get(input.Id);
             return ObjectMapper.Map<InvoiceDetailDto>(invoice);
         }
     }

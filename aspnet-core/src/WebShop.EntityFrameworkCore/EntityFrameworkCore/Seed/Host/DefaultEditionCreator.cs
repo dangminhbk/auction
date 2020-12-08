@@ -1,7 +1,7 @@
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Abp.Application.Editions;
 using Abp.Application.Features;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using WebShop.Editions;
 
 namespace WebShop.EntityFrameworkCore.Seed.Host
@@ -22,7 +22,7 @@ namespace WebShop.EntityFrameworkCore.Seed.Host
 
         private void CreateEditions()
         {
-            var defaultEdition = _context.Editions.IgnoreQueryFilters().FirstOrDefault(e => e.Name == EditionManager.DefaultEditionName);
+            Edition defaultEdition = _context.Editions.IgnoreQueryFilters().FirstOrDefault(e => e.Name == EditionManager.DefaultEditionName);
             if (defaultEdition == null)
             {
                 defaultEdition = new Edition { Name = EditionManager.DefaultEditionName, DisplayName = EditionManager.DefaultEditionName };

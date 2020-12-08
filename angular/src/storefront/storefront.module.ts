@@ -26,6 +26,12 @@ import { InvoiceComponent } from './invoice/invoice.component';
 import { UpdateInvoiceAddressComponent } from './invoice/update-invoice-address/update-invoice-address.component';
 import { InvoiceDetailComponent } from './invoice/invoice-detail/invoice-detail.component';
 import { AuctionCountdownComponent } from './auction/auction-countdown/auction-countdown.component';
+import { CategoryComponent } from './category/category.component';
+import { LogoutComponent } from './logout/logout.component';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { CurrencyPipe } from '@angular/common';
+import { Auction2Component } from './auction2/auction2.component';
+import { BrandComponent } from './brand/brand.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +46,11 @@ import { AuctionCountdownComponent } from './auction/auction-countdown/auction-c
     InvoiceComponent,
     UpdateInvoiceAddressComponent,
     InvoiceDetailComponent,
-    AuctionCountdownComponent
+    AuctionCountdownComponent,
+    CategoryComponent,
+    LogoutComponent,
+    Auction2Component,
+    BrandComponent
   ],
   imports: [
     FormsModule,
@@ -59,6 +69,8 @@ import { AuctionCountdownComponent } from './auction/auction-countdown/auction-c
     CountdownModule,
     CarouselModule.forRoot(),
     NgxCurrencyModule,
-  ]
+    NgxSliderModule
+  ],
+  providers: [CurrencyPipe],
 })
 export class StorefrontModule { }

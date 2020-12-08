@@ -1,9 +1,9 @@
-﻿using System;
-using Castle.Facilities.Logging;
-using Abp;
+﻿using Abp;
 using Abp.Castle.Logging.Log4Net;
 using Abp.Collections.Extensions;
 using Abp.Dependency;
+using Castle.Facilities.Logging;
+using System;
 
 namespace WebShop.Migrator
 {
@@ -15,7 +15,7 @@ namespace WebShop.Migrator
         {
             ParseArgs(args);
 
-            using (var bootstrapper = AbpBootstrapper.Create<WebShopMigratorModule>())
+            using (AbpBootstrapper bootstrapper = AbpBootstrapper.Create<WebShopMigratorModule>())
             {
                 bootstrapper.IocManager.IocContainer
                     .AddFacility<LoggingFacility>(
@@ -24,14 +24,14 @@ namespace WebShop.Migrator
 
                 bootstrapper.Initialize();
 
-                using (var migrateExecuter = bootstrapper.IocManager.ResolveAsDisposable<MultiTenantMigrateExecuter>())
+                using (IDisposableDependencyObjectWrapper<MultiTenantMigrateExecuter> migrateExecuter = bootstrapper.IocManager.ResolveAsDisposable<MultiTenantMigrateExecuter>())
                 {
-                    var migrationSucceeded = migrateExecuter.Object.Run(_quietMode);
-                    
+                    bool migrationSucceeded = migrateExecuter.Object.Run(_quietMode);
+
                     if (_quietMode)
                     {
                         // exit clean (with exit code 0) if migration is a success, otherwise exit with code 1
-                        var exitCode = Convert.ToInt32(!migrationSucceeded);
+                        int exitCode = Convert.ToInt32(!migrationSucceeded);
                         Environment.Exit(exitCode);
                     }
                     else
@@ -50,7 +50,7 @@ namespace WebShop.Migrator
                 return;
             }
 
-            foreach (var arg in args)
+            foreach (string arg in args)
             {
                 switch (arg)
                 {

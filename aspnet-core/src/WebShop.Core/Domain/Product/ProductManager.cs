@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WebShop.Product
@@ -27,7 +26,7 @@ namespace WebShop.Product
             long[] ProductCategories
         )
         {
-            var product = new Product
+            Product product = new Product
             {
                 Name = Name,
                 BrandId = BrandId,
@@ -38,7 +37,7 @@ namespace WebShop.Product
 
             if (CoverImageId.HasValue)
             {
-                var cover = new ProductCoverImage
+                ProductCoverImage cover = new ProductCoverImage
                 {
                     ImageId = CoverImageId.Value
                 };
@@ -48,21 +47,21 @@ namespace WebShop.Product
 
             product.ProductCategories = new List<ProductCategory>();
 
-            foreach (var category in ProductCategories)
+            foreach (long category in ProductCategories)
             {
-                var productCategory = new ProductCategory
+                ProductCategory productCategory = new ProductCategory
                 {
                     CategoryId = category
                 };
 
                 product.ProductCategories.Add(productCategory);
-            }            
+            }
 
             product.ProductImages = new List<ProductImage>();
 
-            foreach (var image in ProductImages)
+            foreach (long image in ProductImages)
             {
-                var productImage = new ProductImage
+                ProductImage productImage = new ProductImage
                 {
                     ImageId = image
                 };
@@ -70,7 +69,7 @@ namespace WebShop.Product
                 product.ProductImages.Add(productImage);
             }
 
-            await this.ProductRepository.InsertAsync(product);
+            await ProductRepository.InsertAsync(product);
         }
 
         public async Task DeleteProduct(long id, long sellerId)
@@ -87,7 +86,7 @@ namespace WebShop.Product
             long? BrandId,
             long[] ProductCategories)
         {
-            var product = await Get(Id, 0);
+            Product product = await Get(Id, 0);
             product.Name = Name;
             product.Price = Price;
             product.Description = Description;
@@ -102,7 +101,7 @@ namespace WebShop.Product
 
             if (CoverImageId.HasValue)
             {
-                var cover = new ProductCoverImage
+                ProductCoverImage cover = new ProductCoverImage
                 {
                     ImageId = CoverImageId.Value
                 };
@@ -112,9 +111,9 @@ namespace WebShop.Product
 
             product.ProductCategories = new List<ProductCategory>();
 
-            foreach (var category in ProductCategories)
+            foreach (long category in ProductCategories)
             {
-                var productCategory = new ProductCategory
+                ProductCategory productCategory = new ProductCategory
                 {
                     CategoryId = category
                 };
@@ -124,9 +123,9 @@ namespace WebShop.Product
 
             product.ProductImages = new List<ProductImage>();
 
-            foreach (var image in ProductImages)
+            foreach (long image in ProductImages)
             {
-                var productImage = new ProductImage
+                ProductImage productImage = new ProductImage
                 {
                     ImageId = image
                 };
@@ -139,8 +138,8 @@ namespace WebShop.Product
         }
 
         public async Task<IQueryable<Product>> GetAll(
-            string keyword, 
-            decimal? minPrice, 
+            string keyword,
+            decimal? minPrice,
             decimal? maxPrice,
             DateTime? minCreateDate,
             DateTime? maxCreateDate,
@@ -148,7 +147,7 @@ namespace WebShop.Product
             long[] categories
             )
         {
-            var result = this.ProductRepository
+            Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Product, Domain.Brand.Brand> result = ProductRepository
                 .GetAll()
                 .Include(s => s.ProductImages)
                 .ThenInclude(s => s.Image)
@@ -196,23 +195,23 @@ namespace WebShop.Product
 
         public async Task<Product> Get(long id, long sellerId)
         {
-            var product = this.ProductRepository
+            Product product = ProductRepository
                 .GetAll()
                 .Include(s => s.ProductImages)
                 .ThenInclude(s => s.Image)
                 .Include(s => s.CoverImage)
                 .ThenInclude(s => s.Image)
                 .Include(s => s.Brand)
-                .Include(s=>s.ProductCategories)
-                .ThenInclude(s=>s.Category)
-                .FirstOrDefault(s=>s.Id == id);
+                .Include(s => s.ProductCategories)
+                .ThenInclude(s => s.Category)
+                .FirstOrDefault(s => s.Id == id);
             return product;
         }
 
         public async Task<IQueryable<Product>> GetAllForSeller(long sellerId, string keyword)
         {
-            return (await this.GetAll(keyword,null, null, null, null, null, null))
-                .Where(s=>s.SellerId == sellerId);
+            return (await GetAll(keyword, null, null, null, null, null, null))
+                .Where(s => s.SellerId == sellerId);
         }
     }
 }

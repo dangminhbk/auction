@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Abp.Modules;
+﻿using Abp.Modules;
 using Abp.Reflection.Extensions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using WebShop.Configuration;
 
 namespace WebShop.Web.Host.Startup
 {
     [DependsOn(
        typeof(WebShopWebCoreModule))]
-    public class WebShopWebHostModule: AbpModule
+    public class WebShopWebHostModule : AbpModule
     {
         private readonly IWebHostEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;

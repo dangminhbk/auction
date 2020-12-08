@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Abp.Authorization;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Abp.Authorization;
 using WebShop.Authorization.Roles;
 using WebShop.Authorization.Users;
 using WebShop.MultiTenancy;
-using Microsoft.Extensions.Logging;
 
 namespace WebShop.Identity
 {
@@ -15,7 +15,7 @@ namespace WebShop.Identity
             IOptions<SecurityStampValidatorOptions> options,
             SignInManager signInManager,
             ISystemClock systemClock,
-            ILoggerFactory loggerFactory) 
+            ILoggerFactory loggerFactory)
             : base(options, signInManager, systemClock, loggerFactory)
         {
         }

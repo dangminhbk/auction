@@ -1,0 +1,30 @@
+<div class="conatiner card" style="margin: 10px; min-height: 100vh;">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 col-sm-12">
+            <div class="card" style="margin: 10px;">
+                <div class="card-header text-uppercase text-lg">Nhãn hiệu</div>
+            </div>
+        </div>
+        <div class="col-md-8 offset-md-2 col-sm-12" style="min-height: 80vh;">
+            <div class="container">
+                <div class="row">
+                    <div *ngFor="let item of items" #auctioncard class="col-md-2 col-sm-4">
+                        <div class="card">
+
+                            <div class="card-body">
+                                <div style="display: flex; justify-content: center;">
+                                    <!-- <a class="text-uppercase" routerLink="auction/{{item.id}}">{{item.productName}}</a> -->
+                                    <a class="text-uppercase"
+                                        routerLink="/storefront/auction/brand/{{item.id}}">{{item.name}}</a>
+                                </div>
+                                <img class="img-fluid elevation-1" style="height: 100px;" src="{{getImagePath(item.brandImageUrl)}}"
+                                    alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1833,6 +1833,11 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
+bootstrap-slider@^10.2.0:
+  version "10.6.2"
+  resolved "https://registry.yarnpkg.com/bootstrap-slider/-/bootstrap-slider-10.6.2.tgz#7341f468c012bdaa6a1d8625d989fdeb8ed7dd38"
+  integrity sha512-8JTPZB9QVOdrGzYF3YgC3YW6ssfPeBvBwZnXffiZ7YH/zz1D0EKlZvmQsm/w3N0XjVNYQEoQ0ax+jHrErV4K1Q==
+
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
@@ -5564,6 +5569,14 @@ neo-async@^2.5.0, neo-async@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
+
+ngx-bootstrap-slider@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/ngx-bootstrap-slider/-/ngx-bootstrap-slider-1.9.0.tgz#abecc241eb71e4bc54785e7620872408cf8b0e7b"
+  integrity sha512-g99ji9Jl3Jqv42VHoV0tMCYd2QrZMuvprnPHWHpRt2zia7dD6MMJiJ5OHcGvh0VnUEq8RLaIGWaD1qDyHM2CTA==
+  dependencies:
+    bootstrap-slider "^10.2.0"
+    tslib "^2.0.0"
 
 ngx-bootstrap@^5.6.1:
   version "5.6.1"

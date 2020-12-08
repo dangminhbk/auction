@@ -12,6 +12,7 @@ import { InvoiceService } from 'services/invoice/invoice.service';
 import * as dayjs from 'dayjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CreateAuctionComponent } from '../create-auction/create-auction.component';
+import { SellerService } from 'services/seller/seller.service';
 
 @Component({
   selector: 'app-auction-detail',
@@ -35,6 +36,7 @@ export class AuctionDetailComponent extends AuctionDetailHome implements OnInit 
     protected _invoiceService: InvoiceService,
     private _modalService: BsModalService,
     router: ActivatedRoute,
+    protected _seller: SellerService,
     route: Router
   ) {
     super(
@@ -42,6 +44,7 @@ export class AuctionDetailComponent extends AuctionDetailHome implements OnInit 
       productService,
       auctionService,
       router,
+      _seller,
       route
     );
   }

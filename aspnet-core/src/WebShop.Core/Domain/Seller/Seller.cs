@@ -1,11 +1,7 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 using WebShop.Authorization.Users;
-using WebShop.Domain.Image;
 
 namespace WebShop.Domain.Seller
 {

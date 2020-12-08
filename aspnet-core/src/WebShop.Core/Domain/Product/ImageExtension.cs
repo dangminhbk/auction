@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Text;
 
 namespace WebShop.Product
 {
@@ -41,7 +39,7 @@ namespace WebShop.Product
 
             try
             {
-                using (var bitmap = new Bitmap(postedFile.OpenReadStream()))
+                using (Bitmap bitmap = new Bitmap(postedFile.OpenReadStream()))
                 {
                 }
             }

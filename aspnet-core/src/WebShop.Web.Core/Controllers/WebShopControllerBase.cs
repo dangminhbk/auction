@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace WebShop.Controllers
 {
-    public abstract class WebShopControllerBase: AbpController
+    public abstract class WebShopControllerBase : AbpController
     {
         protected WebShopControllerBase()
         {

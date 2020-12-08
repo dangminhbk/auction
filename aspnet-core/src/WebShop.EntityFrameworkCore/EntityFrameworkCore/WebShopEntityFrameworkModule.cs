@@ -7,7 +7,7 @@ using WebShop.EntityFrameworkCore.Seed;
 namespace WebShop.EntityFrameworkCore
 {
     [DependsOn(
-        typeof(WebShopCoreModule), 
+        typeof(WebShopCoreModule),
         typeof(AbpZeroCoreEntityFrameworkCoreModule))]
     public class WebShopEntityFrameworkModule : AbpModule
     {

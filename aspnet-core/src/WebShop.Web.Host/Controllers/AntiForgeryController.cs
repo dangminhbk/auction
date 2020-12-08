@@ -1,8 +1,6 @@
-using System.Threading.Tasks;
 using Abp.Web.Security.AntiForgery;
 using Microsoft.AspNetCore.Antiforgery;
 using WebShop.Controllers;
-using Microsoft.AspNetCore.Mvc;
 
 namespace WebShop.Web.Host.Controllers
 {

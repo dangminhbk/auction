@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using Abp.Extensions;
+﻿using Abp.Extensions;
+using System.Text.RegularExpressions;
 
 namespace WebShop.Validation
 {
@@ -14,7 +14,7 @@ namespace WebShop.Validation
                 return false;
             }
 
-            var regex = new Regex(EmailRegex);
+            Regex regex = new Regex(EmailRegex);
             return regex.IsMatch(value);
         }
     }

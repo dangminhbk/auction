@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using WebShop.DtoBase;
+﻿using WebShop.DtoBase;
 
 namespace WebShop.Auction.Dto
 {

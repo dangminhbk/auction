@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Abp.Authorization.Users;
+using Abp.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using Abp.Authorization.Users;
-using Abp.Extensions;
 using WebShop.Domain.Seller;
 
 namespace WebShop.Authorization.Users
@@ -21,7 +21,7 @@ namespace WebShop.Authorization.Users
 
         public static User CreateTenantAdminUser(int tenantId, string emailAddress)
         {
-            var user = new User
+            User user = new User
             {
                 TenantId = tenantId,
                 UserName = AdminUserName,

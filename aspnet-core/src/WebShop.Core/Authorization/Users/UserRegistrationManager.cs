@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Abp.Authorization.Users;
+﻿using Abp.Authorization.Users;
 using Abp.Domain.Services;
 using Abp.IdentityFramework;
 using Abp.Runtime.Session;
 using Abp.UI;
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebShop.Authorization.Roles;
 using WebShop.MultiTenancy;
 
@@ -44,9 +42,9 @@ namespace WebShop.Authorization.Users
         {
             CheckForTenant();
 
-            var tenant = await GetActiveTenantAsync();
+            Tenant tenant = await GetActiveTenantAsync();
 
-            var user = new User
+            User user = new User
             {
                 TenantId = tenant.Id,
                 Name = name,
@@ -64,7 +62,7 @@ namespace WebShop.Authorization.Users
 
             CheckErrors(await _userManager.CreateAsync(user, plainPassword));
 
-            foreach (var role in defaultRoles)
+            foreach (string role in defaultRoles)
             {
                 await _userManager.AddToRoleAsync(user, role);
             }
@@ -94,7 +92,7 @@ namespace WebShop.Authorization.Users
 
         private async Task<Tenant> GetActiveTenantAsync(int tenantId)
         {
-            var tenant = await _tenantManager.FindByIdAsync(tenantId);
+            Tenant tenant = await _tenantManager.FindByIdAsync(tenantId);
             if (tenant == null)
             {
                 throw new UserFriendlyException(L("UnknownTenantId{0}", tenantId));

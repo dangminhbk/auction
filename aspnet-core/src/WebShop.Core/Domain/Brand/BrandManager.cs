@@ -5,9 +5,7 @@ using Abp.Extensions;
 using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WebShop.Authorization;
 
@@ -23,7 +21,7 @@ namespace WebShop.Domain.Brand
         [AbpAuthorize(nameof(PermissionNames.Admins))]
         public async Task CreateBrand(string BrandName, long? BrandImageId, string Description)
         {
-            var brand = new Brand
+            Brand brand = new Brand
             {
                 Name = BrandName,
                 Description = Description
@@ -31,7 +29,7 @@ namespace WebShop.Domain.Brand
 
             if (BrandImageId.HasValue)
             {
-                var brandImage = new BrandImage
+                BrandImage brandImage = new BrandImage
                 {
                     ImageId = BrandImageId.Value
                 };
@@ -53,13 +51,13 @@ namespace WebShop.Domain.Brand
         [AbpAuthorize(nameof(PermissionNames.Admins))]
         public async Task EditBrand(long BrandId, string BrandName, long? BrandImage, string Description)
         {
-            var brand = await GetBrand(BrandId);
+            Brand brand = await GetBrand(BrandId);
             if (BrandImage.HasValue)
             {
-                var oldImage = brand.BrandImage.Image;
+                Image.Image oldImage = brand.BrandImage.Image;
                 if (oldImage.Id != BrandImage)
                 {
-                    var brandImage = new BrandImage
+                    BrandImage brandImage = new BrandImage
                     {
                         ImageId = BrandImage.Value
                     };
@@ -76,16 +74,16 @@ namespace WebShop.Domain.Brand
         public async Task<IQueryable<Brand>> GetAllBrand(string Keyword)
         {
             return Repository
-                .GetAllIncluding(s=>s.BrandImage,s=>s.BrandImage.Image)
-                .WhereIf(!Keyword.IsNullOrEmpty(),s=>s.Name.Contains(Keyword));
+                .GetAllIncluding(s => s.BrandImage, s => s.BrandImage.Image)
+                .WhereIf(!Keyword.IsNullOrEmpty(), s => s.Name.Contains(Keyword));
         }
 
         //[AbpAuthorize(nameof(PermissionNames.Admins))]
         public async Task<Brand> GetBrand(long BrandId)
         {
-            var result = await Repository
+            Brand result = await Repository
                 .GetAllIncluding(s => s.BrandImage, s => s.BrandImage.Image)
-                .FirstOrDefaultAsync(s=>s.Id == BrandId);
+                .FirstOrDefaultAsync(s => s.Id == BrandId);
             if (result == null)
             {
                 throw new Exception("Entity not found!");

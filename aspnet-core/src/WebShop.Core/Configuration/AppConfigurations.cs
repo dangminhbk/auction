@@ -1,7 +1,7 @@
-﻿using System.Collections.Concurrent;
-using Microsoft.Extensions.Configuration;
-using Abp.Extensions;
+﻿using Abp.Extensions;
 using Abp.Reflection.Extensions;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Concurrent;
 
 namespace WebShop.Configuration
 {
@@ -16,7 +16,7 @@ namespace WebShop.Configuration
 
         public static IConfigurationRoot Get(string path, string environmentName = null, bool addUserSecrets = false)
         {
-            var cacheKey = path + "#" + environmentName + "#" + addUserSecrets;
+            string cacheKey = path + "#" + environmentName + "#" + addUserSecrets;
             return _configurationCache.GetOrAdd(
                 cacheKey,
                 _ => BuildConfiguration(path, environmentName, addUserSecrets)
@@ -25,7 +25,7 @@ namespace WebShop.Configuration
 
         private static IConfigurationRoot BuildConfiguration(string path, string environmentName = null, bool addUserSecrets = false)
         {
-            var builder = new ConfigurationBuilder()
+            IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(path)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 

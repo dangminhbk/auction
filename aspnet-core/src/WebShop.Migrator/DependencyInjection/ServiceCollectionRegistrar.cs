@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Abp.Dependency;
 using Castle.Windsor.MsDependencyInjection;
-using Abp.Dependency;
+using Microsoft.Extensions.DependencyInjection;
 using WebShop.Identity;
 
 namespace WebShop.Migrator.DependencyInjection
@@ -9,7 +9,7 @@ namespace WebShop.Migrator.DependencyInjection
     {
         public static void Register(IIocManager iocManager)
         {
-            var services = new ServiceCollection();
+            ServiceCollection services = new ServiceCollection();
 
             IdentityRegistrar.Register(services);
 

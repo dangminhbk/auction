@@ -1,0 +1,26 @@
+<div class="conatiner card" style="margin: 10px; min-height: 100vh;">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 col-sm-12">
+        <div class="card" style="margin: 10px;">
+          <div class="card-header text-uppercase text-lg">Danh mục</div> 
+        </div>
+      </div>
+      <div class="col-md-8 offset-md-2 col-sm-12" style="min-height: 80vh;">
+        <div class="container">
+          <div class="row">
+             <div *ngFor="let item of items" #auctioncard class="col-md-4 col-sm-6">
+                <div class="card card-outline card-primary">
+                  <div class="card-header">
+                    <!-- <a class="text-uppercase" routerLink="auction/{{item.id}}">{{item.productName}}</a> -->
+                    <a class="text-uppercase" routerLink="/storefront/auction/category/{{item.id}}">{{item.name}}</a>
+                  </div>
+                </div>
+              </div>            
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  
+  

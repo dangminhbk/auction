@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using Abp.Application.Services.Dto;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
-using Xunit;
-using Abp.Application.Services.Dto;
+using System.Threading.Tasks;
 using WebShop.Users;
 using WebShop.Users.Dto;
+using Xunit;
 
 namespace WebShop.Tests.Users
 {
@@ -21,7 +21,7 @@ namespace WebShop.Tests.Users
         public async Task GetUsers_Test()
         {
             // Act
-            var output = await _userAppService.GetAllAsync(new PagedUserResultRequestDto{MaxResultCount=20, SkipCount=0} );
+            PagedResultDto<UserDto> output = await _userAppService.GetAllAsync(new PagedUserResultRequestDto { MaxResultCount = 20, SkipCount = 0 });
 
             // Assert
             output.Items.Count.ShouldBeGreaterThan(0);
@@ -44,7 +44,7 @@ namespace WebShop.Tests.Users
 
             await UsingDbContextAsync(async context =>
             {
-                var johnNashUser = await context.Users.FirstOrDefaultAsync(u => u.UserName == "john.nash");
+                Authorization.Users.User johnNashUser = await context.Users.FirstOrDefaultAsync(u => u.UserName == "john.nash");
                 johnNashUser.ShouldNotBeNull();
             });
         }

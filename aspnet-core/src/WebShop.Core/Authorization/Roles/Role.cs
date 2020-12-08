@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Abp.Authorization.Roles;
+﻿using Abp.Authorization.Roles;
+using System.ComponentModel.DataAnnotations;
 using WebShop.Authorization.Users;
 
 namespace WebShop.Authorization.Roles
@@ -23,6 +23,6 @@ namespace WebShop.Authorization.Roles
         }
 
         [StringLength(MaxDescriptionLength)]
-        public string Description {get; set;}
+        public string Description { get; set; }
     }
 }

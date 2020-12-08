@@ -30,15 +30,18 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
         new MenuItem('Quản trị', '/app', '')
       ];
     } else {
-      let userName = this.appSession.getName();
+      const userName = this.appSession.getName();
       this.menuItems = [
         new MenuItem('Trang chủ', '/storefront/home', ''),
-        new MenuItem('Đấu giá', '/storefront/auction', '')
+        new MenuItem('Đấu giá', '/storefront/auction', ''),
+        new MenuItem('Cửa hàng', '/storefront/shop', ''),
+        new MenuItem('Danh mục', '/storefront/category', ''),
+        new MenuItem('Nhãn hiệu', '/storefront/brand', '')
       ];
 
       if (userName !== undefined) {
         this.menuItems.push(new MenuItem('Đơn hàng', '/storefront/invoice', ''));
-        this.menuItems.push(new MenuItem('Đăng xuất', '/account/login', ''));
+        this.menuItems.push(new MenuItem('Đăng xuất', '/storefront/logout', ''));
       } else {
         this.menuItems.push(new MenuItem('Đăng nhập', '/account/login', ''));
       }

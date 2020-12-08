@@ -14,5 +14,6 @@ namespace WebShop.Auction.Dto
         public long NumberOfBids { get; set; }
         public string UserName { get; set; }
         public DateTime LastBidTime { get; set; }
+        public long SellerId { get; set; }
     }
 }

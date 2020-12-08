@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
 using Abp.Data;
 using Abp.Dependency;
 using Abp.Domain.Repositories;
@@ -8,6 +5,9 @@ using Abp.Domain.Uow;
 using Abp.Extensions;
 using Abp.MultiTenancy;
 using Abp.Runtime.Security;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
 using WebShop.EntityFrameworkCore;
 using WebShop.EntityFrameworkCore.Seed;
 using WebShop.MultiTenancy;
@@ -36,7 +36,7 @@ namespace WebShop.Migrator
 
         public bool Run(bool skipConnVerification)
         {
-            var hostConnStr = CensorConnectionString(_connectionStringResolver.GetNameOrConnectionString(new ConnectionStringResolveArgs(MultiTenancySides.Host)));
+            string hostConnStr = CensorConnectionString(_connectionStringResolver.GetNameOrConnectionString(new ConnectionStringResolveArgs(MultiTenancySides.Host)));
             if (hostConnStr.IsNullOrWhiteSpace())
             {
                 _log.Write("Configuration file should contain a connection string named 'Default'");
@@ -47,7 +47,7 @@ namespace WebShop.Migrator
             if (!skipConnVerification)
             {
                 _log.Write("Continue to migration for this host database and all tenants..? (Y/N): ");
-                var command = Console.ReadLine();
+                string command = Console.ReadLine();
                 if (!command.IsIn("Y", "y"))
                 {
                     _log.Write("Migration canceled.");
@@ -72,11 +72,11 @@ namespace WebShop.Migrator
             _log.Write("HOST database migration completed.");
             _log.Write("--------------------------------------------------------");
 
-            var migratedDatabases = new HashSet<string>();
-            var tenants = _tenantRepository.GetAllList(t => t.ConnectionString != null && t.ConnectionString != "");
-            for (var i = 0; i < tenants.Count; i++)
+            HashSet<string> migratedDatabases = new HashSet<string>();
+            List<Tenant> tenants = _tenantRepository.GetAllList(t => t.ConnectionString != null && t.ConnectionString != "");
+            for (int i = 0; i < tenants.Count; i++)
             {
-                var tenant = tenants[i];
+                Tenant tenant = tenants[i];
                 _log.Write(string.Format("Tenant database migration started... ({0} / {1})", (i + 1), tenants.Count));
                 _log.Write("Name              : " + tenant.Name);
                 _log.Write("TenancyName       : " + tenant.TenancyName);
@@ -114,10 +114,10 @@ namespace WebShop.Migrator
 
         private static string CensorConnectionString(string connectionString)
         {
-            var builder = new DbConnectionStringBuilder { ConnectionString = connectionString };
-            var keysToMask = new[] { "password", "pwd", "user id", "uid" };
+            DbConnectionStringBuilder builder = new DbConnectionStringBuilder { ConnectionString = connectionString };
+            string[] keysToMask = new[] { "password", "pwd", "user id", "uid" };
 
-            foreach (var key in keysToMask)
+            foreach (string key in keysToMask)
             {
                 if (builder.ContainsKey(key))
                 {

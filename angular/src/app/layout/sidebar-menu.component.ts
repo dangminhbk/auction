@@ -108,7 +108,38 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         ]
       ),
 
-
+      new MenuItem(
+        'Thống kê',
+        '',
+        'fas fa-chart-line',
+        PermissionNames.Seller,
+        [
+          new MenuItem(
+            this.l('Tổng quan'),
+            '/app/statistic',
+            'fas fa-minus',
+            PermissionNames.Seller
+          ),
+          new MenuItem(
+            this.l('Thống kê đấu giá'),
+            '/app/statistic/auction',
+            'fas fa-minus',
+            PermissionNames.Seller
+          ),
+          new MenuItem(
+            this.l('Thống kê đơn hàng'),
+            '/app/statistic/order',
+            'fas fa-minus',
+            PermissionNames.Seller
+          ),
+          new MenuItem(
+            this.l('Thống kê sản phẩm'),
+            '/app/statistic/product',
+            'fas fa-minus',
+            PermissionNames.Seller
+          )
+        ]
+      ),
 
       new MenuItem(
         this.l('Sản phẩm'),

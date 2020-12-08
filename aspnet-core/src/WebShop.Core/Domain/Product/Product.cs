@@ -1,11 +1,6 @@
-﻿using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
-using System;
+﻿using Abp.Domain.Entities.Auditing;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using WebShop.Category;
 using WebShop.Domain.Brand;
 using WebShop.Domain.Image;
 using WebShop.Domain.Seller;
@@ -23,11 +18,11 @@ namespace WebShop.Product
         public ICollection<ProductImage> ProductImages { get; set; }
         [ForeignKey(nameof(Product.Seller))]
         public long SellerId { get; set; }
-        public virtual Seller Seller {get; set;}
+        public virtual Seller Seller { get; set; }
         [ForeignKey(nameof(Product.Brand))]
         public long? BrandId { get; set; }
         public virtual Brand Brand { get; set; }
-        public virtual ICollection<ProductCategory> ProductCategories  { get; set; }
+        public virtual ICollection<ProductCategory> ProductCategories { get; set; }
         public ProductState State { get; set; }
     }
 
@@ -56,7 +51,7 @@ namespace WebShop.Product
         public Image Image { get; set; }
     }
 
-    public class ProductCoverImage: FullAuditedEntity<long>
+    public class ProductCoverImage : FullAuditedEntity<long>
     {
         [ForeignKey(nameof(ProductImage.Image))]
         public long ImageId { get; set; }

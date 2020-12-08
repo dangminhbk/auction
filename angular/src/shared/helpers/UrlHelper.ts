@@ -13,6 +13,6 @@ export class UrlHelper {
     }
 
     static getImagePath(url: string): string {
-        return `${AppConsts.remoteServiceBaseUrl}\\${url}`;
+        return `${AppConsts.remoteServiceBaseUrl}/${url}`;
     }
 }

@@ -14,7 +14,7 @@ namespace WebShop.Auction
 {
     public class AuctionAppService : WebShopAppServiceBase
     {
-        private IAuctionManager _auctionManager;
+        private readonly IAuctionManager _auctionManager;
         public AuctionAppService(IAuctionManager auctionManager)
         {
             _auctionManager = auctionManager;
@@ -45,8 +45,32 @@ namespace WebShop.Auction
                 .GetAll())
                 .Where(s => s.EndDate > now)
                 .Where(s => s.StartDate < now)
-                .WhereIf(!input.Keyword.IsNullOrEmpty(),s=>s.Product.Name.Contains(input.Keyword))
+                .WhereIf(!input.Keyword.IsNullOrEmpty(), s => s.Product.Name.Contains(input.Keyword))
                 .OrderByDescending(s => s.EndDate);
+
+            if (input.CategoryIds?.Length > 0)
+            {
+                auctions = auctions.WhereIf(
+                    input.CategoryIds?.Length > 0,
+                    s => s.Product.ProductCategories
+                                    .Any(i => input.CategoryIds.Contains(i.CategoryId)));
+            }
+
+            auctions = auctions.WhereIf(
+                    input.BrandId.HasValue,
+                    s => s.Product.BrandId == input.BrandId);
+
+            auctions = auctions.WhereIf(
+                    input.MinPrice.HasValue,
+                    s => s.CurrentPrice >= input.MinPrice);
+
+            auctions = auctions.WhereIf(
+                    input.MaxPrice.HasValue,
+                    s => s.CurrentPrice <= input.MaxPrice);
+
+            auctions = auctions.WhereIf(
+                    input.SellerId.HasValue,
+                    s => s.SellerId == input.SellerId);
 
             IQueryable<AuctionListDto> results = auctions.Select(s => new AuctionListDto
             {
@@ -85,7 +109,7 @@ namespace WebShop.Auction
             IQueryable<Domain.Auction.Auction> auctions = (await _auctionManager
                 .GetAll()
                 ).Where(s => s.SellerId == seller.Id)
-                .OrderByDescending(s=>s.EndDate);
+                .OrderByDescending(s => s.EndDate);
             IQueryable<AuctionListDto> results = auctions.Select(s => new AuctionListDto
             {
                 Id = s.Id,
@@ -113,8 +137,8 @@ namespace WebShop.Auction
                 CurrentPrice = item.CurrentPrice,
                 NumberOfBids = item.NumberOfBid,
                 LastBidTime = item.LastBidTime,
-                UserName = item.Winner?.UserName
-           
+                UserName = item.Winner?.UserName,
+                SellerId = item.SellerId
             };
         }
 

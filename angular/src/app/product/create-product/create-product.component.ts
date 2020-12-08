@@ -122,7 +122,7 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
 
   onChangeCategory(id: number, event) {
     if (this.product.categoryIds.find(s => s === id)) {
-      this.product.categoryIds = this.product.categoryIds.filter(s => s === id);
+      this.product.categoryIds = this.product.categoryIds.filter(s => s !== id);
     } else {
       this.product.categoryIds.push(id);
     }
@@ -146,7 +146,7 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
         image.isUpload = true;
         image.url = reader.result.toString();
         this.images.push(image);
-      }
+      };
     }
 
   }

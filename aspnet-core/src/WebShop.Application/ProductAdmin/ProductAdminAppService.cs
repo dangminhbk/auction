@@ -83,7 +83,7 @@ namespace WebShop.ProductAdmin
         {
             //var seller = await GetCurrentSeller();
             Product.Product product = await ProductManager.Get(input.Id, 0);
-            var images = product.ProductImages.Select(s => new ImageDto
+            System.Collections.Generic.IEnumerable<ImageDto> images = product.ProductImages.Select(s => new ImageDto
             {
                 Id = s.Image.Id,
                 Url = s.Image.Url
@@ -102,7 +102,7 @@ namespace WebShop.ProductAdmin
                 Price = product.Price,
                 SellerId = product.SellerId,
                 Images = images.ToList(),
-                CategoryIds = product.ProductCategories?.Select(s=>s.CategoryId).ToArray()
+                CategoryIds = product.ProductCategories?.Select(s => s.CategoryId).ToArray()
             };
         }
 

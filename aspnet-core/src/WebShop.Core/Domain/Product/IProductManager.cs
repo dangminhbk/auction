@@ -1,8 +1,6 @@
 ﻿using Abp.Domain.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WebShop.Product
@@ -47,7 +45,7 @@ namespace WebShop.Product
         Task<Product> Get(long id, long sellerId);
 
         Task<IQueryable<Product>> GetAllForSeller(
-            long sellerId, 
+            long sellerId,
             string keyword
         );
 

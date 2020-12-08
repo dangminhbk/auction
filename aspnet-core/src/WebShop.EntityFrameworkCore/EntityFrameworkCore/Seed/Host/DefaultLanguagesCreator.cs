@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Abp.Localization;
+﻿using Abp.Localization;
 using Abp.MultiTenancy;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WebShop.EntityFrameworkCore.Seed.Host
 {
@@ -14,7 +14,7 @@ namespace WebShop.EntityFrameworkCore.Seed.Host
 
         private static List<ApplicationLanguage> GetInitialLanguages()
         {
-            var tenantId = WebShopConsts.MultiTenancyEnabled ? null : (int?)MultiTenancyConsts.DefaultTenantId;
+            int? tenantId = WebShopConsts.MultiTenancyEnabled ? null : (int?)MultiTenancyConsts.DefaultTenantId;
             return new List<ApplicationLanguage>
             {
                 new ApplicationLanguage(tenantId, "en", "English", "famfamfam-flags us"),
@@ -44,7 +44,7 @@ namespace WebShop.EntityFrameworkCore.Seed.Host
 
         private void CreateLanguages()
         {
-            foreach (var language in InitialLanguages)
+            foreach (ApplicationLanguage language in InitialLanguages)
             {
                 AddLanguageIfNotExists(language);
             }

@@ -1,7 +1,5 @@
 ﻿using Abp.Domain.Entities.Auditing;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using WebShop.Product;
 
 namespace WebShop.Category

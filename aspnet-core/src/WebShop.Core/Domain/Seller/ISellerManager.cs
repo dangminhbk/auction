@@ -1,8 +1,6 @@
 ﻿using Abp.Domain.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WebShop.Domain.Seller
@@ -31,7 +29,7 @@ namespace WebShop.Domain.Seller
         Task<Seller> GetSellerById(long SellerId);
         Task<SellerPaymentOption> GetSellerPaymentOption(long SellerId);
         Task UpdatePayment(
-            long SellerId, 
+            long SellerId,
             List<KeyValuePair<string, string>> Payload,
             PaymentOption paymentOption
         );

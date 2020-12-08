@@ -55,14 +55,18 @@ import { SellerAdminDetailComponent } from './seller-admin/seller-admin-detail/s
 import { SellerAdminPaymentDetailComponent } from './seller-admin/seller-admin-payment-detail/seller-admin-payment-detail.component';
 import { CreateProductComponent } from './product/create-product/create-product.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { NgxCurrencyModule } from "ngx-currency";
+import { NgxCurrencyModule } from 'ngx-currency';
 import { CreateAuctionComponent } from './auction/create-auction/create-auction.component';
 import { AuctionDetailComponent } from './auction/auction-detail/auction-detail.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { CreateInvoiceComponent } from './invoice/create-invoice/create-invoice.component';
 import { InvoiceDetailComponent } from './invoice/invoice-detail/invoice-detail.component';
 import { CategoryComponent } from './category/category.component';
-
+import { StatisticComponent } from './statistic/statistic.component';
+import { ChartsModule } from 'ng2-charts';
+import { StatisticAuctionComponent } from './statistic-auction/statistic-auction.component';
+import { StatisticOrderComponent } from './statistic-order/statistic-order.component';
+import { StatisticProductComponent } from './statistic-product/statistic-product.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -115,6 +119,10 @@ import { CategoryComponent } from './category/category.component';
     CreateInvoiceComponent,
     InvoiceDetailComponent,
     CategoryComponent,
+    StatisticComponent,
+    StatisticAuctionComponent,
+    StatisticOrderComponent,
+    StatisticProductComponent,
   ],
   imports: [
     CommonModule,
@@ -132,6 +140,7 @@ import { CategoryComponent } from './category/category.component';
     NgxPaginationModule,
     CKEditorModule,
     NgxCurrencyModule,
+    ChartsModule
   ],
   providers: [],
   entryComponents: [

@@ -1,5 +1,4 @@
-﻿using Abp.Dependency;
-using Abp.Modules;
+﻿using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Timing;
 using Abp.Zero;
@@ -7,7 +6,6 @@ using Abp.Zero.Configuration;
 using WebShop.Authorization.Roles;
 using WebShop.Authorization.Users;
 using WebShop.Configuration;
-using WebShop.Domain.Image;
 using WebShop.Localization;
 using WebShop.MultiTenancy;
 using WebShop.Timing;

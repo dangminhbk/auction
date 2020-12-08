@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Abp.Dependency;
+﻿using Abp.Dependency;
+using System.Threading.Tasks;
 
 namespace WebShop.Authentication.External
 {
@@ -14,7 +14,7 @@ namespace WebShop.Authentication.External
 
         public async Task<bool> IsValidUser(string userId, string accessCode)
         {
-            var userInfo = await GetUserInfo(accessCode);
+            ExternalAuthUserInfo userInfo = await GetUserInfo(accessCode);
             return userInfo.ProviderKey == userId;
         }
 

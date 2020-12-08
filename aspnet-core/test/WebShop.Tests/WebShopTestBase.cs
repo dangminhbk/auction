@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Abp;
+﻿using Abp;
 using Abp.Authorization.Users;
 using Abp.Events.Bus;
 using Abp.Events.Bus.Entities;
 using Abp.MultiTenancy;
 using Abp.Runtime.Session;
 using Abp.TestBase;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using WebShop.Authorization.Users;
 using WebShop.EntityFrameworkCore;
 using WebShop.EntityFrameworkCore.Seed.Host;
@@ -52,7 +52,7 @@ namespace WebShop.Tests
 
         protected IDisposable UsingTenantId(int? tenantId)
         {
-            var previousTenantId = AbpSession.TenantId;
+            int? previousTenantId = AbpSession.TenantId;
             AbpSession.TenantId = tenantId;
             return new DisposeAction(() => AbpSession.TenantId = previousTenantId);
         }
@@ -81,7 +81,7 @@ namespace WebShop.Tests
         {
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<WebShopDbContext>())
+                using (WebShopDbContext context = LocalIocManager.Resolve<WebShopDbContext>())
                 {
                     action(context);
                     context.SaveChanges();
@@ -93,7 +93,7 @@ namespace WebShop.Tests
         {
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<WebShopDbContext>())
+                using (WebShopDbContext context = LocalIocManager.Resolve<WebShopDbContext>())
                 {
                     await action(context);
                     await context.SaveChangesAsync();
@@ -107,7 +107,7 @@ namespace WebShop.Tests
 
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<WebShopDbContext>())
+                using (WebShopDbContext context = LocalIocManager.Resolve<WebShopDbContext>())
                 {
                     result = func(context);
                     context.SaveChanges();
@@ -123,7 +123,7 @@ namespace WebShop.Tests
 
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<WebShopDbContext>())
+                using (WebShopDbContext context = LocalIocManager.Resolve<WebShopDbContext>())
                 {
                     result = await func(context);
                     await context.SaveChangesAsync();
@@ -151,7 +151,7 @@ namespace WebShop.Tests
         {
             AbpSession.TenantId = null;
 
-            var user =
+            User user =
                 UsingDbContext(
                     context =>
                         context.Users.FirstOrDefault(u => u.TenantId == AbpSession.TenantId && u.UserName == userName));
@@ -165,7 +165,7 @@ namespace WebShop.Tests
 
         protected void LoginAsTenant(string tenancyName, string userName)
         {
-            var tenant = UsingDbContext(context => context.Tenants.FirstOrDefault(t => t.TenancyName == tenancyName));
+            Tenant tenant = UsingDbContext(context => context.Tenants.FirstOrDefault(t => t.TenancyName == tenancyName));
             if (tenant == null)
             {
                 throw new Exception("There is no tenant: " + tenancyName);
@@ -173,7 +173,7 @@ namespace WebShop.Tests
 
             AbpSession.TenantId = tenant.Id;
 
-            var user =
+            User user =
                 UsingDbContext(
                     context =>
                         context.Users.FirstOrDefault(u => u.TenantId == AbpSession.TenantId && u.UserName == userName));
@@ -193,7 +193,7 @@ namespace WebShop.Tests
         /// </summary>
         protected async Task<User> GetCurrentUserAsync()
         {
-            var userId = AbpSession.GetUserId();
+            long userId = AbpSession.GetUserId();
             return await UsingDbContext(context => context.Users.SingleAsync(u => u.Id == userId));
         }
 
@@ -203,7 +203,7 @@ namespace WebShop.Tests
         /// </summary>
         protected async Task<Tenant> GetCurrentTenantAsync()
         {
-            var tenantId = AbpSession.GetTenantId();
+            int tenantId = AbpSession.GetTenantId();
             return await UsingDbContext(context => context.Tenants.SingleAsync(t => t.Id == tenantId));
         }
     }

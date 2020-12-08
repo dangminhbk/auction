@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using Abp.MultiTenancy;
 using Microsoft.EntityFrameworkCore;
-using Abp.MultiTenancy;
+using System.Linq;
 using WebShop.Editions;
 using WebShop.MultiTenancy;
 
@@ -24,12 +24,12 @@ namespace WebShop.EntityFrameworkCore.Seed.Tenants
         {
             // Default tenant
 
-            var defaultTenant = _context.Tenants.IgnoreQueryFilters().FirstOrDefault(t => t.TenancyName == AbpTenantBase.DefaultTenantName);
+            Tenant defaultTenant = _context.Tenants.IgnoreQueryFilters().FirstOrDefault(t => t.TenancyName == AbpTenantBase.DefaultTenantName);
             if (defaultTenant == null)
             {
                 defaultTenant = new Tenant(AbpTenantBase.DefaultTenantName, AbpTenantBase.DefaultTenantName);
 
-                var defaultEdition = _context.Editions.IgnoreQueryFilters().FirstOrDefault(e => e.Name == EditionManager.DefaultEditionName);
+                Abp.Application.Editions.Edition defaultEdition = _context.Editions.IgnoreQueryFilters().FirstOrDefault(e => e.Name == EditionManager.DefaultEditionName);
                 if (defaultEdition != null)
                 {
                     defaultTenant.EditionId = defaultEdition.Id;

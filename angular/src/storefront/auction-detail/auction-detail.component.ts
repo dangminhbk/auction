@@ -8,6 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { mergeMap } from 'rxjs/operators';
 import { SignalRAspNetCoreHelper } from '@shared/helpers/SignalRAspNetCoreHelper';
 import * as dayjs from 'dayjs';
+import { SellerService } from 'services/seller/seller.service';
+import { forkJoin, zip } from 'rxjs';
+import { SellerInfoDto } from 'storefront/shop-detail/dto/seller-info-dto';
 @Component({
   selector: 'app-auction-detail',
   templateUrl: './auction-detail.component.html',
@@ -18,11 +21,14 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
   bidPrices: number;
   product: ProductDetailDto = new ProductDetailDto();
   auction: AuctionDetailDto = new AuctionDetailDto();
+  seller: SellerInfoDto = new SellerInfoDto();
+
   constructor(
     injector: Injector,
     protected _productService: ProductService,
     protected _auctionService: AuctionService,
     protected _router: ActivatedRoute,
+    protected _seller: SellerService,
     protected router: Router
   ) {
     super(injector);
@@ -92,14 +98,15 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
       .get(auctionId)
       .pipe(mergeMap(s => {
         this.auction = s.result;
-        console.log(this.auction);
-        return this._productService.get(this.auction.productId);
+
+        const getProduct = this._productService.get(this.auction.productId);
+        const getSeller = this._seller.getPublicSeller(this.auction.sellerId);
+        return forkJoin({ product: getProduct, seller: getSeller });
+        // return this._productService.get(this.auction.productId);
       }))
       .subscribe(s => {
-        this.product = s.result;
-
-        console.log(this.product);
-        console.log(this.auction);
+        this.product = s.product.result;
+        this.seller = s.seller.result;
         abp.ui.clearBusy();
         this.endAution();
 
@@ -108,13 +115,6 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
         this.router.navigate(['/storefront/auction']);
       });
 
-  }
-
-  protected endAution() {
-    if (!this.isActive(this.auction.endDate)) {
-      abp.notify.warn('Phiên đấu giá đã kết thúc');
-      this.router.navigate(['/storefront/auction']);
-    }
   }
 
   placeBid() {
@@ -134,7 +134,7 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
 
   isActive(value: Date): boolean {
     const today = dayjs(new Date());
-    const day = dayjs(value);
+    const day = dayjs(value + 'Z');
     return (today.isBefore(day)) ? true : false;
   }
 
@@ -144,5 +144,12 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
     this.auction.currentPrice = bid.price;
     this.auction.userName = bid.username;
     this.auction.lastBidTime = bid.bidTime;
+  }
+
+  protected endAution() {
+    if (!this.isActive(this.auction.endDate)) {
+      abp.notify.warn('Phiên đấu giá đã kết thúc');
+      this.router.navigate(['/storefront/auction']);
+    }
   }
 }

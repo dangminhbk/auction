@@ -70,14 +70,14 @@ namespace WebShop
         protected virtual IQueryable<TEntity> ApplyPaging<TEntity>(IQueryable<TEntity> query, IPagedResultRequest input)
         {
             //Try to use paging if available
-            IPagedResultRequest pagedInput = input as IPagedResultRequest;
+            IPagedResultRequest pagedInput = input;
             if (pagedInput != null)
             {
                 return query.PageBy(pagedInput);
             }
 
             //Try to limit query result if available
-            ILimitedResultRequest limitedInput = input as ILimitedResultRequest;
+            ILimitedResultRequest limitedInput = input;
             if (limitedInput != null)
             {
                 return query.Take(limitedInput.MaxResultCount);

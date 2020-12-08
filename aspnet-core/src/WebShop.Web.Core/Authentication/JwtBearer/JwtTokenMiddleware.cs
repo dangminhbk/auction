@@ -12,7 +12,7 @@ namespace WebShop.Authentication.JwtBearer
             {
                 if (ctx.User.Identity?.IsAuthenticated != true)
                 {
-                    var result = await ctx.AuthenticateAsync(schema);
+                    AuthenticateResult result = await ctx.AuthenticateAsync(schema);
                     if (result.Succeeded && result.Principal != null)
                     {
                         ctx.User = result.Principal;

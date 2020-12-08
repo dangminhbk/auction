@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Abp.Authorization;
+using Abp.Authorization.Users;
+using Abp.MultiTenancy;
+using Abp.Runtime.Security;
+using Abp.UI;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Abp.Authorization;
-using Abp.Authorization.Users;
-using Abp.MultiTenancy;
-using Abp.Runtime.Security;
-using Abp.UI;
 using WebShop.Authentication.External;
 using WebShop.Authentication.JwtBearer;
 using WebShop.Authorization;
@@ -52,13 +52,13 @@ namespace WebShop.Controllers
         [HttpPost]
         public async Task<AuthenticateResultModel> Authenticate([FromBody] AuthenticateModel model)
         {
-            var loginResult = await GetLoginResultAsync(
+            AbpLoginResult<Tenant, User> loginResult = await GetLoginResultAsync(
                 model.UserNameOrEmailAddress,
                 model.Password,
                 GetTenancyNameOrNull()
             );
 
-            var accessToken = CreateAccessToken(CreateJwtClaims(loginResult.Identity));
+            string accessToken = CreateAccessToken(CreateJwtClaims(loginResult.Identity));
 
             return new AuthenticateResultModel
             {
@@ -78,15 +78,15 @@ namespace WebShop.Controllers
         [HttpPost]
         public async Task<ExternalAuthenticateResultModel> ExternalAuthenticate([FromBody] ExternalAuthenticateModel model)
         {
-            var externalUser = await GetExternalUserInfo(model);
+            ExternalAuthUserInfo externalUser = await GetExternalUserInfo(model);
 
-            var loginResult = await _logInManager.LoginAsync(new UserLoginInfo(model.AuthProvider, model.ProviderKey, model.AuthProvider), GetTenancyNameOrNull());
+            AbpLoginResult<Tenant, User> loginResult = await _logInManager.LoginAsync(new UserLoginInfo(model.AuthProvider, model.ProviderKey, model.AuthProvider), GetTenancyNameOrNull());
 
             switch (loginResult.Result)
             {
                 case AbpLoginResultType.Success:
                     {
-                        var accessToken = CreateAccessToken(CreateJwtClaims(loginResult.Identity));
+                        string accessToken = CreateAccessToken(CreateJwtClaims(loginResult.Identity));
                         return new ExternalAuthenticateResultModel
                         {
                             AccessToken = accessToken,
@@ -96,7 +96,7 @@ namespace WebShop.Controllers
                     }
                 case AbpLoginResultType.UnknownExternalLogin:
                     {
-                        var newUser = await RegisterExternalUserAsync(externalUser);
+                        User newUser = await RegisterExternalUserAsync(externalUser);
                         if (!newUser.IsActive)
                         {
                             return new ExternalAuthenticateResultModel
@@ -135,7 +135,7 @@ namespace WebShop.Controllers
 
         private async Task<User> RegisterExternalUserAsync(ExternalAuthUserInfo externalUser)
         {
-            var user = await _userRegistrationManager.RegisterAsync(
+            User user = await _userRegistrationManager.RegisterAsync(
                 externalUser.Name,
                 externalUser.Surname,
                 externalUser.EmailAddress,
@@ -161,7 +161,7 @@ namespace WebShop.Controllers
 
         private async Task<ExternalAuthUserInfo> GetExternalUserInfo(ExternalAuthenticateModel model)
         {
-            var userInfo = await _externalAuthManager.GetUserInfo(model.AuthProvider, model.ProviderAccessCode);
+            ExternalAuthUserInfo userInfo = await _externalAuthManager.GetUserInfo(model.AuthProvider, model.ProviderAccessCode);
             if (userInfo.ProviderKey != model.ProviderKey)
             {
                 throw new UserFriendlyException(L("CouldNotValidateExternalUser"));
@@ -182,7 +182,7 @@ namespace WebShop.Controllers
 
         private async Task<AbpLoginResult<Tenant, User>> GetLoginResultAsync(string usernameOrEmailAddress, string password, string tenancyName)
         {
-            var loginResult = await _logInManager.LoginAsync(usernameOrEmailAddress, password, tenancyName);
+            AbpLoginResult<Tenant, User> loginResult = await _logInManager.LoginAsync(usernameOrEmailAddress, password, tenancyName);
 
             switch (loginResult.Result)
             {
@@ -195,9 +195,9 @@ namespace WebShop.Controllers
 
         private string CreateAccessToken(IEnumerable<Claim> claims, TimeSpan? expiration = null)
         {
-            var now = DateTime.UtcNow;
+            DateTime now = DateTime.UtcNow;
 
-            var jwtSecurityToken = new JwtSecurityToken(
+            JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(
                 issuer: _configuration.Issuer,
                 audience: _configuration.Audience,
                 claims: claims,
@@ -211,8 +211,8 @@ namespace WebShop.Controllers
 
         private static List<Claim> CreateJwtClaims(ClaimsIdentity identity)
         {
-            var claims = identity.Claims.ToList();
-            var nameIdClaim = claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            List<Claim> claims = identity.Claims.ToList();
+            Claim nameIdClaim = claims.First(c => c.Type == ClaimTypes.NameIdentifier);
 
             // Specifically add the jti (random nonce), iat (issued timestamp), and sub (subject/user) claims.
             claims.AddRange(new[]

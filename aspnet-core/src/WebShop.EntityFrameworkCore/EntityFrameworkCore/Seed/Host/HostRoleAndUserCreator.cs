@@ -1,14 +1,14 @@
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Abp.Authorization;
 using Abp.Authorization.Roles;
 using Abp.Authorization.Users;
 using Abp.MultiTenancy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Linq;
 using WebShop.Authorization;
 using WebShop.Authorization.Roles;
 using WebShop.Authorization.Users;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 
 namespace WebShop.EntityFrameworkCore.Seed.Host
 {
@@ -30,7 +30,7 @@ namespace WebShop.EntityFrameworkCore.Seed.Host
 
         private Role GetStaticRole(string roleName)
         {
-            var role = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == roleName);
+            Role role = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == roleName);
             if (role == null)
             {
                 role = _context.Roles.Add(new Role(null, roleName, roleName) { IsStatic = true, IsDefault = true }).Entity;
@@ -41,8 +41,8 @@ namespace WebShop.EntityFrameworkCore.Seed.Host
         }
         private void AddPermissionToBuyer()
         {
-            var buyerRole = GetStaticRole(StaticRoleNames.Host.Buyer);
-            var grantedPermissions = _context.Permissions.IgnoreQueryFilters()
+            Role buyerRole = GetStaticRole(StaticRoleNames.Host.Buyer);
+            System.Collections.Generic.List<string> grantedPermissions = _context.Permissions.IgnoreQueryFilters()
                 .OfType<RolePermissionSetting>()
                 .Where(p => p.TenantId == null && p.RoleId == buyerRole.Id)
                 .Select(p => p.Name)
@@ -65,8 +65,8 @@ namespace WebShop.EntityFrameworkCore.Seed.Host
 
         private void AddPermissionToSeller()
         {
-            var BuyerRole = GetStaticRole(StaticRoleNames.Host.Seller);
-            var grantedPermissions = _context.Permissions.IgnoreQueryFilters()
+            Role BuyerRole = GetStaticRole(StaticRoleNames.Host.Seller);
+            System.Collections.Generic.List<string> grantedPermissions = _context.Permissions.IgnoreQueryFilters()
                 .OfType<RolePermissionSetting>()
                 .Where(p => p.TenantId == null && p.RoleId == BuyerRole.Id)
                 .Select(p => p.Name)
@@ -91,17 +91,17 @@ namespace WebShop.EntityFrameworkCore.Seed.Host
         {
             // Admin role for host
 
-            var adminRoleForHost = GetStaticRole(StaticRoleNames.Host.Admin);
+            Role adminRoleForHost = GetStaticRole(StaticRoleNames.Host.Admin);
 
             // Grant all permissions to admin role for host
 
-            var grantedPermissions = _context.Permissions.IgnoreQueryFilters()
+            System.Collections.Generic.List<string> grantedPermissions = _context.Permissions.IgnoreQueryFilters()
                 .OfType<RolePermissionSetting>()
                 .Where(p => p.TenantId == null && p.RoleId == adminRoleForHost.Id)
                 .Select(p => p.Name)
                 .ToList();
 
-            var permissions = PermissionFinder
+            System.Collections.Generic.List<Permission> permissions = PermissionFinder
                 .GetAllPermissions(new WebShopAuthorizationProvider())
                 .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Host) &&
                             !grantedPermissions.Contains(p.Name))
@@ -123,10 +123,10 @@ namespace WebShop.EntityFrameworkCore.Seed.Host
 
             // Admin user for host
 
-            var adminUserForHost = _context.Users.IgnoreQueryFilters().FirstOrDefault(u => u.TenantId == null && u.UserName == AbpUserBase.AdminUserName);
+            User adminUserForHost = _context.Users.IgnoreQueryFilters().FirstOrDefault(u => u.TenantId == null && u.UserName == AbpUserBase.AdminUserName);
             if (adminUserForHost == null)
             {
-                var user = new User
+                User user = new User
                 {
                     TenantId = null,
                     UserName = AbpUserBase.AdminUserName,

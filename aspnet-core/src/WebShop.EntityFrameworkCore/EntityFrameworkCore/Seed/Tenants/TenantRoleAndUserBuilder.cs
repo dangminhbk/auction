@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Abp.Authorization;
+﻿using Abp.Authorization;
 using Abp.Authorization.Roles;
 using Abp.Authorization.Users;
 using Abp.MultiTenancy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Linq;
 using WebShop.Authorization;
 using WebShop.Authorization.Roles;
 using WebShop.Authorization.Users;
@@ -32,7 +32,7 @@ namespace WebShop.EntityFrameworkCore.Seed.Tenants
 
         private Role GetStaticRole(string roleName)
         {
-            var role = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == _tenantId && r.Name == roleName);
+            Role role = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == _tenantId && r.Name == roleName);
             if (role == null)
             {
                 role = _context.Roles.Add(new Role(_tenantId, roleName, roleName) { IsStatic = true, IsDefault = true }).Entity;
@@ -43,8 +43,8 @@ namespace WebShop.EntityFrameworkCore.Seed.Tenants
         }
         private void AddPermissionToBuyer()
         {
-            var buyerRole = GetStaticRole(StaticRoleNames.Host.Buyer);
-            var grantedPermissions = _context.Permissions.IgnoreQueryFilters()
+            Role buyerRole = GetStaticRole(StaticRoleNames.Host.Buyer);
+            System.Collections.Generic.List<string> grantedPermissions = _context.Permissions.IgnoreQueryFilters()
                 .OfType<RolePermissionSetting>()
                 .Where(p => p.TenantId == _tenantId && p.RoleId == buyerRole.Id)
                 .Select(p => p.Name)
@@ -67,8 +67,8 @@ namespace WebShop.EntityFrameworkCore.Seed.Tenants
 
         private void AddPermissionToSeller()
         {
-            var BuyerRole = GetStaticRole(StaticRoleNames.Host.Seller);
-            var grantedPermissions = _context.Permissions.IgnoreQueryFilters()
+            Role BuyerRole = GetStaticRole(StaticRoleNames.Host.Seller);
+            System.Collections.Generic.List<string> grantedPermissions = _context.Permissions.IgnoreQueryFilters()
                 .OfType<RolePermissionSetting>()
                 .Where(p => p.TenantId == _tenantId && p.RoleId == BuyerRole.Id)
                 .Select(p => p.Name)
@@ -93,7 +93,7 @@ namespace WebShop.EntityFrameworkCore.Seed.Tenants
         {
             // Admin role
 
-            var adminRole = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == _tenantId && r.Name == StaticRoleNames.Tenants.Admin);
+            Role adminRole = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == _tenantId && r.Name == StaticRoleNames.Tenants.Admin);
             if (adminRole == null)
             {
                 adminRole = _context.Roles.Add(new Role(_tenantId, StaticRoleNames.Tenants.Admin, StaticRoleNames.Tenants.Admin) { IsStatic = true }).Entity;
@@ -102,13 +102,13 @@ namespace WebShop.EntityFrameworkCore.Seed.Tenants
 
             // Grant all permissions to admin role
 
-            var grantedPermissions = _context.Permissions.IgnoreQueryFilters()
+            System.Collections.Generic.List<string> grantedPermissions = _context.Permissions.IgnoreQueryFilters()
                 .OfType<RolePermissionSetting>()
                 .Where(p => p.TenantId == _tenantId && p.RoleId == adminRole.Id)
                 .Select(p => p.Name)
                 .ToList();
 
-            var permissions = PermissionFinder
+            System.Collections.Generic.List<Permission> permissions = PermissionFinder
                 .GetAllPermissions(new WebShopAuthorizationProvider())
                 .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Tenant) &&
                             !grantedPermissions.Contains(p.Name))
@@ -130,7 +130,7 @@ namespace WebShop.EntityFrameworkCore.Seed.Tenants
 
             // Admin user
 
-            var adminUser = _context.Users.IgnoreQueryFilters().FirstOrDefault(u => u.TenantId == _tenantId && u.UserName == AbpUserBase.AdminUserName);
+            User adminUser = _context.Users.IgnoreQueryFilters().FirstOrDefault(u => u.TenantId == _tenantId && u.UserName == AbpUserBase.AdminUserName);
             if (adminUser == null)
             {
                 adminUser = User.CreateTenantAdminUser(_tenantId, "admin@defaulttenant.com");

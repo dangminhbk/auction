@@ -1,1 +1,82 @@
-<p>shop works!</p>
+<div class="conatiner card" style="margin: 10px; min-height: 100vh;">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 col-sm-12">
+        <div class="card" style="margin: 10px;">
+          <div class="card-header text-uppercase text-lg">Các cửa hàng trên hệ thống</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="input-group col-md-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="keyword"
+                  [placeholder]="'Từ khóa ...' | localize"
+                  [(ngModel)]="keyword"
+                  (keyup.enter)="getDataPage(1)"
+                />
+              </div>
+              <div class="input-group col-md-3">
+                <button
+                type="button"
+                class="btn bg-blue"
+                (click)="getDataPage(1)"
+              >
+                <i class="fas fa-search"></i>
+                Tìm kiếm
+              </button>
+              </div>
+            </div>
+  
+          </div>   
+        </div>
+      </div>
+      <div class="col-md-8 offset-md-2 col-sm-12" style="min-height: 80vh;">
+        <div class="container">
+          <div class="row">
+             <div *ngFor="let item of items" #auctioncard class="col-md-4 col-sm-6">
+                <div class="card">
+                  <div class="card-header bg-primary">
+                    <!-- <a class="text-uppercase" routerLink="auction/{{item.id}}">{{item.productName}}</a> -->
+                    <a class="text-uppercase" routerLink="{{item.id}}">{{item.name}}</a>
+                  </div>
+                  <div class="card-body">
+                    <img class="img-fluid" src="{{getImagePath(item.logoUrl)}}" alt="">
+                    <!-- <img class="img-fluid" src="{{getImagePath(item.productImage)}}" alt=""> -->
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 offset-md-2 col-sm-12">
+        <div class="card-footer bg-light border-top">
+          <div class="row">
+            <div class="col-sm-4 col-12 text-sm-left text-center">
+              <button class="btn btn-secondary" (click)="refresh()">
+                <i class="fas fa-redo-alt"></i>
+              </button>
+            </div>
+            <div class="col-sm-4 col-12 text-center">
+              <p class="mb-0 my-2">
+                {{ "TotalRecordsCount" | localize: totalItems }}
+              </p>
+            </div>
+            <div class="col-sm-4 col-12">
+              <div class="float-sm-right m-auto">
+                <abp-pagination-controls
+                  [maxSize] = "maxSize" 
+                  id="server"
+                  (pageChange)="getDataPage($event)"
+                >
+                </abp-pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  
+  

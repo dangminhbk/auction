@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Abp.Zero.EntityFrameworkCore;
+﻿using Abp.Zero.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebShop.Authorization.Roles;
 using WebShop.Authorization.Users;
-using WebShop.MultiTenancy;
-using WebShop.Product;
-using WebShop.Domain.Brand;
-using WebShop.Domain.Image;
-using WebShop.Domain.Seller;
 using WebShop.Domain.Auction;
 using WebShop.Domain.Bid;
+using WebShop.Domain.Brand;
+using WebShop.Domain.Image;
 using WebShop.Domain.Invoice;
+using WebShop.Domain.Seller;
+using WebShop.MultiTenancy;
+using WebShop.Product;
 
 namespace WebShop.EntityFrameworkCore
 {
@@ -28,7 +28,7 @@ namespace WebShop.EntityFrameworkCore
         public DbSet<SellerPaymentOption> SellerPaymentOptions { get; set; }
         // Brand
         public DbSet<Brand> Brands { get; set; }
-        public DbSet<BrandImage> BrandImages {get; set;}
+        public DbSet<BrandImage> BrandImages { get; set; }
         // Category
         public DbSet<Category.Category> Categories { get; set; }
         // Image

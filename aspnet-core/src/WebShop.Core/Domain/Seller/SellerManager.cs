@@ -4,10 +4,8 @@ using Abp.Domain.Services;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WebShop.Domain.Seller
@@ -36,7 +34,7 @@ namespace WebShop.Domain.Seller
 
         private async Task<IQueryable<Seller>> GetAllInternal()
         {
-            return this.SellerRepository.GetAllIncluding(
+            return SellerRepository.GetAllIncluding(
                 s => s.SellerLogo,
                 s => s.SellerLogo.Image,
                 s => s.SellerCover,
@@ -62,7 +60,7 @@ namespace WebShop.Domain.Seller
 
         public async Task<SellerPaymentOption> GetSellerPaymentOption(long SellerId)
         {
-            var seller = SellerRepository
+            Seller seller = SellerRepository
                 .GetAllIncluding(s => s.SellerPaymentOption)
                 .FirstOrDefault(s => s.Id == SellerId);
             return seller.SellerPaymentOption;
@@ -76,7 +74,7 @@ namespace WebShop.Domain.Seller
             string EmailAddress,
             string Description)
         {
-            var seller = new Seller
+            Seller seller = new Seller
             {
                 Address = Address,
                 Description = Description,
@@ -87,7 +85,7 @@ namespace WebShop.Domain.Seller
                 PaymentRegisterStatus = PaymentRegisterStatus.UnRegistered
             };
 
-            var payment = new SellerPaymentOption
+            SellerPaymentOption payment = new SellerPaymentOption
             {
                 PaymentOption = PaymentOption.Unset
             };
@@ -100,7 +98,7 @@ namespace WebShop.Domain.Seller
 
         public async Task<IQueryable<Seller>> SearchSeller(string keyword)
         {
-            return (await this.GetAllSeller())
+            return (await GetAllSeller())
                 .WhereIf(!keyword.IsNullOrEmpty(),
                     s => s.Name.Contains(keyword)
             );
@@ -111,11 +109,11 @@ namespace WebShop.Domain.Seller
             PaymentOption paymentOption
             )
         {
-            var payment = await GetSellerPaymentOption(SellerId);
+            SellerPaymentOption payment = await GetSellerPaymentOption(SellerId);
             payment.PaymentOption = paymentOption;
 
             payment.ExtensionData = "";
-            foreach (var item in Payload)
+            foreach (KeyValuePair<string, string> item in Payload)
             {
                 payment.SetData(item.Key, item.Value);
             }
@@ -133,14 +131,14 @@ namespace WebShop.Domain.Seller
             long? CoverImage,
             long? Logo)
         {
-            var seller = await SellerRepository.GetAsync(SellerId);
+            Seller seller = await SellerRepository.GetAsync(SellerId);
 
             if (CoverImage.HasValue)
             {
-                var oldImage = seller.SellerCover?.Image;
+                Image.Image oldImage = seller.SellerCover?.Image;
                 if (oldImage == null || oldImage?.Id != CoverImage.Value)
                 {
-                    var cover = new SellerCover
+                    SellerCover cover = new SellerCover
                     {
                         ImageId = CoverImage.Value
                     };
@@ -151,10 +149,10 @@ namespace WebShop.Domain.Seller
 
             if (Logo.HasValue)
             {
-                var oldImage = seller.SellerCover?.Image;
+                Image.Image oldImage = seller.SellerCover?.Image;
                 if (oldImage == null || oldImage.Id != Logo.Value)
                 {
-                    var logo = new SellerLogo
+                    SellerLogo logo = new SellerLogo
                     {
                         ImageId = Logo.Value
                     };

@@ -28,15 +28,17 @@ export class SellerService extends BaseApiService<any> {
 
   }
 
-  getAllPublicSeller(request:  PagedRequestDto) {
+  getAllPublicSeller(request: PagedRequestDto) {
     const requestQuery = `skipCount=${request.skipCount}&maxResultCount=${request.maxResultCount}&keyword=${request.keyword}`;
     return this.http.get<any>(this.url + 'GetAllPublicSellers?' + requestQuery);
-    
+
   }
-  
+
   getSellerById(id: number): Observable<ResonseGetItem<SellerInfoDto>> {
     return this.http.get<ResonseGetItem<SellerInfoDto>>(this.url + `GetSellerInfo?SellerId=${id}`);
   }
 
-
+  getPublicSeller(id: any): Observable<ResonseGetItem<any>> {
+    return this.http.get<ResonseGetItem<any>>(this.url + `GetPublicSellerInfo?SellerId=${id}`);
+  }
 }

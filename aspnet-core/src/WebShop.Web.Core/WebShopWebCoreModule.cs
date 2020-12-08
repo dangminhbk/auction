@@ -1,18 +1,18 @@
-﻿using System;
-using System.Text;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Abp.AspNetCore;
+﻿using Abp.AspNetCore;
 using Abp.AspNetCore.Configuration;
 using Abp.AspNetCore.SignalR;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Zero.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Text;
 using WebShop.Authentication.JwtBearer;
 using WebShop.Configuration;
 using WebShop.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace WebShop
 {
@@ -20,7 +20,7 @@ namespace WebShop
          typeof(WebShopApplicationModule),
          typeof(WebShopEntityFrameworkModule),
          typeof(AbpAspNetCoreModule)
-        ,typeof(AbpAspNetCoreSignalRModule)
+        , typeof(AbpAspNetCoreSignalRModule)
      )]
     public class WebShopWebCoreModule : AbpModule
     {
@@ -53,7 +53,7 @@ namespace WebShop
         private void ConfigureTokenAuth()
         {
             IocManager.Register<TokenAuthConfiguration>();
-            var tokenAuthConfig = IocManager.Resolve<TokenAuthConfiguration>();
+            TokenAuthConfiguration tokenAuthConfig = IocManager.Resolve<TokenAuthConfiguration>();
 
             tokenAuthConfig.SecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_appConfiguration["Authentication:JwtBearer:SecurityKey"]));
             tokenAuthConfig.Issuer = _appConfiguration["Authentication:JwtBearer:Issuer"];

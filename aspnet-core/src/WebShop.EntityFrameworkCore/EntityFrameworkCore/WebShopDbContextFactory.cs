@@ -11,8 +11,8 @@ namespace WebShop.EntityFrameworkCore
     {
         public WebShopDbContext CreateDbContext(string[] args)
         {
-            var builder = new DbContextOptionsBuilder<WebShopDbContext>();
-            var configuration = AppConfigurations.Get(WebContentDirectoryFinder.CalculateContentRootFolder());
+            DbContextOptionsBuilder<WebShopDbContext> builder = new DbContextOptionsBuilder<WebShopDbContext>();
+            IConfigurationRoot configuration = AppConfigurations.Get(WebContentDirectoryFinder.CalculateContentRootFolder());
 
             WebShopDbContextConfigurer.Configure(builder, configuration.GetConnectionString(WebShopConsts.ConnectionStringName));
 

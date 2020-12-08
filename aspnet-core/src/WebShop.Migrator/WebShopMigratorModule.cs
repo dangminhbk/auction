@@ -1,8 +1,8 @@
-using Microsoft.Extensions.Configuration;
-using Castle.MicroKernel.Registration;
 using Abp.Events.Bus;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
+using Castle.MicroKernel.Registration;
+using Microsoft.Extensions.Configuration;
 using WebShop.Configuration;
 using WebShop.EntityFrameworkCore;
 using WebShop.Migrator.DependencyInjection;
@@ -31,7 +31,7 @@ namespace WebShop.Migrator
 
             Configuration.BackgroundJobs.IsJobExecutionEnabled = false;
             Configuration.ReplaceService(
-                typeof(IEventBus), 
+                typeof(IEventBus),
                 () => IocManager.IocContainer.Register(
                     Component.For<IEventBus>().Instance(NullEventBus.Instance)
                 )

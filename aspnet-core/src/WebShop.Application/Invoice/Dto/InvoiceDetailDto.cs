@@ -1,11 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using WebShop.Authorization.Users;
-using WebShop.Domain.Bid;
-using WebShop.Domain.Invoice;
 
 namespace WebShop.Invoice.Dto
 {

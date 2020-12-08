@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Abp.Runtime.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Abp.Runtime.Security;
+using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace WebShop.Web.Host.Startup
 {
@@ -16,7 +16,8 @@ namespace WebShop.Web.Host.Startup
         {
             if (bool.Parse(configuration["Authentication:JwtBearer:IsEnabled"]))
             {
-                services.AddAuthentication(options => {
+                services.AddAuthentication(options =>
+                {
                     options.DefaultAuthenticateScheme = "JwtBearer";
                     options.DefaultChallengeScheme = "JwtBearer";
                 }).AddJwtBearer("JwtBearer", options =>
@@ -63,7 +64,7 @@ namespace WebShop.Web.Host.Startup
                 return Task.CompletedTask;
             }
 
-            var qsAuthToken = context.HttpContext.Request.Query["enc_auth_token"].FirstOrDefault();
+            string qsAuthToken = context.HttpContext.Request.Query["enc_auth_token"].FirstOrDefault();
             if (qsAuthToken == null)
             {
                 // Cookie value does not matches to querystring value

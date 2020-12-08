@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WebShop.Invoice.Dto
+﻿namespace WebShop.Invoice.Dto
 {
     public class UpdateInvoiceAddress
     {

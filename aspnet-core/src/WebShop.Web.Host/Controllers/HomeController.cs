@@ -1,10 +1,9 @@
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Abp;
 using Abp.Extensions;
 using Abp.Notifications;
 using Abp.Timing;
-using Abp.Web.Security.AntiForgery;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using WebShop.Controllers;
 
 namespace WebShop.Web.Host.Controllers
@@ -36,8 +35,8 @@ namespace WebShop.Web.Host.Controllers
                 message = "This is a test notification, created at " + Clock.Now;
             }
 
-            var defaultTenantAdmin = new UserIdentifier(1, 2);
-            var hostAdmin = new UserIdentifier(null, 1);
+            UserIdentifier defaultTenantAdmin = new UserIdentifier(1, 2);
+            UserIdentifier hostAdmin = new UserIdentifier(null, 1);
 
             await _notificationPublisher.PublishAsync(
                 "App.SimpleMessage",

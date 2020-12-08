@@ -4,9 +4,7 @@ using Abp.Domain.Uow;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WebShop.Domain.Auction
@@ -35,11 +33,11 @@ namespace WebShop.Domain.Auction
             long SellerId
         )
         {
-            if( StartTime > EndTime || StartTime < DateTime.UtcNow)
+            if (StartTime > EndTime || StartTime < DateTime.UtcNow)
             {
                 throw new UserFriendlyException("Hãy nhập thời gian hợp lệ");
             }
-            var Auction = new Auction
+            Auction Auction = new Auction
             {
                 MinAcceptPrice = MinAcceptPrice,
                 EndDate = EndTime,
@@ -54,7 +52,7 @@ namespace WebShop.Domain.Auction
 
         public async Task DeleteAuction(long id)
         {
-            var auction = await _auctionRepository.GetAsync(id);
+            Auction auction = await _auctionRepository.GetAsync(id);
             if (auction.StartDate > DateTime.UtcNow)
             {
                 await _auctionRepository.DeleteAsync(id);
@@ -82,43 +80,62 @@ namespace WebShop.Domain.Auction
 
         public async Task<Auction> GetDetail(long id)
         {
-            var auction = await _auctionRepository.GetAll()
-                .Include(s=>s.Winner)
-                .FirstAsync(s=>s.Id == id);
+            Auction auction = await _auctionRepository.GetAll()
+                .Include(s => s.Winner)
+                .FirstAsync(s => s.Id == id);
             return auction;
         }
 
         [UnitOfWork]
         public async Task<Auction> MakeBid(long AuctionId, decimal Price, long UserId, DateTime Time)
         {
-            var auction = await _auctionRepository.GetAsync(AuctionId);
-            if (auction.EndDate > DateTime.UtcNow && auction.CurrentPrice < Price && auction.InitPrice < Price)
-            {
-                auction.CurrentPrice = Price;
-                auction.WinnerId = UserId;
-                auction.LastBidTime = Time;
-                auction.NumberOfBid += 1;
-                var bid = new Bid.Bid
-                {
-                    AuctionId = auction.Id,
-                    UserId = UserId,
-                    BidPrice = Price,
-                    BidTime = Time
-                };
+            Auction auction = await _auctionRepository.GetAsync(AuctionId);
 
-                await _auctionRepository.UpdateAsync(auction);
-                await _bidRepository.InsertAsync(bid);
-            } else
+            if (Price % 500 != 0)
             {
-                throw new Exception("Đấu giá thất bại");
+                throw new Exception("Giá chỉ có thể lẻ đến 500VND");
             }
+
+            if (auction.EndDate <= DateTime.UtcNow)
+            {
+                throw new Exception("Thời gian đấu giá đã kết thúc");
+            }
+            if (auction.InitPrice + 1000 >= Price)
+            {
+                throw new Exception("Mức giá không hợp lệ");
+            }
+
+            if (auction.CurrentPrice + 1000 >= Price)
+            {
+                throw new Exception("Mức giá không hợp lệ, cần lớn hơn giá hiện tại tối thiểu 1000");
+            }
+
+            if (auction.LastBidTime > Time)
+            {
+                throw new Exception("Mức giá không được ghi nhận");
+            }
+
+            auction.CurrentPrice = Price;
+            auction.WinnerId = UserId;
+            auction.LastBidTime = Time;
+            auction.NumberOfBid += 1;
+            Bid.Bid bid = new Bid.Bid
+            {
+                AuctionId = auction.Id,
+                UserId = UserId,
+                BidPrice = Price,
+                BidTime = Time
+            };
+
+            await _auctionRepository.UpdateAsync(auction);
+            await _bidRepository.InsertAsync(bid);
 
             return auction;
         }
 
         public async Task SetCurrentPrice(long AuctionId, decimal Price, long UserId, DateTime Time)
         {
-            var auction = await _auctionRepository.GetAsync(AuctionId);
+            Auction auction = await _auctionRepository.GetAsync(AuctionId);
             auction.CurrentPrice = Price;
             auction.WinnerId = UserId;
             auction.LastBidTime = Time;

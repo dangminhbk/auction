@@ -3,12 +3,8 @@ using Abp.Domain.Repositories;
 using Abp.EntityFrameworkCore;
 using Abp.EntityFrameworkCore.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebShop.Extension
 {
@@ -17,11 +13,11 @@ namespace WebShop.Extension
         public static IQueryable<T> FullTextSearch<T, TPrimaryKey>(
             this IRepository<T, TPrimaryKey> repository,
             PropertyInfo property,
-            string text        
+            string text
             )
             where T : class, IEntity<TPrimaryKey>
         {
-            var context = repository.GetDbContext();
+            DbContext context = repository.GetDbContext();
             return context.Set<T>().FullTextSearch<T, AbpDbContext>(property, text);
         }
     }

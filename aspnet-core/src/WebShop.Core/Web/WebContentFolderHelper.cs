@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Abp.Reflection.Extensions;
+using System;
 using System.IO;
 using System.Linq;
-using Abp.Reflection.Extensions;
 
 namespace WebShop.Web
 {
@@ -13,13 +13,13 @@ namespace WebShop.Web
     {
         public static string CalculateContentRootFolder()
         {
-            var coreAssemblyDirectoryPath = Path.GetDirectoryName(typeof(WebShopCoreModule).GetAssembly().Location);
+            string coreAssemblyDirectoryPath = Path.GetDirectoryName(typeof(WebShopCoreModule).GetAssembly().Location);
             if (coreAssemblyDirectoryPath == null)
             {
                 throw new Exception("Could not find location of WebShop.Core assembly!");
             }
 
-            var directoryInfo = new DirectoryInfo(coreAssemblyDirectoryPath);
+            DirectoryInfo directoryInfo = new DirectoryInfo(coreAssemblyDirectoryPath);
             while (!DirectoryContains(directoryInfo.FullName, "WebShop.sln"))
             {
                 if (directoryInfo.Parent == null)
@@ -30,13 +30,13 @@ namespace WebShop.Web
                 directoryInfo = directoryInfo.Parent;
             }
 
-            var webMvcFolder = Path.Combine(directoryInfo.FullName, "src", "WebShop.Web.Mvc");
+            string webMvcFolder = Path.Combine(directoryInfo.FullName, "src", "WebShop.Web.Mvc");
             if (Directory.Exists(webMvcFolder))
             {
                 return webMvcFolder;
             }
 
-            var webHostFolder = Path.Combine(directoryInfo.FullName, "src", "WebShop.Web.Host");
+            string webHostFolder = Path.Combine(directoryInfo.FullName, "src", "WebShop.Web.Host");
             if (Directory.Exists(webHostFolder))
             {
                 return webHostFolder;

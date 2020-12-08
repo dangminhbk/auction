@@ -3,18 +3,16 @@ using Abp.Domain.Services;
 using Abp.Domain.Uow;
 using Abp.UI;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WebShop.Domain.Invoice
 {
     public class InvoiceManager : DomainService, IInvoiceManager
     {
-        private IRepository<Invoice, long> _invoiceRepository;
-        private IRepository<Auction.Auction, long> _auctionRepository;
-        private IRepository<Bid.Bid, long> _bidRepository;
+        private readonly IRepository<Invoice, long> _invoiceRepository;
+        private readonly IRepository<Auction.Auction, long> _auctionRepository;
+        private readonly IRepository<Bid.Bid, long> _bidRepository;
         public InvoiceManager(
             IRepository<Invoice, long> invoiceRepository,
             IRepository<Auction.Auction, long> auctionRepository,
@@ -27,7 +25,7 @@ namespace WebShop.Domain.Invoice
         }
         public async Task ChangeStatus(long Id, OrderStatus status)
         {
-            var Invoice = await Get(Id);
+            Invoice Invoice = await Get(Id);
             if (Invoice.PaymentStatus == OrderStatus.Pending)
             {
                 Invoice.PaymentStatus = status;
@@ -39,7 +37,7 @@ namespace WebShop.Domain.Invoice
         [UnitOfWork]
         public async Task Create(string ProductName, decimal SubTotal, long AuctionId, string serial)
         {
-            var auction = await _auctionRepository
+            Auction.Auction auction = await _auctionRepository
                 .FirstOrDefaultAsync(s => s.Id == AuctionId);
 
             if (auction.HasMakeInvoice)
@@ -47,7 +45,7 @@ namespace WebShop.Domain.Invoice
                 throw new UserFriendlyException("Hóa đơn đã được lập trước đó!");
             }
 
-            var lastBid = _bidRepository.GetAll()
+            Bid.Bid lastBid = _bidRepository.GetAll()
                 .Where(s => s.AuctionId == AuctionId)
                 .OrderByDescending(s => s.BidTime)
                 .FirstOrDefault();
@@ -59,7 +57,7 @@ namespace WebShop.Domain.Invoice
 
             auction.HasMakeInvoice = true;
 
-            var Invoice = new Invoice
+            Invoice Invoice = new Invoice
             {
                 AuctionId = AuctionId,
                 SubTotal = SubTotal,
@@ -92,7 +90,7 @@ namespace WebShop.Domain.Invoice
 
         public async Task UpdateAddress(long Id, string Address, string PhoneNumber, string ReceiperName)
         {
-            var Invoice = await Get(Id);
+            Invoice Invoice = await Get(Id);
 
             if (Invoice.PaymentStatus == OrderStatus.Initial)
             {
