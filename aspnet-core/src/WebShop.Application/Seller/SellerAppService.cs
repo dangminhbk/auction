@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using WebShop.Authorization;
+using WebShop.Domain.Statistic;
 using WebShop.Extension;
 using WebShop.Seller.Dto;
 
@@ -12,8 +13,11 @@ namespace WebShop.Seller
 {
     public class SellerAppService : WebShopAppServiceBase
     {
-        public SellerAppService()
+        private readonly IStatisticDomainService _statisticDomainService;
+
+        public SellerAppService(IStatisticDomainService statisticDomainService)
         {
+            _statisticDomainService = statisticDomainService;
         }
 
         [HttpPut]
@@ -62,20 +66,26 @@ namespace WebShop.Seller
                 SellerLogoId = seller.SellerLogo?.Image?.Id,
                 SellerLogoUrl = seller.SellerLogo?.Image?.Url,
                 UserId = seller.UserId,
-                UserName = seller.User.UserName
+                UserName = seller.User.UserName,
+                Credit = seller.Credit
             };
         }
 
         public async Task<PublicDetailSellerDto> GetPublicSellerInfo(long SellerId)
         {
             Domain.Seller.Seller seller = await SellerManager.GetSellerById(SellerId);
+
+            var Statistic = await _statisticDomainService.GetSellerStatistic(seller.Id);
+
             return new PublicDetailSellerDto
             {
                 Id = seller.Id,
                 CoverUrl = seller.SellerCover?.Image.Url,
                 Description = seller.Description,
                 LogoUrl = seller.SellerLogo?.Image.Url,
-                Name = seller.Name
+                Name = seller.Name,
+                AuctionCount = Statistic.AuctionCount,
+                OrderCount = Statistic.OrderCount
             };
         }
 

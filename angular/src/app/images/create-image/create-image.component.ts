@@ -51,7 +51,7 @@ export class CreateImageComponent extends AppComponentBase implements OnInit {
         this.bsModalRef.hide();
         this.onSave.emit();
       }, err => {
-        console.log(err);
+        // console.log(err);
         this.notify.error(err.error.error.message, 'Upload failed!');
       });
   }

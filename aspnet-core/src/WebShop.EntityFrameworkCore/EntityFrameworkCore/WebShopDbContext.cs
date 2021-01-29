@@ -5,6 +5,7 @@ using WebShop.Authorization.Users;
 using WebShop.Domain.Auction;
 using WebShop.Domain.Bid;
 using WebShop.Domain.Brand;
+using WebShop.Domain.Cash;
 using WebShop.Domain.Image;
 using WebShop.Domain.Invoice;
 using WebShop.Domain.Seller;
@@ -42,6 +43,10 @@ namespace WebShop.EntityFrameworkCore
 
         // Invoice
         public DbSet<Invoice> Invoices { get; set; }
+
+        //PayIn
+
+        public DbSet<PayIn> PayIns { get; set; }
 
         public WebShopDbContext(DbContextOptions<WebShopDbContext> options)
             : base(options)

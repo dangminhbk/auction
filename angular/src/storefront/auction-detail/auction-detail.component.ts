@@ -68,7 +68,7 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
         });
 
         chatHub.on('BidFailed', function (message) {
-          abp.notify.error('Đặt giá thất bại');
+          abp.notify.error(message,'Đặt giá thất bại');
         });
       }).then((connection) => {
         abp.notify.info('Kết nối đấu giá thành công');
@@ -98,6 +98,7 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
       .get(auctionId)
       .pipe(mergeMap(s => {
         this.auction = s.result;
+        this.auction.lastBidTime = ( this.auction.lastBidTime == null ? null : this.auction.lastBidTime + 'Z') as any;
 
         const getProduct = this._productService.get(this.auction.productId);
         const getSeller = this._seller.getPublicSeller(this.auction.sellerId);
@@ -143,8 +144,11 @@ export class AuctionDetailComponent extends AppComponentBase implements OnInit {
     console.log(bid);
     this.auction.currentPrice = bid.price;
     this.auction.userName = bid.username;
-    this.auction.lastBidTime = bid.bidTime;
+    const bidTime = bid.bidTime;
+    this.auction.lastBidTime = bidTime;
   }
+
+
 
   protected endAution() {
     if (!this.isActive(this.auction.endDate)) {

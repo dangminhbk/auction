@@ -2,6 +2,7 @@ import { Component, Injector, OnInit, Renderer2 } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { SignalRAspNetCoreHelper } from '@shared/helpers/SignalRAspNetCoreHelper';
 import { LayoutStoreService } from '@shared/layout/layout-store.service';
+import { PermissionCheckerService } from 'abp-ng2-module';
 
 @Component({
   templateUrl: './app.component.html'
@@ -12,7 +13,9 @@ export class AppComponent extends AppComponentBase implements OnInit {
   constructor(
     injector: Injector,
     private renderer: Renderer2,
-    private _layoutStore: LayoutStoreService
+    private _layoutStore: LayoutStoreService,
+    private _permissionChecker: PermissionCheckerService,
+
   ) {
     super(injector);
   }

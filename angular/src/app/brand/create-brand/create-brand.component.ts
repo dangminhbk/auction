@@ -61,7 +61,7 @@ export class CreateBrandComponent extends AppComponentBase implements OnInit {
         this.brand.brandImageId = s[0].id;
         this.brand.brandImageUrl = s[0].url;
       }
-      console.log(this.brand);
+      // console.log(this.brand);
     });
   }
 

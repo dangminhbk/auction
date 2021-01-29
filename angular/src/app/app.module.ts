@@ -67,6 +67,13 @@ import { ChartsModule } from 'ng2-charts';
 import { StatisticAuctionComponent } from './statistic-auction/statistic-auction.component';
 import { StatisticOrderComponent } from './statistic-order/statistic-order.component';
 import { StatisticProductComponent } from './statistic-product/statistic-product.component';
+import { SettingComponent } from './setting/setting.component';
+import { CatagoryComponent } from './catagory/catagory.component';
+import { CreateCatagoryComponent } from './create-catagory/create-catagory.component';
+import {NgxPrintModule} from 'ngx-print';
+import { StatisticAdminRevenueComponent } from './statistic-admin-revenue/statistic-admin-revenue.component';
+import { CreditHistoryComponent } from './credit-history/credit-history.component';
+import { AddCreditComponent } from './add-credit/add-credit.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -123,6 +130,12 @@ import { StatisticProductComponent } from './statistic-product/statistic-product
     StatisticAuctionComponent,
     StatisticOrderComponent,
     StatisticProductComponent,
+    SettingComponent,
+    CatagoryComponent,
+    CreateCatagoryComponent,
+    StatisticAdminRevenueComponent,
+    CreditHistoryComponent,
+    AddCreditComponent,
   ],
   imports: [
     CommonModule,
@@ -140,7 +153,8 @@ import { StatisticProductComponent } from './statistic-product/statistic-product
     NgxPaginationModule,
     CKEditorModule,
     NgxCurrencyModule,
-    ChartsModule
+    ChartsModule,
+    NgxPrintModule,
   ],
   providers: [],
   entryComponents: [

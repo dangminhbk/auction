@@ -21,5 +21,6 @@ namespace WebShop.Seller.Dto
         public long UserId { get; set; }
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
+        public long Credit { get; set; }
     }
 }

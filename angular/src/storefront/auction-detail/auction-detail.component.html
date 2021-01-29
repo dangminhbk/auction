@@ -32,7 +32,7 @@
                                 <!-- /.widget-user-image -->
                                 <h3 class="widget-user-username">Thông tin đấu giá</h3>
                             </div> 
-                            <div class="row">
+                            <div class="row card-body">
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -45,11 +45,11 @@
                                         </div>
                                         <div class="col-md-12">
                                             <label style="margin-right: 10px;" for="">Thời gian bắt đầu: </label>
-                                            <span>{{auction.startDate | date: 'short'}}</span>
+                                            <span>{{ (auction.startDate || '0001-01-01T00:00:00' ).toLocaleString() + 'Z' | date: 'short'}}</span>
                                         </div>
                                         <div class="col-md-12">
                                             <label style="margin-right: 10px;" for="">Thời gian kết thúc: </label>
-                                            <span>{{auction.endDate | date: 'short'}}</span>
+                                            <span>{{ (auction.endDate || '0001-01-01T00:00:00').toLocaleString() + 'Z' | date: 'short'}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <label style="margin-right: 10px;" for="">Thời gian: </label>
-                                            <span>{{auction.lastBidTime | date: 'short'}}</span>
+                                            <span>{{auction.lastBidTime == null ? '' : auction.lastBidTime.toLocaleString() | date: 'short'}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -105,20 +105,13 @@
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
                                         <a class="nav-link">
-                                            Đã bán được <span class="float-right badge bg-primary">31</span>
+                                            Đã bán được <span class="float-right badge bg-primary">{{seller.orderCount}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link">
-                                            Đã tổ chức <span class="float-right badge bg-info">5</span>
+                                            Đã tổ chức <span class="float-right badge bg-info">{{seller.auctionCount}}</span>
                                         </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link">
-                                            Số sản phẩm <span class="float-right badge bg-success">12</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
                                     </li>
                                 </ul>
                             </div>

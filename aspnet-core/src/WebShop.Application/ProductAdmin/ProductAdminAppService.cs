@@ -1,8 +1,10 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using WebShop.Authorization;
 using WebShop.Domain.Image;
 using WebShop.Product;
 using WebShop.ProductAdmin.Dto;
@@ -62,6 +64,7 @@ namespace WebShop.ProductAdmin
             await CurrentUnitOfWork.SaveChangesAsync();
         }
 
+        [AbpAuthorize(PermissionNames.Sellers)]
         public async Task<PagedResultDto<ProductListDto>> GetAllSeller(PagedProductRequestDto input)
         {
             Domain.Seller.Seller seller = await GetCurrentSeller();

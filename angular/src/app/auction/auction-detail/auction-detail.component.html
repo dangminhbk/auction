@@ -45,7 +45,7 @@
                 Bắt đầu
             </label>
             <div class="col-md-3">
-                <p> {{auction.startDate | date: 'short'}}
+                <p> {{auction.startDate.toLocaleString() + 'Z' | date: 'short'}}
                 </p>
             </div>
 
@@ -55,7 +55,7 @@
                 Kết thúc
             </label>
             <div class="col-md-3">
-                <p> {{auction.endDate | date: 'short'}}
+                <p> {{ auction.endDate.toLocaleString() + 'Z' | date: 'short'}}
                 </p>
             </div>
 
@@ -123,7 +123,7 @@
                             <td>{{item.id}}</td>
                             <td>{{item.userName}}</td>
                             <td>{{item.bidPrice | currency: 'VND'}}</td>
-                            <td>{{item.bidTime | date: 'short' }}</td>
+                            <td>{{item.bidTime + 'Z' | date: 'short' }}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -26,7 +26,6 @@
                   <th>{{ "Id" | localize }}</th>
                   <th>{{ "Name" | localize }}</th>
                   <th>{{ "Preview" | localize }}</th>
-                  <th style="width: 310px;">{{ "Hành động" | localize }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -43,19 +42,9 @@
                   "
                 >
                   <td>{{ image.id }}</td>
-                  <td>{{ image.identified }}</td>
+                  <td style="text-overflow: ellipsis;max-width: 200px;overflow: hidden;" >{{ image.identified }}</td>
                   <td>
                     <img width="40" height="40" src="{{getImagePath(image.url)}}" alt="{{image.identified}}">
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      class="btn btn-sm bg-danger mx-2"
-                      (click)="delete(image)"
-                    >
-                      <i class="fas fa-trash"></i>
-                      {{ "Delete" | localize }}
-                    </button>
                   </td>
                 </tr>
               </tbody>

@@ -1,9 +1,9 @@
 <div [@routerTransition]>
     <h4 style="padding-top: 20px;" class="text-center mb-3">{{ "Register" | localize }}</h4>
-    <form autocomplete="off" #registerForm="ngForm" (ngSubmit)="save()">
+    <form autocomplete="false" #registerForm="ngForm" (ngSubmit)="save()">
       <div class="form-group">
         <b style="padding-left: 12px;">
-          User info
+          Thông tin tài khoản
         </b>
       </div>
       
@@ -113,6 +113,7 @@
             placeholder="{{ 'Password' | localize }}"
             [(ngModel)]="model.password"
             required
+            autocomplete = "new-password"
             maxlength="32"
             #passwordModel="ngModel"
             #passwordEl
@@ -131,7 +132,7 @@
 
       <div class="form-group">
         <b style="padding-left: 12px;">
-          Seller info
+          Thông tin người bánbán
         </b>
       </div>
 
@@ -141,7 +142,7 @@
             type="text"
             class="form-control"
             name="sellername"
-            placeholder="{{ 'Seller name' | localize }}"
+            placeholder="{{ 'Tên cửa hàng' | localize }}"
             required
             maxlength="100"
             [(ngModel)]="model.sellerName"
@@ -190,7 +191,7 @@
             type="text"
             class="form-control"
             name="address"
-            placeholder="{{ 'Address' | localize }}"
+            placeholder="{{ 'Địa chỉ' | localize }}"
             required
             maxlength="200"
             [(ngModel)]="model.address"
@@ -215,7 +216,7 @@
             type="text"
             class="form-control"
             name="phoneNumber"
-            placeholder="{{ 'Phone' | localize }}"
+            placeholder="{{ 'Điện thoại' | localize }}"
             required
             maxlength="20"
             [(ngModel)]="model.phoneNumber"

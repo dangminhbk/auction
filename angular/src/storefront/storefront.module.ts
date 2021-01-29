@@ -32,6 +32,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { CurrencyPipe } from '@angular/common';
 import { Auction2Component } from './auction2/auction2.component';
 import { BrandComponent } from './brand/brand.component';
+import { PopupComponent } from './home/popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { BrandComponent } from './brand/brand.component';
     CategoryComponent,
     LogoutComponent,
     Auction2Component,
-    BrandComponent
+    BrandComponent,
+    PopupComponent
   ],
   imports: [
     FormsModule,

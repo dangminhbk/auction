@@ -47,9 +47,9 @@ namespace WebShop.Auction
                 });
                 await Clients.User(UserId.ToString()).SendAsync(AuctionHubEventNames.BidSuccess);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                await Clients.User(UserId.ToString()).SendAsync(AuctionHubEventNames.BidFail);
+                await Clients.User(UserId.ToString()).SendAsync(AuctionHubEventNames.BidFail, e.Message);
             }
 
         }

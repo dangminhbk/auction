@@ -20,7 +20,7 @@ export class AuctionComponent extends PagedListingComponentBase<AuctionListDto> 
   dayjs = dayjs;
 
   constructor(
-    private _auctionService: AuctionService,
+    protected _auctionService: AuctionService,
     injector: Injector,
   ) {
     super(injector);
@@ -30,7 +30,6 @@ export class AuctionComponent extends PagedListingComponentBase<AuctionListDto> 
   }
 
   isActive(value: Date): boolean {
-    console.log(value);
     const today = dayjs(new Date());
     const day = dayjs(value + 'Z');
     return (today.isBefore(day)) ? true : false;

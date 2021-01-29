@@ -1,1 +1,79 @@
-<p>auction2 works!</p>
+<div class="conatiner card" style="margin: 10px; min-height: 100vh;">
+    <div class="row">
+      <div *ngIf = "!isBrand" class="col-md-8 offset-md-2 col-sm-12">
+        <div class="card" style="margin: 10px;">
+          <div class="card-header text-uppercase text-lg">{{title +' "' + subtitle +'"'}}</div>
+        </div>
+      </div>
+
+      <div *ngIf = "isBrand" class="col-md-8 offset-md-2 col-sm-12">
+        <div class="card">
+          <!-- Add the bg color to the header using any of the bg-* classes -->
+          <div class="card-header text-center">
+            <div class="widget-user-image">
+              <img style="width: 100px; height: 100px;" src="{{getImagePath(brand.brandImageUrl)}}" alt="User Avatar">
+            </div>
+            <!-- /.widget-user-image -->
+            <h3 class="widget-user-username">{{brand.name}}</h3>
+          </div>
+          
+          <div class="card-body">
+            <p class="p-10">{{brand.description}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8 offset-md-2 col-sm-12" style="min-height: 80vh;">
+        <div class="container">
+          <div class="row">
+            <div *ngFor="let item of items" #auctioncard class="col-md-4 col-sm-6">
+              <div class="card card-primary">
+                <div class="card-header">
+                  <!-- <a class="text-uppercase" routerLink="auction/{{item.id}}">{{item.productName}}</a> -->
+                  <a class="text-uppercase" routerLink="{{item.id}}">{{item.productName}}</a>
+                </div>
+                <div class="card-body">
+                  <img class="img-fluid" src="{{getImagePath(item.productImage)}}" alt="">
+                  <!-- <img class="img-fluid" src="{{getImagePath(item.productImage)}}" alt=""> -->
+                  <div class="bid-info">
+                    <app-auction-countdown (onEndCountdown)="oneCountdownEnd($event)" [endTime]="item.endTime">
+                    </app-auction-countdown>
+                    <!-- <countdown class="text-orange text-lg" [config]="{ stopTime: calculateEndTime(item.endTime), format: 'hh:mm:ss'  }">
+                      </countdown> -->
+                    <div style="display: flex; flex-direction: row; width: 100%;">
+                      <div>{{item.currentPrice | currency: 'VND'}}</div>
+                      <div style="margin-left: auto;">{{item.numberOfBid}} Bids</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 offset-md-2 col-sm-12">
+        <div class="card-footer bg-light border-top">
+          <div class="row">
+            <div class="col-sm-4 col-12 text-sm-left text-center">
+              <button class="btn btn-secondary" (click)="refresh()">
+                <i class="fas fa-redo-alt"></i>
+              </button>
+            </div>
+            <div class="col-sm-4 col-12 text-center">
+              <p class="mb-0 my-2">
+                {{ "TotalRecordsCount" | localize: totalItems }}
+              </p>
+            </div>
+            <div class="col-sm-4 col-12">
+              <div class="float-sm-right m-auto">
+                <abp-pagination-controls [maxSize]="maxSize" id="server" (pageChange)="getDataPage($event)">
+                </abp-pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>

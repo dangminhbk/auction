@@ -45,7 +45,7 @@ export class AuctionService extends BaseApiService<any> {
       params = params.append('minPrice', minPrice.toString());
     }
 
-    if (categoryIds.length > 0) {
+    if (categoryIds?.length > 0) {
       categoryIds.forEach(s => {
         params = params.append('categoryIds', s.toString());
       });

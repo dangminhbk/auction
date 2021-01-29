@@ -4,5 +4,7 @@ export class SellerInfoDto {
     id: number;
     name: string;
     logoUrl: string;
+    auctionCount: number;
+    orderCount: number;
 }
 

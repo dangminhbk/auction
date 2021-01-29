@@ -60,6 +60,13 @@ export abstract class AppComponentBase {
         return this.permission.isGranted(permissionName);
     }
 
+    isDate(date: any) {
+        if (date instanceof Date && date.getTime()) {
+            return true;
+        }
+        return false;
+    }
+
     docso(so) {
 
         const mangso = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];

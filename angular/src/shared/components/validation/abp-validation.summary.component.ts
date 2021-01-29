@@ -19,7 +19,7 @@ import { AbpValidationError } from './abp-validation.api';
 export class AbpValidationSummaryComponent extends AppComponentBase implements OnInit {
 
   defaultValidationErrors: Partial<AbpValidationError>[] = [
-    { name: 'required', localizationKey: 'ThisFieldIsRequired' },
+    { name: 'required', localizationKey: 'Bắt buộc nhập' },
     {
       name: 'minlength',
       localizationKey: 'PleaseEnterAtLeastNCharacter',

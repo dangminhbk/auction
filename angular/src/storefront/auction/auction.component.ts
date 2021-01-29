@@ -55,10 +55,10 @@ export class AuctionComponent extends PagedListingComponentBase<AuctionListDto> 
   selectedCategories: number[] = [];
 
   constructor(
-    private _auctionService: AuctionService,
-    private _brandService: BrandService,
-    private _categoryService: CategoryService,
-    private currencyPipe: CurrencyPipe,
+    protected _auctionService: AuctionService,
+    protected _brandService: BrandService,
+    protected _categoryService: CategoryService,
+    protected currencyPipe: CurrencyPipe,
     injector: Injector,
   ) {
     super(injector);
@@ -69,15 +69,15 @@ export class AuctionComponent extends PagedListingComponentBase<AuctionListDto> 
       .getDropdown()
       .subscribe(s => {
         this.brands = [...s.result];
-        this.getDataPage(this.pageNumber);
       });
 
     this._categoryService
       .getDropdown()
       .subscribe(s => {
         this.categories = [...s.result];
-        this.getDataPage(this.pageNumber);
       });
+
+    this.getDataPage(this.pageNumber);
   }
 
   calculateEndTime(date: Date) {

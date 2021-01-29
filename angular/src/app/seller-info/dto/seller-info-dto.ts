@@ -13,4 +13,5 @@ export class SellerInfoDto {
     name: string;
     address: string;
     sellerLogoUrl: string;
+    credit: number;
 }

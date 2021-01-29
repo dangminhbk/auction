@@ -26,6 +26,7 @@ namespace WebShop.Domain.Seller
         public virtual SellerCover SellerCover { get; set; }
 
         public SellerPaymentOption SellerPaymentOption { get; set; }
+        public long Credit { get; set; }
     }
 
     public class SellerLogo : FullAuditedEntity<long>

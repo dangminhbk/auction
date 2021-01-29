@@ -1,0 +1,254 @@
+<form class="card" autocomplete="false" style="margin: 20px;" #createBrandForm="ngForm">
+    <div>
+        <h3 class="card-header">Thiết lập</h3>
+        <div class="card-body">
+            <tabset>
+                <tab [heading]= "'Hiển thị'">
+                    <tabset class="card-body">
+                        <tab [heading]="'Banner 1'" class="pt-3 px-2">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="name">
+                                    {{ "Ảnh" | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="mainBanner.image" id="mainBanner.image"
+                                        [(ngModel)]="setting.mainBanner.image" #mainBannerimageModel="ngModel"
+                                        #mainBannerimageEl [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="mainBannerimageModel" [controlEl]="mainBannerimageEl">
+                                    </abp-validation-summary>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" [disabled]="!isEdit"
+                                        (click)="openBanner1Picker()">Chọn</button>
+                                </div>
+                            </div>
+        
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="name">
+                                    {{ "Link " | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="mainBanner.link" id="mainBanner.link"
+                                        [(ngModel)]="setting.mainBanner.link" #mainBannerlinkModel="ngModel" #mainBannerlinkEl
+                                        [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="mainBannerlinkModel" [controlEl]="mainBannerlinkEl">
+                                    </abp-validation-summary>
+                                </div>
+                            </div>
+        
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="name">
+                                    {{ "Tiêu đề" | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="mainBanner.headline" id="mainBanner.headline"
+                                        [(ngModel)]="setting.mainBanner.headline" #mainBannerheadlineModel="ngModel"
+                                        #mainBannerheadlineEl [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="mainBannerheadlineModel"
+                                        [controlEl]="mainBannerheadlineEl"></abp-validation-summary>
+                                </div>
+                            </div>
+        
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="mainBanner.text">
+                                    {{ "Chữ phụ " | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="mainBanner.text" id="mainBannertext"
+                                        [(ngModel)]="setting.mainBanner.text" #mainBannertextModel="ngModel" #mainBannertextEl
+                                        [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="mainBannertextModel" [controlEl]="mainBannertextEl">
+                                    </abp-validation-summary>
+                                </div>
+                            </div>
+                        </tab>
+        
+                        <tab [heading]="'Banner 2'" class="pt-3 px-2">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="name">
+                                    {{ "Ảnh" | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="secondBanner.image" id="secondBanner.image"
+                                        [(ngModel)]="setting.secondBanner.image" #secondBannerimageModel="ngModel"
+                                        #secondBannerimageEl [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="secondBannerimageModel" [controlEl]="secondBannerimageEl">
+                                    </abp-validation-summary>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" [disabled]="!isEdit"
+                                        (click)="openBanner2Picker()">Chọn</button>
+                                </div>
+                            </div>
+                        
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="name">
+                                    {{ "Link " | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="secondBanner.link" id="secondBanner.link"
+                                        [(ngModel)]="setting.secondBanner.link" #secondBannerlinkModel="ngModel" #secondBannerlinkEl
+                                        [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="secondBannerlinkModel" [controlEl]="secondBannerlinkEl">
+                                    </abp-validation-summary>
+                                </div>
+                            </div>
+                        
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="name">
+                                    {{ "Tiêu đề" | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="secondBanner.headline" id="secondBanner.headline"
+                                        [(ngModel)]="setting.secondBanner.headline" #secondBannerheadlineModel="ngModel"
+                                        #secondBannerheadlineEl [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="secondBannerheadlineModel"
+                                        [controlEl]="secondBannerheadlineEl"></abp-validation-summary>
+                                </div>
+                            </div>
+                        
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="secondBanner.text">
+                                    {{ "Chữ phụ " | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="secondBanner.text" id="secondBannertext"
+                                        [(ngModel)]="setting.secondBanner.text" #secondBannertextModel="ngModel" #secondBannertextEl
+                                        [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="secondBannertextModel" [controlEl]="secondBannertextEl">
+                                    </abp-validation-summary>
+                                </div>
+                            </div>
+                        </tab>
+        
+                        <tab [heading]="'Banner 3'" class="pt-3 px-2">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="name">
+                                    {{ "Ảnh" | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="thirdBanner.image" id="thirdBanner.image"
+                                        [(ngModel)]="setting.thirdBanner.image" #thirdBannerimageModel="ngModel"
+                                        #thirdBannerimageEl [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="thirdBannerimageModel" [controlEl]="thirdBannerimageEl">
+                                    </abp-validation-summary>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" [disabled]="!isEdit"
+                                        (click)="openBanner3Picker()">Chọn</button>
+                                </div>
+                            </div>
+                        
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="name">
+                                    {{ "Link " | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="thirdBanner.link" id="thirdBanner.link"
+                                        [(ngModel)]="setting.thirdBanner.link" #thirdBannerlinkModel="ngModel" #thirdBannerlinkEl
+                                        [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="thirdBannerlinkModel" [controlEl]="thirdBannerlinkEl">
+                                    </abp-validation-summary>
+                                </div>
+                            </div>
+                        
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="name">
+                                    {{ "Tiêu đề" | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="thirdBanner.headline" id="thirdBanner.headline"
+                                        [(ngModel)]="setting.thirdBanner.headline" #thirdBannerheadlineModel="ngModel"
+                                        #thirdBannerheadlineEl [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="thirdBannerheadlineModel"
+                                        [controlEl]="thirdBannerheadlineEl"></abp-validation-summary>
+                                </div>
+                            </div>
+                        
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="thirdBanner.text">
+                                    {{ "Chữ phụ " | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="thirdBanner.text" id="thirdBannertext"
+                                        [(ngModel)]="setting.thirdBanner.text" #thirdBannertextModel="ngModel" #thirdBannertextEl
+                                        [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="thirdBannertextModel" [controlEl]="thirdBannertextEl">
+                                    </abp-validation-summary>
+                                </div>
+                            </div>
+                        </tab>
+        
+                        <tab [heading]="'Popup'" class="pt-3 px-2">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="name">
+                                    {{ "Ảnh" | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="promo.image" id="promo.image"
+                                        [(ngModel)]="setting.promo.image" #promoimageModel="ngModel"
+                                        #promoimageEl [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="promoimageModel" [controlEl]="promoimageEl">
+                                    </abp-validation-summary>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" [disabled]="!isEdit"
+                                        (click)="openPopupPicker()">Chọn</button>
+                                </div>
+                            </div>
+                        
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="name">
+                                    {{ "Link " | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="promo.link" id="promo.link"
+                                        [(ngModel)]="setting.promo.link" #promolinkModel="ngModel" #promolinkEl
+                                        [disabled]="!isEdit" />
+                                    <abp-validation-summary [control]="promolinkModel" [controlEl]="promolinkEl">
+                                    </abp-validation-summary>
+                                </div>
+                            </div>
+                        
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="promo.text">
+                                    {{ "Bật popup" | localize }}
+                                </label>
+                                <div class="col-md-3">
+                                    <!-- <input type="text" class="form-control" name="promo.text" id="promotext"
+                                        [(ngModel)]="setting.promo.isPromo" #promotextModel="ngModel" #promotextEl
+                                        [disabled]="!isEdit" /> -->
+        
+                                    <select class="form-control" name="promo.text" id="promotext"
+                                    [(ngModel)]="setting.promo.isPromo" #promotextModel="ngModel" #promotextEl
+                                    [disabled]="!isEdit" >
+                                        <option [ngValue]="true">Bật</option>
+                                        <option [ngValue]="false">Tắt</option>
+                                    </select>
+                                    <abp-validation-summary [control]="promotextModel" [controlEl]="promotextEl">
+                                    </abp-validation-summary>
+                                </div>
+                            </div>
+                        </tab>
+                    </tabset>
+                </tab>
+                <tab [heading]= "'Thông tin'"></tab>
+            </tabset> 
+            
+        </div>
+        <div class="card-footer">
+            <div class="form-group row">
+                <div class="col-md-3 offset-md-3">
+                    <button style="margin-right: 10px;" [(disabled)]="!createBrandForm.form.valid"
+                        class="btn btn-primary" (click)="save()">Save</button>
+                    <button (click)="isEdit = !isEdit" class="btn btn-primary">
+                        <i *ngIf="!isEdit" class="fas fa-lock"></i>
+                        <i *ngIf="isEdit" class="fas fa-lock-open"></i>
+                        {{isEdit? "Lock": "Edit"}}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>

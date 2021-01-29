@@ -1,9 +1,11 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/app-component-base';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { Label } from 'ng2-charts';
+import { StatisticService } from 'services/statistic.service';
 
 @Component({
   selector: 'app-statistic',
@@ -13,6 +15,13 @@ import { Label } from 'ng2-charts';
 })
 export class StatisticComponent extends AppComponentBase implements OnInit {
 
+
+  forAdmin: boolean;
+  data: any = {};
+  barchart: any = {
+    data: [ {data: [], label: ''}],
+    labels: []
+  };
   public barChartOptions: ChartOptions = {
     responsive: true,
     // We use these empty structures as placeholders for dynamic theming.
@@ -30,16 +39,35 @@ export class StatisticComponent extends AppComponentBase implements OnInit {
   public barChartPlugins = [pluginDataLabels];
 
   public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' }
   ];
   constructor(
-    injector: Injector
+    injector: Injector,
+    private _statisticService: StatisticService,
+    private _router: ActivatedRoute
   ) {
     super(injector);
   }
 
   ngOnInit(): void {
+
+    this.forAdmin = this._router.snapshot.data.forAdmin; 
+    let apiCall;
+    if (this.forAdmin) {
+      apiCall = this._statisticService
+        .getAdminDashboardData();
+    } else {
+      apiCall = this._statisticService
+        .getDashboardData();
+    }
+
+    apiCall
+      .subscribe(s => {
+        this.data = s.result;
+        this.barchart.labels = this.data.activityChart.data.map(s=>s.key);
+        this.barchart.data = [ {data: this.data.activityChart.data.map(s=>s.value), label: this.data.activityChart.legend} ];
+        console.log(this.barchart);
+      });
   }
 
 }

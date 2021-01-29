@@ -72,7 +72,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
       ),
 
       new MenuItem(
-        this.l('Brands'),
+        this.l('Nhãn hiệu'),
         '/app/brands',
         'fas fa-copyright',
         PermissionNames.Admins
@@ -121,22 +121,31 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             PermissionNames.Seller
           ),
           new MenuItem(
-            this.l('Thống kê đấu giá'),
-            '/app/statistic/auction',
-            'fas fa-minus',
-            PermissionNames.Seller
-          ),
-          new MenuItem(
-            this.l('Thống kê đơn hàng'),
+            this.l('Báo cáo doanh thu'),
             '/app/statistic/order',
             'fas fa-minus',
             PermissionNames.Seller
+          )
+        ]
+      ),
+
+      new MenuItem(
+        'Thống kê',
+        '',
+        'fas fa-chart-line',
+        PermissionNames.Admins,
+        [
+          new MenuItem(
+            this.l('Tổng quan'),
+            '/app/statistic-admin',
+            'fas fa-minus',
+            PermissionNames.Admins
           ),
           new MenuItem(
-            this.l('Thống kê sản phẩm'),
-            '/app/statistic/product',
+            this.l('Báo cáo doanh thu'),
+            '/app/statistic-admin/revenue',
             'fas fa-minus',
-            PermissionNames.Seller
+            PermissionNames.Admins
           )
         ]
       ),
@@ -174,12 +183,32 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
       ),
 
       new MenuItem(
-        this.l('Sellers'),
+        this.l('Người bán hàng'),
         '/app/sellers',
         'fas fa-store',
         PermissionNames.Admins
       ),
 
+      // new MenuItem(
+      //   this.l('Danh mục'),
+      //   '/app/category',
+      //   'fas fa-folder',
+      //   PermissionNames.Admins
+      // ),
+
+      new MenuItem(
+        this.l('Thiết lập'),
+        '/app/setting',
+        'fas fa-cog',
+        PermissionNames.Admins
+      ),
+
+      new MenuItem(
+        this.l('Lịch sử nạp tiền'),
+        '/app/credit',
+        'fas fa-dollar-sign',
+        PermissionNames.Admins
+      ),
     ];
   }
 

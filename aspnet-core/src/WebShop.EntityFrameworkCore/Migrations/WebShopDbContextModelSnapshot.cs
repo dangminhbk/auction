@@ -1720,6 +1720,49 @@ namespace WebShop.Migrations
                     b.ToTable("BrandImages");
                 });
 
+            modelBuilder.Entity("WebShop.Domain.Cash.PayIn", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Credit")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Money")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<long>("TargetId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TargetId");
+
+                    b.ToTable("PayIns");
+                });
+
             modelBuilder.Entity("WebShop.Domain.Image.Image", b =>
                 {
                     b.Property<long>("Id")
@@ -1849,6 +1892,9 @@ namespace WebShop.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Credit")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("DeleterUserId")
@@ -2507,6 +2553,15 @@ namespace WebShop.Migrations
                     b.HasOne("WebShop.Domain.Image.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebShop.Domain.Cash.PayIn", b =>
+                {
+                    b.HasOne("WebShop.Domain.Seller.Seller", "Target")
+                        .WithMany()
+                        .HasForeignKey("TargetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

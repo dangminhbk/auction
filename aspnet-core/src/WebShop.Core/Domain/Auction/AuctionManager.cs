@@ -14,15 +14,18 @@ namespace WebShop.Domain.Auction
         private readonly IRepository<Auction, long> _auctionRepository;
         private readonly IRepository<Product.Product, long> _productRepository;
         private readonly IRepository<Bid.Bid, long> _bidRepository;
+        private readonly IRepository<Seller.Seller, long> _sellerRepository;
         public AuctionManager(
             IRepository<Auction, long> auctionRepository,
             IRepository<Product.Product, long> productRepository,
-            IRepository<Bid.Bid, long> bidRepository
+            IRepository<Bid.Bid, long> bidRepository,
+            IRepository<Seller.Seller, long> sellerRepository
         )
         {
             _productRepository = productRepository;
             _bidRepository = bidRepository;
             _auctionRepository = auctionRepository;
+            _sellerRepository = sellerRepository;
         }
         public async Task CreateAuction(
             long ProductId,
@@ -33,7 +36,14 @@ namespace WebShop.Domain.Auction
             long SellerId
         )
         {
-            if (StartTime > EndTime || StartTime < DateTime.UtcNow)
+            var seller = await _sellerRepository.GetAsync(SellerId);
+
+            if (seller.Credit < 1)
+            {
+               throw new UserFriendlyException("Bạn cần nạp tiền để tạo phiên đấu giá");
+            }
+
+            if (StartTime > EndTime || EndTime < DateTime.UtcNow)
             {
                 throw new UserFriendlyException("Hãy nhập thời gian hợp lệ");
             }
@@ -47,6 +57,9 @@ namespace WebShop.Domain.Auction
                 ProductId = ProductId
             };
 
+            seller.Credit -= 1;
+
+            await _sellerRepository.UpdateAsync(seller);
             await _auctionRepository.InsertAsync(Auction);
         }
 
@@ -91,6 +104,11 @@ namespace WebShop.Domain.Auction
         {
             Auction auction = await _auctionRepository.GetAsync(AuctionId);
 
+            if (auction.WinnerId == UserId)
+            {
+                throw new Exception("Bạn đang là người trả giá cao nhất !");
+            }
+
             if (Price % 500 != 0)
             {
                 throw new Exception("Giá chỉ có thể lẻ đến 500VND");
@@ -102,7 +120,7 @@ namespace WebShop.Domain.Auction
             }
             if (auction.InitPrice + 1000 >= Price)
             {
-                throw new Exception("Mức giá không hợp lệ");
+                throw new Exception("Mức giá không hợp lệ, cần lớn hơn giá khởi  tối thiểu 1000");
             }
 
             if (auction.CurrentPrice + 1000 >= Price)
@@ -129,6 +147,7 @@ namespace WebShop.Domain.Auction
 
             await _auctionRepository.UpdateAsync(auction);
             await _bidRepository.InsertAsync(bid);
+            await CurrentUnitOfWork.SaveChangesAsync();
 
             return auction;
         }

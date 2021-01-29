@@ -11,5 +11,8 @@
     {
         public string CoverUrl { get; set; }
         public string Description { get; set; }
+
+        public long OrderCount { get; set; }
+        public long AuctionCount { get; set; }
     }
 }

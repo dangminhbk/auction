@@ -74,7 +74,7 @@ import { StorefrontComponent } from './storefront/storefront.component';
                         children: [
                         ],
                         data: {
-                            text: 'Danh mục:'
+                            text: 'Danh mục'
                         }
                     },
 
@@ -84,7 +84,7 @@ import { StorefrontComponent } from './storefront/storefront.component';
                         children: [
                         ],
                         data: {
-                            text: 'Nhãn hiệu:',
+                            text: 'Nhãn hiệu',
                             isBrand: true
                         }
                     },

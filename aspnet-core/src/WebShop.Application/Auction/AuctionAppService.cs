@@ -126,7 +126,7 @@ namespace WebShop.Auction
         {
             Domain.Auction.Auction item = await _auctionManager.GetDetail(input.Id);
 
-            return new AuctionDto
+            var result = new AuctionDto
             {
                 Id = item.Id,
                 EndDate = item.EndDate,
@@ -136,10 +136,19 @@ namespace WebShop.Auction
                 StartDate = item.StartDate,
                 CurrentPrice = item.CurrentPrice,
                 NumberOfBids = item.NumberOfBid,
-                LastBidTime = item.LastBidTime,
                 UserName = item.Winner?.UserName,
                 SellerId = item.SellerId
             };
+
+            if (item.LastBidTime.Year < 1900)
+            {
+                result.LastBidTime = null;
+            } else
+            {
+                result.LastBidTime = item.LastBidTime;
+            }
+
+            return result;
         }
 
         public async Task<PagedResultDto<BidDto>> GetBidsByAuctions(GetBidsByAuctionRequestDto input)

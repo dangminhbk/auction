@@ -1,4 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { AddCreditComponent } from '@app/add-credit/add-credit.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -55,9 +56,9 @@ export class SellerAdminComponent extends PagedListingComponentBase<SellerListDt
   }
 
   paymentDetail (sellerId: number) {
-    const createDialog = this._modalService.show(SellerAdminPaymentDetailComponent, {
+    const createDialog = this._modalService.show(AddCreditComponent, {
       initialState: {
-        id: sellerId
+        id: sellerId,
       }
     });
   }

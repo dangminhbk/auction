@@ -3,7 +3,7 @@
 var abp = abp || {};
 
 (function () {
-  if (!FreezeUI || !UnFreezeUI) {
+  if (FreezeUI == undefined || UnFreezeUI == undefined) {
     return;
   }
 

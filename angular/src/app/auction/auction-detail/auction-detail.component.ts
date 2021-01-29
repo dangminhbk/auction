@@ -65,14 +65,13 @@ export class AuctionDetailComponent extends AuctionDetailHome implements OnInit 
       .get(auctionId)
       .pipe(mergeMap(s => {
         this.auction = s.result;
-        console.log(this.auction);
         return this._productService.get(this.auction.productId);
       }))
       .subscribe(s => {
         this.product = s.result;
 
-        console.log(this.product);
-        console.log(this.auction);
+        // console.log(this.product);
+        // console.log(this.auction);
         abp.ui.clearBusy();
       }, er => {
         abp.ui.clearBusy();

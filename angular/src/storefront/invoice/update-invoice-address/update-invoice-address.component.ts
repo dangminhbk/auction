@@ -11,7 +11,12 @@ import { InvoiceService } from 'services/invoice/invoice.service';
 export class UpdateInvoiceAddressComponent extends AppComponentBase implements OnInit {
 
   saving = false;
-  invoice: any = {};
+  invoice: any = {
+    id: 0,
+    address: "",
+    phoneNumber: "",
+    receiperName: ""  
+  };
   @Input() id: number;
   @Output() onSave = new EventEmitter<any>();
 
